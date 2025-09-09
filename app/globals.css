@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-montserrat;
+  }
+  
+  h1, h2, h3, h4, h5 {
+    @apply font-cormorant font-semibold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold-500 hover:bg-gold-600 text-white font-medium py-3 px-6 rounded-md transition-all duration-300 transform hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white font-medium py-3 px-6 rounded-md transition-all duration-300;
+  }
+  
+  .nav-link {
+    @apply relative text-white font-medium transition-colors duration-300 hover:text-gold-500;
+  }
+  
+  .nav-link::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-gold-500 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+  
+  .tile-hover {
+    @apply transition-all duration-300 transform hover:scale-105 hover:shadow-xl;
+  }
+  
+  .footer-link {
+    @apply text-gray-400 hover:text-gold-500 transition-colors duration-300;
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #BF953F 50%, #AA771C 100%);
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-700 {
+  animation-delay: 700ms;
+}

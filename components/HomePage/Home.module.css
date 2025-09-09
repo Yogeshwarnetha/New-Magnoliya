@@ -1,0 +1,3 @@
+.highlightText {
+  @apply relative h-8 text-xl font-medium;
+}
