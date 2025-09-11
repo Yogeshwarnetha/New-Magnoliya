@@ -1,0 +1,41 @@
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #D4AF37;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #B8941F;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(212, 175, 55, 0.4);
+}
+
+/* Smooth transitions for modal */
+.fixed {
+  transition: opacity 0.3s ease;
+}
+
+/* Prevent body scroll when modal is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Custom cursor for draggable image */
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grab:active {
+  cursor: grabbing;
+}
