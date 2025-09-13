@@ -4,7 +4,7 @@ import Link from 'next/link';
 const Footer = () => {
   const quickLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Rooms & Suites', href: '/rooms' },
+    { label: 'Rooms & Suites', href: '/rooms-suites' },
     { label: 'Dining & Catering', href: '/dining' },
     { label: 'Event Venues', href: '/venues' },
     { label: 'Weddings & Social Events', href: '/weddings' },

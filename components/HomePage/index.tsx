@@ -612,21 +612,22 @@ const Homepage = () => {
             </section>
 
             {/* Call-to-Action Strip */}
-            <section className="py-16 bg-gradient-to-r from-gray-900 to-black text-white">
+            <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    <h2 className="text-3xl md:text-4xl font-serif text-black mb-6">
                         Plan Your Dream Stay or Event Today
                     </h2>
-                    <p className="text-xl mb-10 max-w-3xl mx-auto">
+                    <p className="text-xl text-black mb-10 max-w-3xl mx-auto">
                         Experience unparalleled luxury and impeccable service at Magnoliya Grand
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/booking" className="btn-primary">
+                        <a href="/booking" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
                             Book Now
-                        </Link>
-                        <Link href="/contact" className="btn-secondary">
+                        </a>
+                        <a href="/contact" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
+
                             Contact Us
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </section>

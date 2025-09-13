@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const menuItems = [
     { label: 'Home', href: '/' },
-    { label: 'Rooms & Suites', href: '/rooms' },
+    { label: 'Rooms & Suites', href: '/rooms-suites' },
     { label: 'Dining & Catering', href: '/dining' },
     { label: 'Event Venues', href: '/venues' },
     { label: 'Weddings', href: '/weddings' },
