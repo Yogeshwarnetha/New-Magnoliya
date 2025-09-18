@@ -77,7 +77,7 @@ const RoomsAndSuites = () => {
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div className="w-full lg:w-1/2">
                             <img
-                                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/035-AAM_0126_7_8.jpg"
                                 alt="Hilton Garden Inn"
                                 className="rounded-2xl shadow-2xl w-full h-auto"
                             />

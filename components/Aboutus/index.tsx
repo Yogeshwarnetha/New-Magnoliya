@@ -144,7 +144,7 @@ const About = () => {
             </section>
 
             {/* Leadership Team */}
-            <section className="py-16 bg-white">
+            {/* <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Leadership Team</h2>
 
@@ -165,10 +165,10 @@ const About = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Awards & Recognition */}
-            <section className="py-16 bg-gray-100">
+            {/* <section className="py-16 bg-gray-100">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Awards & Recognitions</h2>
 
@@ -182,7 +182,7 @@ const About = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
