@@ -25,12 +25,12 @@ const CONTACT_INFO = {
 };
 
 const SOCIAL_LINKS = [
-  { name: "Facebook", href: "#", icon: FaFacebookF as React.ElementType },
-  { name: "Instagram", href: "#", icon: FaInstagram as React.ElementType },
-  { name: "LinkedIn", href: "#", icon: FaLinkedinIn as React.ElementType },
-  { name: "Twitter", href: "#", icon: FaTwitter as React.ElementType },
-  { name: "YouTube", href: "#", icon: FaYoutube as React.ElementType },
-  { name: "Tiktok", href: "#", icon: FaTiktok as React.ElementType },
+  { name: "Facebook", href: "#", icon: FaFacebookF as React.ElementType, color: "#1877F3" },
+  { name: "Instagram", href: "#", icon: FaInstagram as React.ElementType, color: "#E4405F" },
+  { name: "LinkedIn", href: "#", icon: FaLinkedinIn as React.ElementType, color: "#0A66C2" },
+  { name: "Twitter", href: "#", icon: FaTwitter as React.ElementType, color: "#1DA1F2" },
+  { name: "YouTube", href: "#", icon: FaYoutube as React.ElementType, color: "#FF0000" },
+  { name: "Tiktok", href: "#", icon: FaTiktok as React.ElementType, color: "#000000" },
 ];
 
 const menuItems = [
@@ -79,8 +79,9 @@ const Navbar = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-white hover:text-amber-400 transition-colors duration-300 p-1.5 rounded-full hover:bg-white/10"
+                  className="hover:bg-white/10 transition-colors duration-300 p-1.5 rounded-full"
                   aria-label={item.name}
+                  style={{ color: item.color }}
                 >
                   <IconComponent size={16} />
                 </a>
