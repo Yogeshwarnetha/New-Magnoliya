@@ -13,7 +13,7 @@ const EventVenue = () => {
             description: 'The Grand Ballroom offers a breathtaking setting for life\'s most important celebrations. With its soaring ceilings, expansive layout, and elegant design, this space is ideal for hosting weddings, galas, fundraisers, and large-scale gatherings. Flooded with natural light by day and glowing with sophistication by night, the ballroom provides a dramatic yet adaptable backdrop that allows every event to feel truly extraordinary. Whether your vision is classic, modern, or completely unique, the Grand Ballroom has the scale and presence to bring it to life.',
             image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
             squareFeet: '14,500',
-            theater: '1,500',
+            theater: '1,800',
             banquet: '1,200',
             classroom: '800',
             reception: '1,000'
@@ -23,7 +23,7 @@ const EventVenue = () => {
             name: 'Front Pre Function Area',
             description: 'The Front Pre-Function Area is a dynamic space that can be easily transformed to match the spirit of your event. Serving as the perfect welcome point, it can be styled for elegant cocktail receptions, interactive guest experiences, or simply as a lively gathering spot before the main celebration begins. With its open layout and adaptable design, this area becomes whatever you need it to be—an inviting introduction, a social hub, or a seamless extension of your event\'s theme.',
             image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-            squareFeet: '3,000',
+            squareFeet: '4,000',
             theater: '1,500',
             banquet: '1,200',
             classroom: '600',
@@ -34,7 +34,7 @@ const EventVenue = () => {
             name: 'Side Pre-Function Area',
             description: 'The Side Pre-Function Area offers a striking first impression, anchored by a sweeping grand staircase that adds a sense of drama and elegance to any event. Perfect for pre-reception mingling, cocktail hours, or photo opportunities, this versatile space blends functionality with style. Whether used as a welcoming lounge, a graceful transition into the ballroom, or a backdrop for memorable entrances, the Side Pre-Function Area elevates every moment with its timeless charm.',
             image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-            squareFeet: '3,000',
+            squareFeet: '2,500',
             theater: '1,500',
             banquet: '1,200',
             classroom: '600',
@@ -79,8 +79,8 @@ const EventVenue = () => {
             description: 'The Liberty Ballroom is a bright and customizable space that sets the stage for celebrations of every kind. Flooded with natural light from its sweeping windows, the room creates an inviting and uplifting atmosphere that\'s perfect for baby showers, graduation parties, or even weddings. Its generous layout offers plenty of room for dining, dancing, and décor, giving you the freedom to bring your vision to life. Whatever the occasion, the Liberty Ballroom provides an elegant backdrop where unforgettable moments unfold.',
             image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
             squareFeet: '1,800',
-            theater: '175',
-            banquet: '125',
+            theater: '220',
+            banquet: '170',
             classroom: '80',
             reception: '150'
         },
@@ -89,9 +89,9 @@ const EventVenue = () => {
             name: 'Lakeview Garden (Coming Soon)',
             description: 'Soon to be unveiled, our Lakeview Garden will offer a breathtaking outdoor setting designed with weddings and special celebrations in mind. Surrounded by natural beauty and framed by views of the water, this enchanting garden creates a storybook atmosphere for ceremonies, receptions, and open-air gatherings. With endless possibilities for décor and a serene backdrop that shifts beautifully from day to night, the Lakeview Garden will be the perfect place to say "I do" or host any unforgettable outdoor event.',
             image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-            squareFeet: 'Coming Soon',
-            theater: '1,500',
-            banquet: '1,200',
+            squareFeet: '5,500',
+            theater: '650',
+            banquet: '500',
             classroom: '800',
             reception: '1,000'
         }
@@ -143,81 +143,67 @@ const EventVenue = () => {
                 </div>
             </section>
 
-            {/* Venue Navigation */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">Our Venues</h2>
 
-                    <div className="flex flex-wrap justify-center gap-4 mb-12">
-                        {venues.map((venue) => (
-                            <button
+                    <div className="space-y-16">
+                        {venues.map((venue, idx) => (
+                            <div
                                 key={venue.id}
-                                onClick={() => setActiveVenue(venue.id)}
-                                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${activeVenue === venue.id
-                                    ? 'bg-gold text-white shadow-lg transform -translate-y-1'
-                                    : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
-                                    }`}
+                                className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-center rounded-2xl bg-white overflow-hidden transition-all duration-500 ${idx % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
                             >
-                                {venue.name}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Selected Venue Details */}
-                    <div className="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                            <div className="h-96 lg:h-full">
-                                <img
-                                    src={selectedVenue.image}
-                                    alt={selectedVenue.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                                />
-                            </div>
-
-                            <div className="p-8">
-                                <h3 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-4">
-                                    {selectedVenue.name}
-                                </h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">
-                                    {selectedVenue.description}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-6 mb-6">
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h4 className="text-sm font-medium text-gray-500 mb-2">Square Feet</h4>
-                                        <p className="text-2xl font-bold text-gold">{selectedVenue.squareFeet}</p>
-                                    </div>
-
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h4 className="text-sm font-medium text-gray-500 mb-2">Capacity Options</h4>
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {capacityTypes.map((type) => (
-                                                <div
-                                                    key={type.id}
-                                                    className={`p-2 rounded text-center transition-all duration-300 ${activeCapacity === type.id
-                                                        ? 'bg-gold text-white shadow-inner'
-                                                        : 'bg-white text-gray-700 hover:bg-gray-100'
-                                                        }`}
-                                                >
-                                                    <div className="text-xs font-medium">{type.name}</div>
-                                                    <div className="text-sm font-bold">{selectedVenue[type.id as keyof typeof selectedVenue]}</div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+                                {/* Image left for even, right for odd */}
+                                <div className={`h-96 lg:h-full ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
+                                    <img
+                                        src={venue.image}
+                                        alt={venue.name}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
 
-                                <Link
-                                    href="/contact"
-                                    className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
-                                >
-                                    Inquire About This Venue
-                                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </Link>
+                                <div className="p-8">
+                                    <h3 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-4">
+                                        {venue.name}
+                                    </h3>
+                                    <p className="text-gray-600 mb-6 leading-relaxed">
+                                        {venue.description}
+                                    </p>
+
+                                    <div className="grid grid-cols-2 gap-6 mb-6">
+                                        <div className="bg-gray-50 p-4 rounded-lg">
+                                            <h4 className="text-sm font-medium text-gray-500 mb-2">Square Feet</h4>
+                                            <p className="text-2xl font-bold text-gold">{venue.squareFeet}</p>
+                                        </div>
+
+                                        <div className="bg-gray-50 p-4 rounded-lg">
+                                            <h4 className="text-sm font-medium text-gray-500 mb-2">Capacity Options</h4>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {capacityTypes.map((type) => (
+                                                    <div
+                                                        key={type.id}
+                                                        className="p-2 rounded text-center bg-white text-gray-700 shadow-inner"
+                                                    >
+                                                        <div className="text-xs font-medium">{type.name}</div>
+                                                        <div className="text-sm font-bold">{venue[type.id as keyof typeof venue]}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Link
+                                        href="/contact"
+                                        className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                                    >
+                                        Inquire About This Venue
+                                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -323,7 +309,7 @@ const EventVenue = () => {
             </section>
 
             {/* Interactive Venue Map */}
-            <section className="py-16 bg-gray-50">
+            {/* <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Interactive Venue Map</h2>
 
@@ -360,7 +346,7 @@ const EventVenue = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Photo Galleries */}
             <section className="py-16 bg-white">
@@ -398,7 +384,7 @@ const EventVenue = () => {
             </section>
 
             {/* 360° View Placeholder */}
-            <section className="py-16 bg-gray-50">
+            {/* <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">360° Venue Views</h2>
                     <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -412,7 +398,7 @@ const EventVenue = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">

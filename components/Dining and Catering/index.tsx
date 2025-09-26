@@ -1,5 +1,138 @@
-// app/dining/page.tsx
+"use client"
 import Link from 'next/link';
+import { useState, useEffect } from "react";
+
+type CateringOption = {
+    title: string;
+    description: string;
+    image: string;
+};
+
+type GalleryCarouselProps = {
+    images: CateringOption[];
+    itemsPerView?: number;
+};
+
+function GalleryCarousel({ images, itemsPerView = 3 }: GalleryCarouselProps) {
+    const [startIdx, setStartIdx] = useState(0);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [activeIdx, setActiveIdx] = useState(0);
+
+    useEffect(() => {
+        // Ensure we don't go out of bounds
+        if (startIdx > images.length - itemsPerView) {
+            setStartIdx(Math.max(0, images.length - itemsPerView));
+        }
+    }, [itemsPerView, images.length, startIdx]);
+
+    // Auto-scroll effect
+    useEffect(() => {
+        if (images.length <= itemsPerView) return;
+        const interval = setInterval(() => {
+            setStartIdx(prev => {
+                if (prev + itemsPerView >= images.length) {
+                    return 0;
+                }
+                return prev + 1;
+            });
+        }, 3000); // 3 seconds
+        return () => clearInterval(interval);
+    }, [images.length, itemsPerView]);
+
+    const nextSlide = () => {
+        if (startIdx + itemsPerView < images.length) {
+            setStartIdx(startIdx + 1);
+        }
+    };
+
+    const prevSlide = () => {
+        if (startIdx > 0) {
+            setStartIdx(startIdx - 1);
+        }
+    };
+
+    const visibleImages = images.slice(startIdx, startIdx + itemsPerView);
+
+    const openModal = (idx: number) => {
+        setActiveIdx(idx);
+        setModalOpen(true);
+    };
+    const closeModal = () => setModalOpen(false);
+
+    return (
+        <div className="flex flex-col items-center">
+            <div className="relative w-full max-w-4xl">
+                {/* Navigation arrows */}
+                {images.length > itemsPerView && (
+                    <>
+                        <button
+                            onClick={prevSlide}
+                            disabled={startIdx === 0}
+                            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 text-white p-2 rounded-full disabled:opacity-30"
+                            aria-label="Previous slide"
+                        >
+                            &lt;
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            disabled={startIdx + itemsPerView >= images.length}
+                            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 text-white p-2 rounded-full disabled:opacity-30"
+                            aria-label="Next slide"
+                        >
+                            &gt;
+                        </button>
+                    </>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {visibleImages.map((img, idx) => (
+                        <div
+                            key={startIdx + idx}
+                            className="relative h-64 transition-all duration-300 cursor-pointer"
+                            onClick={() => openModal(startIdx + idx)}
+                        >
+                            <img
+                                src={img.image}
+                                alt={img.title}
+                                className="w-full h-full object-cover rounded-xl"
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Carousel controls */}
+            <div className="flex gap-3 mt-6">
+                {images.map((_, idx) => (
+                    <button
+                        key={idx}
+                        className={`w-4 h-4 rounded-full border-2 ${idx >= startIdx && idx < startIdx + itemsPerView ? 'bg-gold border-gold' : 'bg-gray-200 border-gray-400'}`}
+                        onClick={() => setStartIdx(Math.max(0, Math.min(idx, images.length - itemsPerView)))}
+                        aria-label={`Show slide ${idx + 1}`}
+                    />
+                ))}
+            </div>
+
+            {/* Modal for large image */}
+            {modalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+                    <button
+                        className="absolute top-8 right-8 text-white bg-black bg-opacity-60 rounded-full px-4 py-2 text-2xl font-bold hover:bg-opacity-80"
+                        onClick={closeModal}
+                        aria-label="Close"
+                    >
+                        &times;
+                    </button>
+                    <img
+                        src={images[activeIdx].image}
+                        alt={images[activeIdx].title}
+                        className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
+                    />
+                </div>
+            )}
+        </div>
+    );
+}
 
 const Dining = () => {
     const restaurants = [
@@ -34,6 +167,16 @@ const Dining = () => {
             title: "Garden Catering (Coming Soon)",
             description: "Truly unforgettable gatherings in our beautifully designed garden with natural surroundings.",
             image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+            title: "Corporate Events",
+            description: "Professional catering services for business meetings and corporate gatherings.",
+            image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+            title: "Wedding Receptions",
+            description: "Custom menus and impeccable service for your special day.",
+            image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
         }
     ];
 
@@ -41,7 +184,7 @@ const Dining = () => {
         {
             title: "Skilled Experts",
             description: "Our culinary team is led by a high quality chef whose expertise extends far beyond regional specialties. With a mastery of Italian, Mexican, Middle Eastern, and a wide variety of global cuisines.",
-            image: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/image%20(1).png"
         },
         {
             title: "Sustainability",
@@ -50,7 +193,7 @@ const Dining = () => {
         },
         {
             title: "Health & Safety",
-            description: "Comprehensive health and safety training programs for all team members with enhanced protective measures and rigorous kitchen sanitation protocols.",
+            description: "Comprehensive health and safety training programs for all team members. Enhanced protective measures, including additional PPE and an extended glove policy. Rigorous kitchen sanitation protocols with scheduled cleaning and disinfection. Menus thoughtfully designed with modern hygiene and safety standards in mind.",
             image: "https://images.unsplash.com/photo-1585513360126-ec5c22663f6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
         }
     ];
@@ -70,7 +213,7 @@ const Dining = () => {
                 </div>
             </section>
 
-            {/* Restaurants Section */}
+            {/* Restaurants Section - Zig Zag */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
@@ -80,17 +223,22 @@ const Dining = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="space-y-12">
                         {restaurants.map((restaurant, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                                <div className="h-64 overflow-hidden">
+                            <div
+                                key={index}
+                                className={`flex flex-col md:flex-row items-center bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
+                            >
+                                {/* Image Section */}
+                                <div className="md:w-1/2 w-full h-64 md:h-80 flex-shrink-0">
                                     <img
                                         src={restaurant.image}
                                         alt={restaurant.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="w-full h-full object-cover"
                                     />
                                 </div>
-                                <div className="p-6">
+                                {/* Content Section */}
+                                <div className="md:w-1/2 w-full p-6">
                                     <h3 className="text-xl font-semibold mb-2">{restaurant.name}</h3>
                                     <p className="text-gold mb-2 font-medium">{restaurant.cuisine}</p>
                                     <p className="text-gray-600 mb-4">{restaurant.description}</p>
@@ -114,43 +262,20 @@ const Dining = () => {
                 </div>
             </section>
 
-            {/* Catering Options */}
+            {/* Indoor and Outdoor Catering Gallery Carousel */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">Catering Options</h2>
+                        <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">Indoor and Outdoor Catering</h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            We provide an array of unique settings for both indoor and outdoor dining experiences
+                            We provide an array of unique settings for both indoor and outdoor dining. Imagine hosting an elegant plated dinner in one of our ballrooms, a romantic sunset reception on the waterfront terrace, or—coming soon—a truly unforgettable gathering in our beautifully designed garden. Whatever the occasion, we'll work with you to create the perfect atmosphere.
                         </p>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {cateringOptions.map((option, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                                <div className="h-48 overflow-hidden">
-                                    <img
-                                        src={option.image}
-                                        alt={option.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-semibold mb-2">{option.title}</h3>
-                                    <p className="text-gray-600 mb-4">{option.description}</p>
-                                    <Link href="/contact" className="text-gold font-medium hover:text-gold-dark transition-colors duration-300 flex items-center">
-                                        Inquire About Catering
-                                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <GalleryCarousel images={cateringOptions} itemsPerView={3} />
                 </div>
             </section>
 
-            {/* Culinary Team */}
+            {/* Culinary Team - Zig Zag & Keypoints */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
@@ -159,21 +284,44 @@ const Dining = () => {
                             Dedicated to quality, sustainability, and exceptional dining experiences
                         </p>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {culinaryTeam.map((item, index) => (
-                            <div key={index} className="text-center">
-                                <div className="rounded-2xl overflow-hidden mb-6 shadow-lg">
-                                    <img
-                                        src={item.image}
-                                        alt={item.title}
-                                        className="w-full h-64 object-cover"
-                                    />
-                                </div>
-                                <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">{item.title}</h3>
-                                <p className="text-gray-600">{item.description}</p>
+                    <div className="space-y-12">
+                        {/* Skilled Experts (image left, content right) */}
+                        <div className="flex flex-col md:flex-row items-center bg-white rounded-xl overflow-hidden">
+                            <div className="md:w-1/2 w-full h-64 md:h-80 flex-shrink-0">
+                                <img
+                                    src={culinaryTeam[0].image}
+                                    alt={culinaryTeam[0].title}
+                                    className="w-full h-full object-contain"
+                                />
                             </div>
-                        ))}
+                            <div className="md:w-1/2 w-full p-6">
+                                <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">{culinaryTeam[0].title}</h3>
+                                <p className="text-gray-600">{culinaryTeam[0].description}</p>
+                            </div>
+                        </div>
+                        {/* Sustainability (image right, content left) */}
+                        <div className="flex flex-col items-center bg-white rounded-xl overflow-hidden md:flex-row-reverse">
+                            <div className="md:w-1/2 w-full h-64 md:h-80 flex-shrink-0">
+                                <img
+                                    src={culinaryTeam[1].image}
+                                    alt={culinaryTeam[1].title}
+                                    className="w-full h-full object-contain"
+                                />
+                            </div>
+                            <div className="md:w-1/2 w-full p-6">
+                                <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">{culinaryTeam[1].title}</h3>
+                                <p className="text-gray-600">{culinaryTeam[1].description}</p>
+                            </div>
+                        </div>
+                        {/* Health & Safety (keypoints, no image) */}
+                        <div className="bg-white rounded-xl p-6">
+                            <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">{culinaryTeam[2].title}</h3>
+                            <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                                {culinaryTeam[2].description.split('.').filter((point: string) => Boolean(point)).map((point: string, idx: number) => (
+                                    <li key={idx}>{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>
