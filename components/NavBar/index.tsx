@@ -25,12 +25,12 @@ const CONTACT_INFO = {
 };
 
 const SOCIAL_LINKS = [
-  { name: "Facebook", href: "#", icon: FaFacebookF as React.ElementType, color: "#1877F3" },
-  { name: "Instagram", href: "#", icon: FaInstagram as React.ElementType, color: "#E4405F" },
-  { name: "LinkedIn", href: "#", icon: FaLinkedinIn as React.ElementType, color: "#0A66C2" },
-  { name: "Twitter", href: "#", icon: FaTwitter as React.ElementType, color: "#1DA1F2" },
-  { name: "YouTube", href: "#", icon: FaYoutube as React.ElementType, color: "#FF0000" },
-  { name: "Tiktok", href: "#", icon: FaTiktok as React.ElementType, color: "#000000" },
+  { name: "Facebook", href: "https://www.facebook.com/magnoliyagrand/", img: "/facebook.png" },
+  { name: "Instagram", href: "https://www.instagram.com/magnoliyagrand/", img: "/instagram.png" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/magnoliya-grand-7727b92ab", img: "/Likedin.png" },
+  { name: "Twitter", href: "https://x.com/MagnoliyaGrand", img: "/twitter-bird.png" },
+  { name: "YouTube", href: "https://www.youtube.com/channel/UCNG6YVfx2i9b5O98vgE7rFw", img: "/youtube.png" },
+  { name: "Tiktok", href: "https://www.tiktok.com/@magnoliyagrand?_t=ZT-8tbtueOhSP5&_r=1", img: "/tiktok.png" },
 ];
 
 const menuItems = [
@@ -73,20 +73,16 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex items-center space-x-4">
-            {SOCIAL_LINKS.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="hover:bg-white/10 transition-colors duration-300 p-1.5 rounded-full"
-                  aria-label={item.name}
-                  style={{ color: item.color }}
-                >
-                  <IconComponent size={16} />
-                </a>
-              );
-            })}
+            {SOCIAL_LINKS.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="hover:bg-white/10 transition-colors duration-300 p-1.5 rounded-full"
+                aria-label={item.name}
+              >
+                <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
+              </a>
+            ))}
           </div>
         </div>
       )}
@@ -206,19 +202,16 @@ const Navbar = () => {
 
           {/* Social icons */}
           <div className="mt-10 pt-6 border-t border-gray-700 flex justify-center space-x-4 pb-8">
-            {SOCIAL_LINKS.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-amber-400 transition-colors duration-300 p-2 rounded-full bg-gray-800 hover:bg-gray-700"
-                  aria-label={item.name}
-                >
-                  <IconComponent size={18} />
-                </a>
-              );
-            })}
+            {SOCIAL_LINKS.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-white hover:text-amber-400 transition-colors duration-300 p-2 rounded-full bg-gray-800 hover:bg-gray-700"
+                aria-label={item.name}
+              >
+                <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
+              </a>
+            ))}
           </div>
         </div>
       </div>
