@@ -88,7 +88,7 @@ const EventVenue = () => {
             id: 'lakeview-garden',
             name: 'Lakeview Garden (Coming Soon)',
             description: 'Soon to be unveiled, our Lakeview Garden will offer a breathtaking outdoor setting designed with weddings and special celebrations in mind. Surrounded by natural beauty and framed by views of the water, this enchanting garden creates a storybook atmosphere for ceremonies, receptions, and open-air gatherings. With endless possibilities for décor and a serene backdrop that shifts beautifully from day to night, the Lakeview Garden will be the perfect place to say "I do" or host any unforgettable outdoor event.',
-            image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Lake%20Side.jpg',
             squareFeet: '5,500',
             theater: '650',
             banquet: '500',

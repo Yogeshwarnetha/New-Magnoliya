@@ -34,14 +34,15 @@ const SOCIAL_LINKS = [
 ];
 
 const menuItems = [
-  // { label: "Home", href: "/" },
+  { label: "Home", href: "/" },
   { label: "Rooms & Suites", href: "/rooms-suites" },
   { label: "Dining", href: "/dining" },
   { label: "Event Venues", href: "/venues" },
   { label: "Weddings", href: "/weddings" },
   { label: "Corporate Events", href: "/corporate" },
-  { label: "Event Services", href: "/services" },
+  // { label: "Event Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
+  { label: "Aboutus", href: "/about" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -90,8 +91,8 @@ const Navbar = () => {
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-gray-900 py-2 shadow-lg" : "bg-transparent py-5"}`}
       >
-        <div className="container mx-auto flex items-center justify-between min-h-[72px]">
-          {/* Logo (desktop & tablet) */}
+        <div className="container mx-auto flex items-center justify-between min-h-[72px] px-4">
+          {/* Logo - Left side */}
           <Link
             href="/"
             className="text-2xl font-bold text-white font-cormorant items-center flex"
@@ -102,31 +103,35 @@ const Navbar = () => {
                 : "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/logo%20New.png"
               }
               alt="Hotel Logo"
-              className="mr-2 w-auto h-20 sm:h-24 md:h-28 lg:h-32"
+              className="mr-1 w-auto h-20 sm:h-24 md:h-28 lg:h-32"
             />
           </Link>
 
-          {/* Desktop menu only for large screens */}
-          <div className="hidden lg:flex flex-wrap items-center space-x-6 ml-4">
-            {menuItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="nav-link text-white hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            ))}
+          {/* Centered Menu Items - Desktop only */}
+          <div className="hidden lg:flex flex-1 justify-center items-center">
+            <div className="flex flex-wrap items-center justify-center space-x-3 max-w-2xl">
+              {menuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="nav-link text-white hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group"
+                >
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {/* Hamburger menu for md and below */}
+          {/* Booking Button - Right side */}
+          <div className="hidden lg:flex">
+            <button className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              Booking Request
+            </button>
+          </div>
+
+          {/* Hamburger menu for mobile */}
           <div className="flex lg:hidden items-center gap-2">
-            {/* <img
-              src="https://res.cloudinary.com/dwd2dks0h/image/upload/v1757458532/magnoliya-logo1_ljqkso.png"
-              alt="Hotel Logo"
-              className="w-auto h-8"
-            /> */}
             <button
               className="flex justify-center items-center w-10 h-10 text-white focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
@@ -186,8 +191,15 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* Booking Button in Mobile Menu */}
+          <div className="mt-6 pt-4 border-t border-gray-700">
+            <button className="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 text-center">
+              Booking Request
+            </button>
+          </div>
+
           {/* Contact info (mobile) */}
-          <div className="mt-10 pt-6 border-t border-gray-700">
+          <div className="mt-6 pt-6 border-t border-gray-700">
             <div className="flex flex-col space-y-4 text-white">
               <span className="flex items-center gap-3">
                 <FaPhoneIcon className="text-amber-400" />
@@ -201,7 +213,7 @@ const Navbar = () => {
           </div>
 
           {/* Social icons */}
-          <div className="mt-10 pt-6 border-t border-gray-700 flex justify-center space-x-4 pb-8">
+          <div className="mt-6 pt-6 border-t border-gray-700 flex justify-center space-x-4 pb-8">
             {SOCIAL_LINKS.map((item) => (
               <a
                 key={item.name}
@@ -218,7 +230,7 @@ const Navbar = () => {
 
       <style jsx>{`
         .container {
-          max-width: 1200px;
+          max-width: 1440px;
         }
         .nav-link {
           position: relative;

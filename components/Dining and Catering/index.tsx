@@ -2,6 +2,13 @@
 import Link from 'next/link';
 import { useState, useEffect } from "react";
 
+// Add this type definition at the top
+type MenuPopup = {
+    title: string;
+    description: string;
+    images: string[];
+};
+
 type CateringOption = {
     title: string;
     description: string;
@@ -12,6 +19,45 @@ type GalleryCarouselProps = {
     images: CateringOption[];
     itemsPerView?: number;
 };
+
+// Add this popup component before your Dining component
+function MenuPopupModal({ isOpen, onClose, menuData }: { isOpen: boolean; onClose: () => void; menuData: MenuPopup | null }) {
+    if (!isOpen || !menuData) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
+            <div className="bg-white rounded-xl max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div className="relative">
+                    <button
+                        className="absolute top-4 right-4 text-gray-600 hover:text-gold text-2xl font-bold z-10 bg-white rounded-full w-8 h-8 flex items-center justify-center"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
+                        &times;
+                    </button>
+
+                    {/* Images Gallery */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+                        {menuData.images.map((image, index) => (
+                            <img
+                                key={index}
+                                src={image}
+                                alt={`${menuData.title} ${index + 1}`}
+                                className="w-full h-64 object-cover rounded-lg"
+                            />
+                        ))}
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 pt-0">
+                        <h3 className="text-2xl font-serif font-bold text-gold mb-4">{menuData.title}</h3>
+                        <p className="text-gray-700 leading-relaxed">{menuData.description}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 function GalleryCarousel({ images, itemsPerView = 3 }: GalleryCarouselProps) {
     const [startIdx, setStartIdx] = useState(0);
@@ -135,19 +181,119 @@ function GalleryCarousel({ images, itemsPerView = 3 }: GalleryCarouselProps) {
 }
 
 const Dining = () => {
+    const [popupOpen, setPopupOpen] = useState(false);
+    const [currentMenu, setCurrentMenu] = useState<MenuPopup | null>(null);
+
+    // Add this menu data with content from your write-up
+    const menuData = {
+        multiCuisine: {
+            title: "Multi-Cuisine Restaurant",
+            description: "Embark on a culinary voyage at Magnoliya Multi Cuisine Restaurant, our premier destination where the world's finest flavors unite on one table. From the aromatic allure of sizzling Asian stir-fries and the vibrant elegance of Mediterranean mezze to the hearty indulgence of continental grills, every creation is crafted à la carte with authenticity and artistry. Complement your meal with an exquisite selection of wines, top-shelf spirits, and masterfully mixed cocktails from our curated bar. Whether you're hosting a family celebration, entertaining distinguished guests, or simply indulging your wanderlust for flavor, Magnoliya Multi Cuisine Restaurant offers a dining experience as exquisite as the cuisines it celebrates.",
+            images: [
+                "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+            ]
+        },
+        american: {
+            title: "American Menu",
+            description: "Relish the bold spirit of America, where every plate celebrates comfort, craft, and tradition. Indulge in juicy, flame-grilled burgers, savor golden hand-cut fries, and delight in smoky barbecue slow-cooked to perfection. Enjoy soul-warming classics like creamy mac and cheese and crisp buttermilk fried chicken, each dish designed to satisfy both nostalgia and appetite. Elevating the experience, our bar offers a robust selection of bourbons, craft beers, and signature cocktails—from smooth Old Fashioneds to refreshing whiskey sours—that pair seamlessly with every bite. Whether you seek a casual bite or a hearty feast, our American menu is a tribute to timeless flavors and convivial dining.",
+            images: [
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%201.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%202.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%203.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%204.jpg",
+            ]
+        },
+        mexican: {
+            title: "Mexican Menu",
+            description: "Celebrate the spirited soul of Mexico with cuisine as colorful as its culture. From hand-pressed tortillas and flame-kissed salsas to tender carnitas and moles simmered to rich, earthy perfection, every dish pays homage to tradition and bold flavor. Relish the zest of tacos, elotes, and quesadillas, or savor refined classics like enchiladas, tamales, and chile rellenos. Elevate the experience with hand-shaken margaritas, smoky mezcal, or aged tequila from our curated bar, each sip amplifying the vibrancy of the cuisine. Whether for a lively fiesta or an intimate meal, our Mexican kitchen delivers passion, warmth, and unmistakable flair.",
+            images: [
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%201.png",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%202.png",
+            ]
+        },
+        italian: {
+            title: "Italian Menu",
+            description: "Savor the timeless romance of Italy, where every dish embodies the essence of la dolce vita. Relish velvety pastas such as our signature Rigatoni Vodka, delight in wood-fired pizzas crowned with artisan cheeses, and indulge in the silken elegance of a classic tiramisu. To complete the journey, our sommeliers have curated an exceptional selection of Italian wines—full-bodied reds, crisp whites, and sparkling prosecco—that perfectly complement the rich flavors of each course. Every bite, every sip, transports you to a rustic Roman trattoria- where warm hospitality, bold flavors, and culinary passion converge in an unforgettable symphony.",
+            images: [
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%201.png",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%202.png",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%203.png",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%204.png"
+            ]
+        },
+        indian: {
+            title: "Indian Menu",
+            description: "Immerse yourself in the kaleidoscope of spices and soulful flavors that define India's rich culinary heritage. From the velvety indulgence of slow-simmered House Black Daal and the regal depth of Laal Maans to the irresistible charm of street food favorites, every dish is a celebration of tradition and taste. Relish the crunch and zest of tangy chaats, savor smoky kebabs fresh from the tandoor, and explore the playful spirit of India's bustling bazaars through pani puri, samosas, and pav bhaji. Complemented by warm, pillowy breads and fragrant biryanis layered with spices, our Indian kitchen offers a journey that is vibrant, authentic, and unforgettable—an experience that awakens the senses with every bite.",
+            images: [
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Indian%201.png",
+            ]
+        },
+        middleEastern: {
+            title: "Middle Eastern Menu",
+            description: "Experience the exotic flavors and aromatic spices of the Middle East. Our menu features traditional dishes like hummus, falafel, shawarma, and kebabs, all prepared with authentic recipes and the finest ingredients. Savor the rich flavors of slow-cooked stews, fragrant rice dishes, and freshly baked flatbreads. Each dish tells a story of ancient culinary traditions and modern interpretations, creating a dining experience that transports you to the heart of the Middle East.",
+            images: [
+                "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1565299585323-38174c13fae8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            ]
+        },
+        breakfast: {
+            title: "Breakfast Menu",
+            description: "Start your day with our delightful breakfast offerings featuring fresh pastries, hearty egg dishes, artisanal cereals, and premium coffee selections. From fluffy pancakes to savory omelets, our breakfast menu is designed to energize your morning with both classic favorites and innovative creations.",
+            images: [
+                "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            ]
+        },
+        lunch: {
+            title: "Lunch Menu",
+            description: "Enjoy a midday break with our carefully crafted lunch menu featuring fresh salads, gourmet sandwiches, daily specials, and light entrees. Perfect for business lunches or casual dining, our lunch offerings combine quality ingredients with creative preparations.",
+            images: [
+                "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            ]
+        },
+        dinner: {
+            title: "Dinner Menu",
+            description: "Experience the elegance of our dinner service with premium cuts of meat, fresh seafood, seasonal vegetables, and decadent desserts. Our dinner menu showcases the best of contemporary cuisine with sophisticated presentations and exceptional flavors.",
+            images: [
+                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            ]
+        },
+        bar: {
+            title: "Bar Menu",
+            description: "Discover our extensive bar menu featuring handcrafted cocktails, premium spirits, fine wines, and local craft beers. Our expert mixologists create innovative drinks while honoring classic recipes, ensuring the perfect beverage to complement your dining experience.",
+            images: [
+                "https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            ]
+        }
+    };
+
+    const openMenuPopup = (menuKey: keyof typeof menuData) => {
+        setCurrentMenu(menuData[menuKey]);
+        setPopupOpen(true);
+    };
+
+    const closeMenuPopup = () => {
+        setPopupOpen(false);
+        setCurrentMenu(null);
+    };
+
     const restaurants = [
         {
             name: "Magnoliya Multi Cuisine Restaurant",
             cuisine: "Fine Dining from Around the World",
             description: "Magnoliya Grand Multi Cuisine Restaurant offers fine dining from around the world in an elegant setting, making it a premier destination for beautiful events. Known for its diverse international menu including American, Mexican, Italian, Indian, and Middle Eastern food.",
-            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg",
             features: ["International Menu", "Elegant Setting", "Event Hosting"]
         },
         {
             name: "Garden and Grille Restaurant and Bar",
             cuisine: "Relaxed Yet Refined Dining",
             description: "Located within the Hilton Garden Inn, just steps away from our main venue, the Garden and Grille Restaurant and Bar has been serving hotel guests and local diners since its opening in 2020. Known for its relaxed yet refined atmosphere.",
-            image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/hilton-live-miami0j5a0151.avif",
             features: ["Freshly Prepared Dishes", "Handcrafted Cocktails", "Casual Atmosphere"]
         }
     ];
@@ -156,27 +302,27 @@ const Dining = () => {
         {
             title: "Indoor Catering",
             description: "Elegant plated dinners in our beautiful ballrooms with customizable menus and professional service.",
-            image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat1.jpg"
         },
         {
             title: "Outdoor Catering",
             description: "Romantic sunset receptions on our waterfront terrace with scenic views and ambient lighting.",
-            image: "https://images.unsplash.com/photo-1549451378-6e2e2c1c3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg"
         },
         {
             title: "Garden Catering (Coming Soon)",
             description: "Truly unforgettable gatherings in our beautifully designed garden with natural surroundings.",
-            image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat2.jpg"
         },
         {
             title: "Corporate Events",
             description: "Professional catering services for business meetings and corporate gatherings.",
-            image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/R6II6815.jpg"
         },
         {
             title: "Wedding Receptions",
             description: "Custom menus and impeccable service for your special day.",
-            image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat3.jpg"
         }
     ];
 
@@ -200,8 +346,22 @@ const Dining = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Hero Slideshow */}
-            <section className="relative h-96 overflow-hidden">
+            {/* Menu Popup Modal */}
+            <MenuPopupModal
+                isOpen={popupOpen}
+                onClose={closeMenuPopup}
+                menuData={currentMenu}
+            />
+
+
+
+
+            <section className="relative h-[32rem] overflow-hidden">
+                <img
+                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Dinning.jpg"
+                    alt="Event Venue"
+                    className="w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                     <div className="px-4">
@@ -340,39 +500,66 @@ const Dining = () => {
                         <div className="bg-white rounded-xl p-6 shadow-lg">
                             <h3 className="text-xl font-semibold mb-4 text-gold">Magnoliya Multi Cuisine Restaurant</h3>
                             <div className="space-y-4">
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                <button
+                                    onClick={() => openMenuPopup('american')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     American Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('mexican')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Mexican Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('italian')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Italian Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('indian')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Indian Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('middleEastern')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Middle Eastern Menu
-                                </a>
+                                </button>
                             </div>
                         </div>
 
                         <div className="bg-white rounded-xl p-6 shadow-lg">
                             <h3 className="text-xl font-semibold mb-4 text-gold">Garden and Grille Restaurant and Bar</h3>
                             <div className="space-y-4">
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                <button
+                                    onClick={() => openMenuPopup('breakfast')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Breakfast Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('lunch')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Lunch Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('dinner')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Dinner Menu
-                                </a>
-                                <a href="#" className="block py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300">
+                                </button>
+                                <button
+                                    onClick={() => openMenuPopup('bar')}
+                                    className="block w-full text-left py-2 px-4 bg-gray-100 hover:bg-gold hover:text-white rounded-lg transition-colors duration-300"
+                                >
                                     Bar Menu
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
