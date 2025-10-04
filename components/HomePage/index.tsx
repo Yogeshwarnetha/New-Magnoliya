@@ -257,7 +257,7 @@ const Homepage = () => {
                     playsInline
                     className="absolute w-full h-full object-cover"
                 >
-                    <source src="https://res.cloudinary.com/dwd2dks0h/video/upload/Final_-_Trim_p8yxaf.mp4" type="video/mp4" />
+                    <source src="https://res.cloudinary.com/dwd2dks0h/video/upload/v1759594855/Web_zsq9z3.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
 
