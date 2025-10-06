@@ -1,10 +1,22 @@
 "use client";
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 const EventVenue = () => {
     const [activeVenue, setActiveVenue] = useState('grand-ballroom');
     const [activeCapacity, setActiveCapacity] = useState('theater');
+    const [isDragging, setIsDragging] = useState(false);
+    const [rotation, setRotation] = useState(0);
+    const [currentFrame, setCurrentFrame] = useState(0);
+    const [isAutoRotating, setIsAutoRotating] = useState(false);
+    const dragStartRef = useRef(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // 360-degree image frames - replace these with actual 360 sequence images
+    const virtualTourFrames = [
+        'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg',
+
+    ];
 
     const venues = [
         {
@@ -22,7 +34,7 @@ const EventVenue = () => {
             id: 'front-pre-function',
             name: 'Front Pre Function Area',
             description: 'The Front Pre-Function Area is a dynamic space that can be easily transformed to match the spirit of your event. Serving as the perfect welcome point, it can be styled for elegant cocktail receptions, interactive guest experiences, or simply as a lively gathering spot before the main celebration begins. With its open layout and adaptable design, this area becomes whatever you need it to be—an inviting introduction, a social hub, or a seamless extension of your event\'s theme.',
-            image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg',
             squareFeet: '4,000',
             theater: '1,500',
             banquet: '1,200',
@@ -33,7 +45,7 @@ const EventVenue = () => {
             id: 'side-pre-function',
             name: 'Side Pre-Function Area',
             description: 'The Side Pre-Function Area offers a striking first impression, anchored by a sweeping grand staircase that adds a sense of drama and elegance to any event. Perfect for pre-reception mingling, cocktail hours, or photo opportunities, this versatile space blends functionality with style. Whether used as a welcoming lounge, a graceful transition into the ballroom, or a backdrop for memorable entrances, the Side Pre-Function Area elevates every moment with its timeless charm.',
-            image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Left.jpg',
             squareFeet: '2,500',
             theater: '1,500',
             banquet: '1,200',
@@ -44,7 +56,7 @@ const EventVenue = () => {
             id: 'back-pre-function',
             name: 'Back Pre Function Area',
             description: 'The Back Pre-Function Area is a versatile extension of your event, perfectly suited for buffets, live dining stations, and relaxed lounge seating. Its open design encourages guests to mingle and explore, creating a natural flow of energy throughout the space. With seamless access to the Lakeview Terrace, it effortlessly transitions from indoor comforts to outdoor charm, offering the best of both worlds for dining, socializing, and celebrating.',
-            image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Back.jpg',
             squareFeet: '2,000',
             theater: '1,500',
             banquet: '1,200',
@@ -55,7 +67,7 @@ const EventVenue = () => {
             id: 'lakeview-terrace',
             name: 'Lakeview Terrace',
             description: 'Our Lakeview Terrace is the perfect setting for mingling with friends, hosting an elegant cocktail hour, or celebrating with a lively cocktail party. Overlooking the serene lake, this open-air space combines breathtaking views with a relaxed, sophisticated atmosphere. Guests can sip, socialize, and enjoy the fresh air while creating unforgettable memories. Whether you\'re planning an intimate gathering or a pre-reception cocktail hour, the Lakeview Terrace offers the ideal blend of charm, style, and versatility.',
-            image: 'https://images.unsplash.com/photo-1549451378-6e2e2c1c3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg',
             squareFeet: '1,800',
             theater: '200',
             banquet: '150',
@@ -66,7 +78,7 @@ const EventVenue = () => {
             id: 'kwanzan-hall',
             name: 'Kwanzan Hall',
             description: 'Kwanzan Hall offers a polished and private atmosphere, making it an excellent choice for business meetings, board discussions, or intimate gatherings. Featuring advanced audiovisual capabilities, including a crisp projector display and dynamic sound system, the space is designed to keep every presentation engaging and impactful. Its focused setting creates the perfect environment for productive conversations, meaningful connections, and memorable events.',
-            image: 'https://images.unsplash.com/photo-1571624436279-b272aff752b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Kwaza%20hall.jpg',
             squareFeet: '2,000',
             theater: '260',
             banquet: '180',
@@ -77,7 +89,7 @@ const EventVenue = () => {
             id: 'liberty-hall',
             name: 'Liberty Hall',
             description: 'The Liberty Ballroom is a bright and customizable space that sets the stage for celebrations of every kind. Flooded with natural light from its sweeping windows, the room creates an inviting and uplifting atmosphere that\'s perfect for baby showers, graduation parties, or even weddings. Its generous layout offers plenty of room for dining, dancing, and décor, giving you the freedom to bring your vision to life. Whatever the occasion, the Liberty Ballroom provides an elegant backdrop where unforgettable moments unfold.',
-            image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Liberty%20Hall.jpg',
             squareFeet: '1,800',
             theater: '220',
             banquet: '170',
@@ -104,12 +116,81 @@ const EventVenue = () => {
         { id: 'reception', name: 'Reception Style' }
     ];
 
+    // Mouse/Touch handlers for 360 viewer
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        dragStartRef.current = e.clientX;
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        dragStartRef.current = e.touches[0].clientX;
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+
+        const deltaX = e.clientX - dragStartRef.current;
+        const rotationDelta = (deltaX / (containerRef.current?.offsetWidth || 1)) * 360;
+        setRotation(rotationDelta);
+
+        // Calculate frame based on rotation
+        const frameCount = virtualTourFrames.length;
+        const frameIndex = Math.floor((((rotationDelta % 360) + 360) % 360) / 360 * frameCount);
+        setCurrentFrame(frameIndex % frameCount);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging) return;
+
+        const deltaX = e.touches[0].clientX - dragStartRef.current;
+        const rotationDelta = (deltaX / (containerRef.current?.offsetWidth || 1)) * 360;
+        setRotation(rotationDelta);
+
+        const frameCount = virtualTourFrames.length;
+        const frameIndex = Math.floor((((rotationDelta % 360) + 360) % 360) / 360 * frameCount);
+        setCurrentFrame(frameIndex % frameCount);
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+    };
+
+    // Auto-rotation effect
+    useEffect(() => {
+        if (!isAutoRotating) return;
+
+        const interval = setInterval(() => {
+            setRotation(prev => {
+                const newRotation = prev + 2; // Speed of auto-rotation
+                const frameCount = virtualTourFrames.length;
+                const frameIndex = Math.floor((((newRotation % 360) + 360) % 360) / 360 * frameCount);
+                setCurrentFrame(frameIndex % frameCount);
+                return newRotation;
+            });
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, [isAutoRotating, virtualTourFrames.length]);
+
+    // Preload images for smoother experience
+    useEffect(() => {
+        virtualTourFrames.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }, []);
+
     const selectedVenue = venues.find(venue => venue.id === activeVenue) || venues[0];
 
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <section className="relative h-96 overflow-hidden">
+            <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <img
                     src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                     alt="Event Venue"
@@ -118,31 +199,159 @@ const EventVenue = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                     <div className="px-4">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Event Venues</h1>
-                        <p className="text-xl md:text-2xl max-w-2xl mx-auto">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">Event Venues</h1>
+                        <p className="text-lg md:text-xl max-w-2xl mx-auto">
                             Exceptional spaces for unforgettable events and celebrations
                         </p>
                     </div>
                 </div>
             </section>
 
-            {/* Virtual Tour Placeholder */}
+            {/* Enhanced 360 Virtual Tour Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">Magnoliya Virtual Tour</h2>
                     <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                        Explore our venues through our immersive virtual tour experience (Coming Soon)
+                        Drag or swipe to explore our venue in 360° - Experience the space like never before
                     </p>
-                    <div className="bg-gray-100 rounded-2xl p-8 max-w-4xl mx-auto">
-                        <div className="aspect-video bg-gradient-to-r from-gold-light to-gold rounded-lg flex items-center justify-center flex-col">
-                            <div className="text-white text-6xl mb-4">🏰</div>
-                            <p className="text-white text-xl font-semibold">Virtual Tour Content Coming Soon</p>
-                            <p className="text-gold-light mt-2">Check back for an immersive experience</p>
+
+                    {/* 360 Viewer Container */}
+                    <div className="max-w-4xl mx-auto">
+                        <div
+                            ref={containerRef}
+                            className="relative bg-gray-100 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing shadow-2xl"
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                        >
+                            {/* 360 Image */}
+                            <img
+                                src={virtualTourFrames[currentFrame]}
+                                alt="360 Virtual Tour of Magnoliya Venue"
+                                className="w-full h-64 md:h-96 lg:h-[500px] object-cover transition-all duration-150 ease-out"
+                            />
+
+                            {/* Loading/Instruction Overlay */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="text-center bg-black bg-opacity-60 text-white py-4 px-8 rounded-2xl backdrop-blur-sm border border-white border-opacity-20">
+                                    <div className="flex items-center justify-center mb-3">
+                                        <svg className="w-10 h-10 mr-3 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                        </svg>
+                                    </div>
+                                    <p className="text-lg font-semibold mb-1">Drag to Explore</p>
+                                    <p className="text-sm opacity-90">Move left or right to rotate the view</p>
+                                    <p className="text-xs opacity-70 mt-2">Frame {currentFrame + 1} of {virtualTourFrames.length}</p>
+                                </div>
+                            </div>
+
+                            {/* Navigation Dots */}
+                            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                                {virtualTourFrames.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => {
+                                            setCurrentFrame(index);
+                                            setRotation((index / virtualTourFrames.length) * 360);
+                                        }}
+                                        className={`w-3 h-3 rounded-full transition-all duration-300 transform hover:scale-125 ${index === currentFrame
+                                            ? 'bg-white scale-125'
+                                            : 'bg-white bg-opacity-50 hover:bg-opacity-80'
+                                            }`}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Rotation Indicator */}
+                            <div className="absolute top-6 right-6 bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                                {Math.round(((rotation % 360) + 360) % 360)}°
+                            </div>
+
+                            {/* Auto-rotate Indicator */}
+                            {isAutoRotating && (
+                                <div className="absolute top-6 left-6 bg-green-600 bg-opacity-90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm flex items-center">
+                                    <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
+                                    Auto-rotating
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Controls */}
+                        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={() => {
+                                        const newFrame = (currentFrame - 1 + virtualTourFrames.length) % virtualTourFrames.length;
+                                        setCurrentFrame(newFrame);
+                                        setRotation((newFrame / virtualTourFrames.length) * 360);
+                                    }}
+                                    className="bg-gold hover:bg-gold-dark text-white p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+
+                                <button
+                                    onClick={() => setIsAutoRotating(!isAutoRotating)}
+                                    className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg ${isAutoRotating
+                                        ? 'bg-red-500 hover:bg-red-600 text-white'
+                                        : 'bg-gold hover:bg-gold-dark text-white'
+                                        }`}
+                                >
+                                    {isAutoRotating ? 'Stop Auto-Rotate' : 'Start Auto-Rotate'}
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        const newFrame = (currentFrame + 1) % virtualTourFrames.length;
+                                        setCurrentFrame(newFrame);
+                                        setRotation((newFrame / virtualTourFrames.length) * 360);
+                                    }}
+                                    className="bg-gold hover:bg-gold-dark text-white p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Instructions */}
+                        <div className="mt-8 text-center">
+                            <div className="bg-gray-50 rounded-2xl p-6 max-w-2xl mx-auto">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-3">How to Use the 360° Viewer</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                                    <div className="flex flex-col items-center">
+                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
+                                            ↔️
+                                        </div>
+                                        <p>Drag to rotate</p>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
+                                            🔄
+                                        </div>
+                                        <p>Use buttons or auto-rotate</p>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
+                                            ⬤
+                                        </div>
+                                        <p>Click dots to jump</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            {/* Venues Section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">Our Venues</h2>
@@ -151,14 +360,14 @@ const EventVenue = () => {
                         {venues.map((venue, idx) => (
                             <div
                                 key={venue.id}
-                                className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-center rounded-2xl bg-white overflow-hidden transition-all duration-500 ${idx % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+                                className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-center rounded-2xl bg-white overflow-hidden transition-all duration-500 shadow-lg hover:shadow-xl ${idx % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
                             >
                                 {/* Image left for even, right for odd */}
-                                <div className={`h-96 lg:h-full ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
+                                <div className={`h-[420px] lg:h-full ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
                                     <img
                                         src={venue.image}
                                         alt={venue.name}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                                     />
                                 </div>
 
@@ -308,46 +517,6 @@ const EventVenue = () => {
                 </div>
             </section>
 
-            {/* Interactive Venue Map */}
-            {/* <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Interactive Venue Map</h2>
-
-                    <div className="bg-white rounded-2xl shadow-xl p-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div className="lg:col-span-2">
-                                <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl h-96 flex items-center justify-center">
-                                    <div className="text-center">
-                                        <div className="text-4xl mb-4">🗺️</div>
-                                        <h3 className="text-xl font-semibold text-gray-700 mb-2">Interactive Floor Plan</h3>
-                                        <p className="text-gray-500">Hover over the buttons to explore different venues</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 className="text-xl font-semibold text-gray-800 mb-6">Venue Locations</h3>
-                                <div className="space-y-4">
-                                    {venues.map((venue) => (
-                                        <button
-                                            key={venue.id}
-                                            onClick={() => setActiveVenue(venue.id)}
-                                            className={`w-full text-left p-4 rounded-lg transition-all duration-300 ${activeVenue === venue.id
-                                                ? 'bg-gold text-white shadow-md'
-                                                : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
-                                                }`}
-                                        >
-                                            <div className="font-medium">{venue.name}</div>
-                                            <div className="text-sm opacity-80">{venue.squareFeet} sq ft</div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
             {/* Photo Galleries */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
@@ -376,29 +545,15 @@ const EventVenue = () => {
                     </div>
 
                     <div className="text-center mt-12">
-                        <Link href="/gallery" className="btn-primary">
+                        <Link href="/gallery" className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
                             View Full Gallery
+                            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
                         </Link>
                     </div>
                 </div>
             </section>
-
-            {/* 360° View Placeholder */}
-            {/* <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">360° Venue Views</h2>
-                    <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                        Explore our spaces with interactive 360° views (Coming Soon)
-                    </p>
-                    <div className="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-lg">
-                        <div className="aspect-video bg-gradient-to-r from-gold-light to-gold rounded-lg flex items-center justify-center flex-col">
-                            <div className="text-white text-6xl mb-4">🔍</div>
-                            <p className="text-white text-xl font-semibold">Interactive 360° Views Coming Soon</p>
-                            <p className="text-gold-light mt-2">Experience our venues virtually</p>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">

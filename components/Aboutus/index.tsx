@@ -1,7 +1,55 @@
 // app/about/page.tsx
+"use client";
+import { useState } from 'react';
 import Link from 'next/link';
 
 const About = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        eventType: '',
+        eventDate: '',
+        guests: '',
+        message: ''
+    });
+
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Here you would typically send the form data to your backend
+        console.log('Form submitted:', formData);
+        setIsSubmitted(true);
+
+        // Reset form after submission
+        setTimeout(() => {
+            setIsSubmitted(false);
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                eventType: '',
+                eventDate: '',
+                guests: '',
+                message: ''
+            });
+        }, 3000);
+    };
+
+    const toggleFAQ = (index: number) => {
+        setActiveFAQ(activeFAQ === index ? null : index);
+    };
+
     const leadershipTeam = [
         {
             name: "John Smith",
@@ -46,10 +94,33 @@ const About = () => {
         }
     ];
 
+    const faqs = [
+        {
+            question: "What types of events do you host?",
+            answer: "We host a wide variety of events including weddings, corporate events, social gatherings, conferences, and private parties. Our versatile spaces can accommodate events from 20 to 500 guests."
+        },
+        {
+            question: "How far in advance should I book my event?",
+            answer: "We recommend booking at least 6-12 months in advance for weddings and large events, and 3-6 months for corporate events and smaller gatherings. However, we can sometimes accommodate last-minute bookings based on availability."
+        },
+        {
+            question: "Do you provide catering services?",
+            answer: "Yes, we offer in-house catering through our multi-cuisine restaurant. We can customize menus to suit your event needs, dietary restrictions, and cultural preferences."
+        },
+        {
+            question: "Is parking available for guests?",
+            answer: "Yes, we offer ample complimentary parking for all guests. Valet parking services are also available for special events upon request."
+        },
+        {
+            question: "Can I bring in my own vendors?",
+            answer: "While we have preferred vendors we work with regularly, you may bring in your own vendors for certain services. All external vendors must be approved by our event management team and provide proof of insurance."
+        }
+    ];
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Banner */}
-            <section className="relative h-96 overflow-hidden">
+            <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <img
                     src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
@@ -58,8 +129,8 @@ const About = () => {
                 />
                 <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                     <div className="px-4">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">About Magnoliya Grand</h1>
-                        <p className="text-xl md:text-2xl max-w-2xl mx-auto">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">About Magnoliya Grand</h1>
+                        <p className="text-lg md:text-xl max-w-2xl mx-auto">
                             Where meaningful moments become unforgettable celebrations
                         </p>
                     </div>
@@ -143,7 +214,251 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Leadership Team */}
+            {/* Contact Information & Form Section */}
+            <section id="contact" className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Contact Us</h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        {/* Contact Information */}
+                        <div>
+                            <h3 className="text-2xl md:text-3xl font-serif text-gray-800 mb-6">Get In Touch</h3>
+                            <p className="text-lg text-gray-600 mb-8">
+                                Our team is ready to help you plan your next event. Reach out to us through any of the following methods:
+                            </p>
+
+                            <div className="space-y-6 mb-8">
+                                <div className="flex items-start">
+                                    <div className="bg-amber-400 rounded-full p-3 mr-4 flex-shrink-0">
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Address</h3>
+                                        <p className="text-gray-600">123 Luxury Avenue</p>
+                                        <p className="text-gray-600">Prestige District, MG 12345</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start">
+                                    <div className="bg-amber-400 rounded-full p-3 mr-4 flex-shrink-0">
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Phone</h3>
+                                        <p className="text-gray-600">(703) 843-5536</p>
+                                        <p className="text-gray-600">(703) 843-5649</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start">
+                                    <div className="bg-amber-400 rounded-full p-3 mr-4 flex-shrink-0">
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Email</h3>
+                                        <p className="text-gray-600">info@magnoliyagrand.com</p>
+                                        <p className="text-gray-600">events@magnoliyagrand.com</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start">
+                                    <div className="bg-amber-400 rounded-full p-3 mr-4 flex-shrink-0">
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Hours</h3>
+                                        <p className="text-gray-600">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                                        <p className="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
+                                        <p className="text-gray-600">Sunday: By appointment only</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact Form */}
+                        <div>
+                            <h3 className="text-2xl md:text-3xl font-serif text-gray-800 mb-6">Send Us a Message</h3>
+
+                            {isSubmitted ? (
+                                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                                    <p>Thank you for your message! We'll get back to you soon.</p>
+                                </div>
+                            ) : null}
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-1">Event Type *</label>
+                                        <select
+                                            id="eventType"
+                                            name="eventType"
+                                            value={formData.eventType}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        >
+                                            <option value="">Select Event Type</option>
+                                            <option value="wedding">Wedding</option>
+                                            <option value="corporate">Corporate Event</option>
+                                            <option value="social">Social Gathering</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 mb-1">Event Date</label>
+                                        <input
+                                            type="date"
+                                            id="eventDate"
+                                            name="eventDate"
+                                            value={formData.eventDate}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="guests" className="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
+                                        <input
+                                            type="number"
+                                            id="guests"
+                                            name="guests"
+                                            value={formData.guests}
+                                            onChange={handleChange}
+                                            min="1"
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required
+                                        rows={5}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-400 focus:border-amber-400"
+                                    ></textarea>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="w-full bg-amber-400 hover:bg-amber-500 text-white font-semibold py-3 px-6 rounded-md transition-colors duration-300"
+                                >
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Google Maps Embed */}
+            <section className="py-16 bg-gray-50">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">Find Us</h2>
+                    <div className="rounded-xl overflow-hidden shadow-xl">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.150381926311!2d-77.4404844846512!3d38.89951457957098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b64e5bb5d0f36f%3A0x92f5e7c6b4b5f7b4!2sWashington%20DC%2C%20USA!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s"
+                            width="100%"
+                            height="450"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Magnoliya Grand Location"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Frequently Asked Questions</h2>
+
+                    <div className="max-w-4xl mx-auto space-y-4">
+                        {faqs.map((faq, index) => (
+                            <div key={index} className="border-b border-gray-200 pb-4">
+                                <button
+                                    onClick={() => toggleFAQ(index)}
+                                    className="flex justify-between items-center w-full text-left py-4 font-semibold text-gray-800 hover:text-amber-400 transition-colors duration-300"
+                                >
+                                    <span>{faq.question}</span>
+                                    <svg
+                                        className={`w-5 h-5 transition-transform duration-300 ${activeFAQ === index ? 'transform rotate-180' : ''}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {activeFAQ === index && (
+                                    <div className="pb-4 text-gray-600">
+                                        {faq.answer}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Leadership Team - Commented */}
             {/* <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Leadership Team</h2>
@@ -167,7 +482,7 @@ const About = () => {
                 </div>
             </section> */}
 
-            {/* Awards & Recognition */}
+            {/* Awards & Recognition - Commented */}
             {/* <section className="py-16 bg-gray-100">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Awards & Recognitions</h2>
@@ -185,16 +500,16 @@ const About = () => {
             </section> */}
 
             {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
+            <section className="py-16 bg-gradient-to-r from-amber-300 to-amber-400">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-black mb-6">Experience the Magnoliya Difference</h2>
                     <p className="text-xl text-black mb-10 max-w-3xl mx-auto">
                         Let us help you create unforgettable memories at our exceptional venue
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/contact" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
+                        <a href="#contact" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
                             Plan Your Event
-                        </Link>
+                        </a>
                         <Link href="/gallery" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
                             View Gallery
                         </Link>
