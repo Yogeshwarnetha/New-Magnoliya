@@ -18,27 +18,27 @@ const Weddings = () => {
             id: 'ceremonies',
             name: 'Ceremonies',
             images: [
-                'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1549451378-6e2e2c1c3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1519677100203-a0e668c92439?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%202.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%203.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%204.jpg"
             ]
         },
         {
             id: 'receptions',
             name: 'Receptions',
             images: [
-                'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%201.jpg',
+                'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%205.jpg',
+                'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%206.jpg'
             ]
         },
         {
             id: 'details',
             name: 'Wedding Details',
             images: [
-                'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1519415711931-702deacf5be2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                'https://images.unsplash.com/photo-1519657337289-0776531cd5a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%207.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%208.jpg",
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%209.jpg"
             ]
         }
     ];
