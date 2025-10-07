@@ -1,29 +1,28 @@
 "use client";
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import PanoramicViewer from '../PanoramicViewer';
 
 const EventVenue = () => {
     const [activeVenue, setActiveVenue] = useState('grand-ballroom');
     const [activeCapacity, setActiveCapacity] = useState('theater');
     const [isDragging, setIsDragging] = useState(false);
     const [rotation, setRotation] = useState(0);
-    const [currentFrame, setCurrentFrame] = useState(0);
-    const [isAutoRotating, setIsAutoRotating] = useState(false);
+    const [isAutoPanning, setIsAutoPanning] = useState(false);
     const dragStartRef = useRef(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const imgRef = useRef<HTMLImageElement | null>(null);
+    const startPanRef = useRef(0);
+    const [pan, setPan] = useState(0); // pixels to offset panorama image
+    const [maxPan, setMaxPan] = useState(0);
 
-    // 360-degree image frames - replace these with actual 360 sequence images
-    const virtualTourFrames = [
-        'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg',
-
-    ];
 
     const venues = [
         {
             id: 'grand-ballroom',
             name: 'Grand Ballroom',
             description: 'The Grand Ballroom offers a breathtaking setting for life\'s most important celebrations. With its soaring ceilings, expansive layout, and elegant design, this space is ideal for hosting weddings, galas, fundraisers, and large-scale gatherings. Flooded with natural light by day and glowing with sophistication by night, the ballroom provides a dramatic yet adaptable backdrop that allows every event to feel truly extraordinary. Whether your vision is classic, modern, or completely unique, the Grand Ballroom has the scale and presence to bring it to life.',
-            image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg',
             squareFeet: '14,500',
             theater: '1,800',
             banquet: '1,200',
@@ -116,40 +115,35 @@ const EventVenue = () => {
         { id: 'reception', name: 'Reception Style' }
     ];
 
-    // Mouse/Touch handlers for 360 viewer
+    // Mouse/Touch handlers for panoramic viewer
     const handleMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true);
         dragStartRef.current = e.clientX;
+        startPanRef.current = pan;
     };
 
     const handleTouchStart = (e: React.TouchEvent) => {
         setIsDragging(true);
         dragStartRef.current = e.touches[0].clientX;
+        startPanRef.current = pan;
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (!isDragging) return;
-
         const deltaX = e.clientX - dragStartRef.current;
-        const rotationDelta = (deltaX / (containerRef.current?.offsetWidth || 1)) * 360;
-        setRotation(rotationDelta);
-
-        // Calculate frame based on rotation
-        const frameCount = virtualTourFrames.length;
-        const frameIndex = Math.floor((((rotationDelta % 360) + 360) % 360) / 360 * frameCount);
-        setCurrentFrame(frameIndex % frameCount);
+        if (maxPan <= 0) return;
+        const newPan = Math.min(Math.max(startPanRef.current - deltaX, 0), maxPan);
+        setPan(newPan);
+        setRotation((newPan / Math.max(maxPan, 1)) * 360);
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
         if (!isDragging) return;
-
         const deltaX = e.touches[0].clientX - dragStartRef.current;
-        const rotationDelta = (deltaX / (containerRef.current?.offsetWidth || 1)) * 360;
-        setRotation(rotationDelta);
-
-        const frameCount = virtualTourFrames.length;
-        const frameIndex = Math.floor((((rotationDelta % 360) + 360) % 360) / 360 * frameCount);
-        setCurrentFrame(frameIndex % frameCount);
+        if (maxPan <= 0) return;
+        const newPan = Math.min(Math.max(startPanRef.current - deltaX, 0), maxPan);
+        setPan(newPan);
+        setRotation((newPan / Math.max(maxPan, 1)) * 360);
     };
 
     const handleMouseUp = () => {
@@ -160,30 +154,48 @@ const EventVenue = () => {
         setIsDragging(false);
     };
 
-    // Auto-rotation effect
-    useEffect(() => {
-        if (!isAutoRotating) return;
+    // Keyboard controls: Left/Right to pan, Space toggles auto-panning
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const step = 80;
+        if (e.code === 'ArrowLeft') {
+            setPan(prev => Math.max(prev - step, 0));
+        } else if (e.code === 'ArrowRight') {
+            setPan(prev => Math.min(prev + step, maxPan));
+        } else if (e.code === 'Space') {
+            e.preventDefault();
+            setIsAutoPanning(prev => !prev);
+        }
+    };
 
+    // Auto-panning effect
+    useEffect(() => {
+        if (!isAutoPanning) return;
         const interval = setInterval(() => {
-            setRotation(prev => {
-                const newRotation = prev + 2; // Speed of auto-rotation
-                const frameCount = virtualTourFrames.length;
-                const frameIndex = Math.floor((((newRotation % 360) + 360) % 360) / 360 * frameCount);
-                setCurrentFrame(frameIndex % frameCount);
-                return newRotation;
+            setPan(prev => {
+                if (maxPan <= 0) return prev;
+                const next = prev + 2; // pixels per tick
+                if (next >= maxPan) return 0; // loop back
+                return next;
             });
-        }, 100);
-
+            setRotation(prev => (prev + 2) % 360);
+        }, 50);
         return () => clearInterval(interval);
-    }, [isAutoRotating, virtualTourFrames.length]);
+    }, [isAutoPanning, maxPan]);
 
-    // Preload images for smoother experience
+    // Recompute maxPan on resize
     useEffect(() => {
-        virtualTourFrames.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
+        const handleResize = () => {
+            if (!imgRef.current || !containerRef.current) return;
+            const imgRect = imgRef.current.getBoundingClientRect();
+            const containerRect = containerRef.current.getBoundingClientRect();
+            setMaxPan(Math.max(imgRect.width - containerRect.width, 0));
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    
 
     const selectedVenue = venues.find(venue => venue.id === activeVenue) || venues[0];
 
@@ -192,7 +204,7 @@ const EventVenue = () => {
             {/* Hero Section */}
             <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <img
-                    src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg"
                     alt="Event Venue"
                     className="w-full h-full object-cover"
                 />
@@ -207,150 +219,10 @@ const EventVenue = () => {
                 </div>
             </section>
 
-            {/* Enhanced 360 Virtual Tour Section */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">Magnoliya Virtual Tour</h2>
-                    <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                        Drag or swipe to explore our venue in 360° - Experience the space like never before
-                    </p>
-
-                    {/* 360 Viewer Container */}
-                    <div className="max-w-4xl mx-auto">
-                        <div
-                            ref={containerRef}
-                            className="relative bg-gray-100 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing shadow-2xl"
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                        >
-                            {/* 360 Image */}
-                            <img
-                                src={virtualTourFrames[currentFrame]}
-                                alt="360 Virtual Tour of Magnoliya Venue"
-                                className="w-full h-64 md:h-96 lg:h-[500px] object-cover transition-all duration-150 ease-out"
-                            />
-
-                            {/* Loading/Instruction Overlay */}
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div className="text-center bg-black bg-opacity-60 text-white py-4 px-8 rounded-2xl backdrop-blur-sm border border-white border-opacity-20">
-                                    <div className="flex items-center justify-center mb-3">
-                                        <svg className="w-10 h-10 mr-3 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                        </svg>
-                                    </div>
-                                    <p className="text-lg font-semibold mb-1">Drag to Explore</p>
-                                    <p className="text-sm opacity-90">Move left or right to rotate the view</p>
-                                    <p className="text-xs opacity-70 mt-2">Frame {currentFrame + 1} of {virtualTourFrames.length}</p>
-                                </div>
-                            </div>
-
-                            {/* Navigation Dots */}
-                            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
-                                {virtualTourFrames.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => {
-                                            setCurrentFrame(index);
-                                            setRotation((index / virtualTourFrames.length) * 360);
-                                        }}
-                                        className={`w-3 h-3 rounded-full transition-all duration-300 transform hover:scale-125 ${index === currentFrame
-                                            ? 'bg-white scale-125'
-                                            : 'bg-white bg-opacity-50 hover:bg-opacity-80'
-                                            }`}
-                                    />
-                                ))}
-                            </div>
-
-                            {/* Rotation Indicator */}
-                            <div className="absolute top-6 right-6 bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
-                                {Math.round(((rotation % 360) + 360) % 360)}°
-                            </div>
-
-                            {/* Auto-rotate Indicator */}
-                            {isAutoRotating && (
-                                <div className="absolute top-6 left-6 bg-green-600 bg-opacity-90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm flex items-center">
-                                    <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
-                                    Auto-rotating
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Controls */}
-                        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
-                            <div className="flex space-x-4">
-                                <button
-                                    onClick={() => {
-                                        const newFrame = (currentFrame - 1 + virtualTourFrames.length) % virtualTourFrames.length;
-                                        setCurrentFrame(newFrame);
-                                        setRotation((newFrame / virtualTourFrames.length) * 360);
-                                    }}
-                                    className="bg-gold hover:bg-gold-dark text-white p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-
-                                <button
-                                    onClick={() => setIsAutoRotating(!isAutoRotating)}
-                                    className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg ${isAutoRotating
-                                        ? 'bg-red-500 hover:bg-red-600 text-white'
-                                        : 'bg-gold hover:bg-gold-dark text-white'
-                                        }`}
-                                >
-                                    {isAutoRotating ? 'Stop Auto-Rotate' : 'Start Auto-Rotate'}
-                                </button>
-
-                                <button
-                                    onClick={() => {
-                                        const newFrame = (currentFrame + 1) % virtualTourFrames.length;
-                                        setCurrentFrame(newFrame);
-                                        setRotation((newFrame / virtualTourFrames.length) * 360);
-                                    }}
-                                    className="bg-gold hover:bg-gold-dark text-white p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Instructions */}
-                        <div className="mt-8 text-center">
-                            <div className="bg-gray-50 rounded-2xl p-6 max-w-2xl mx-auto">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-3">How to Use the 360° Viewer</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                                    <div className="flex flex-col items-center">
-                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
-                                            ↔️
-                                        </div>
-                                        <p>Drag to rotate</p>
-                                    </div>
-                                    <div className="flex flex-col items-center">
-                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
-                                            🔄
-                                        </div>
-                                        <p>Use buttons or auto-rotate</p>
-                                    </div>
-                                    <div className="flex flex-col items-center">
-                                        <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-white mb-2">
-                                            ⬤
-                                        </div>
-                                        <p>Click dots to jump</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <PanoramicViewer 
+                src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg"
+                alt="Magnoliya venue panoramic view"
+            />
             {/* Venues Section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
