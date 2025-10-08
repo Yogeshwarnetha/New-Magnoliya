@@ -476,10 +476,7 @@ const EventVenue = () => {
                 </div>
             </section>
 
-            <PanoramicViewer 
-                src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg"
-                alt="Magnoliya venue panoramic view"
-            />
+           
 
             {/* Venues Section */}
             <section className="py-12 bg-gray-50">
@@ -690,6 +687,11 @@ const EventVenue = () => {
                     </div>
                 </div>
             </section>
+
+             <PanoramicViewer 
+                src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg"
+                alt="Magnoliya venue panoramic view"
+            />
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
