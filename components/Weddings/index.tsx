@@ -108,7 +108,75 @@ const Weddings = () => {
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     {/* Heading */}
-                    <div className="text-center mb-12">
+                    
+                    {/* Intro Block */}
+                    <div className="max-w-4xl mx-auto bg-gray-50 rounded-2xl p-8 mb-12">
+                        <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
+                            Weddings at Our Venue
+                        </h3>
+                        <p className="text-lg text-gray-600 leading-relaxed text-center">
+                            Your wedding deserves a setting as unforgettable as the day itself.
+                            Our venue provides a canvas that adapts beautifully to any theme,
+                            from timeless elegance to modern luxury. Expansive spaces, filled
+                            with natural light and refined architectural details, offer the
+                            perfect backdrop for lavish décor, personalized touches, and moments
+                            of pure romance. Whether you envision a grand celebration or a more
+                            intimate affair, our halls and outdoor spaces allow you to bring
+                            your vision to life with grace, style, and a sense of occasion.
+                        </p>
+                    </div>
+
+
+
+                    {/* Packages */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        {weddingPackages.map((pkg, index) => (
+                            <div
+                                key={index}
+                                className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                            >
+                                <div className="h-48 bg-gradient-to-r from-gold-light to-gold flex items-center justify-center">
+                                    <div className="text-center text-white p-4">
+                                        <h3 className="text-2xl font-serif font-bold mb-2">
+                                            {pkg.name}
+                                        </h3>
+                                        <p className="text-xl font-semibold">{pkg.price}</p>
+                                        <p className="text-gold-light">{pkg.description}</p>
+                                    </div>
+                                </div>
+                                <div className="p-6">
+                                    <ul className="space-y-3 mb-6">
+                                        {pkg.includes.map((item, i) => (
+                                            <li key={i} className="flex items-center">
+                                                <span className="text-gold mr-2">✓</span>
+                                                <span className="text-gray-700">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Link
+                                        href="/contact"
+                                        className="block w-full bg-gold hover:bg-gold-dark text-white text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
+                                    >
+                                        Customize This Package
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="text-center">
+                        <p className="text-gray-600 mb-6">
+                            All packages can be customized to fit your specific needs and
+                            vision.
+                        </p>
+                        <Link href="/contact" className="btn-primary">
+                            Talk to a Wedding Planner
+                        </Link>
+                    </div>
+
+
+                    <div className="text-center my-12">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">
                             Our Wedding Offerings
                         </h2>
@@ -176,71 +244,6 @@ const Weddings = () => {
                         </div>
                     </div>
 
-                    {/* Intro Block */}
-                    <div className="max-w-4xl mx-auto bg-gray-50 rounded-2xl p-8 mb-12">
-                        <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
-                            Weddings at Our Venue
-                        </h3>
-                        <p className="text-lg text-gray-600 leading-relaxed text-center">
-                            Your wedding deserves a setting as unforgettable as the day itself.
-                            Our venue provides a canvas that adapts beautifully to any theme,
-                            from timeless elegance to modern luxury. Expansive spaces, filled
-                            with natural light and refined architectural details, offer the
-                            perfect backdrop for lavish décor, personalized touches, and moments
-                            of pure romance. Whether you envision a grand celebration or a more
-                            intimate affair, our halls and outdoor spaces allow you to bring
-                            your vision to life with grace, style, and a sense of occasion.
-                        </p>
-                    </div>
-
-
-
-                    {/* Packages */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                        {weddingPackages.map((pkg, index) => (
-                            <div
-                                key={index}
-                                className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
-                            >
-                                <div className="h-48 bg-gradient-to-r from-gold-light to-gold flex items-center justify-center">
-                                    <div className="text-center text-white p-4">
-                                        <h3 className="text-2xl font-serif font-bold mb-2">
-                                            {pkg.name}
-                                        </h3>
-                                        <p className="text-xl font-semibold">{pkg.price}</p>
-                                        <p className="text-gold-light">{pkg.description}</p>
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <ul className="space-y-3 mb-6">
-                                        {pkg.includes.map((item, i) => (
-                                            <li key={i} className="flex items-center">
-                                                <span className="text-gold mr-2">✓</span>
-                                                <span className="text-gray-700">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <Link
-                                        href="/contact"
-                                        className="block w-full bg-gold hover:bg-gold-dark text-white text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
-                                    >
-                                        Customize This Package
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="text-center">
-                        <p className="text-gray-600 mb-6">
-                            All packages can be customized to fit your specific needs and
-                            vision.
-                        </p>
-                        <Link href="/contact" className="btn-primary">
-                            Talk to a Wedding Planner
-                        </Link>
-                    </div>
                 </div>
             </section>
             {/* Gallery Section */}

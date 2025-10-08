@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import {
   FaFacebookF,
   FaInstagram,
@@ -50,6 +51,7 @@ const menuItems = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,7 @@ const Navbar = () => {
     <>
       {/* Topbar (desktop only) */}
       {!scrolled && (
-        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-between z-40">
+        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-around z-40">
           <div className="flex items-center space-x-6 text-sm">
             <span className="flex items-center gap-2">
               <FaPhoneIcon className="text-amber-400" size={12} />
@@ -113,16 +115,19 @@ const Navbar = () => {
             <div className="flex flex-col items-center space-y-2 max-w-4xl">
               {/* First line */}
               <div className="flex flex-wrap items-center justify-center space-x-3">
-                {menuItems.slice(0, 6).map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={`nav-link ${scrolled ? 'text-gray-900' : 'text-white'} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
-                  >
-                    {item.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                ))}
+                {menuItems.slice(0, 6).map((item, index) => {
+                  const isActive = item.href === '/' ? pathname === '/' : pathname?.startsWith(item.href || '');
+                  return (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className={`nav-link ${isActive ? 'text-[#AD7906]' : (scrolled ? 'text-gray-900' : 'text-white')} transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
+                    >
+                      {item.label}
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${isActive ? 'bg-[#AD7906]' : 'bg-amber-400'} transition-all duration-300 group-hover:w-full ${isActive ? 'w-full' : ''}`}></span>
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Second line */}
@@ -197,16 +202,19 @@ const Navbar = () => {
 
           {/* Menu items */}
           <div className="flex flex-col space-y-6">
-            {menuItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className={`${scrolled ? 'text-gray-900' : 'text-white'} text-lg font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {menuItems.map((item, index) => {
+              const isActive = item.href === '/' ? pathname === '/' : pathname?.startsWith(item.href || '');
+              return (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`${isActive ? 'text-[#AD7906] font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Booking Button in Mobile Menu */}
