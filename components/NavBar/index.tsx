@@ -63,7 +63,7 @@ const Navbar = () => {
     <>
       {/* Topbar (desktop only) */}
       {!scrolled && (
-        <div className="hidden md:flex w-full bg-gray-900 text-white py-3 px-6 items-center justify-between z-40">
+        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-between z-40">
           <div className="flex items-center space-x-6 text-sm">
             <span className="flex items-center gap-2">
               <FaPhoneIcon className="text-amber-400" size={12} />
@@ -90,13 +90,13 @@ const Navbar = () => {
       )}
 
       <nav
-        className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-gray-900 py-2 shadow-lg" : "bg-transparent py-5"}`}
+        className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-white py-2 shadow-lg" : "bg-transparent py-5"}`}
       >
         <div className="container mx-auto flex items-center justify-between min-h-[72px] px-4">
           {/* Logo - Left side */}
           <Link
             href="/"
-            className="text-2xl font-bold text-white font-cormorant items-center flex"
+            className={`text-2xl font-bold ${scrolled ? 'text-gray-900' : 'text-white'} font-cormorant items-center flex`}
           >
             <img
               src={scrolled
@@ -117,7 +117,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={item.href}
-                    className="nav-link text-white hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group"
+                    className={`nav-link ${scrolled ? 'text-gray-900' : 'text-white'} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
                   >
                     {item.label}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
@@ -151,7 +151,7 @@ const Navbar = () => {
           {/* Hamburger menu for mobile */}
           <div className="flex lg:hidden items-center gap-2">
             <button
-              className="flex justify-center items-center w-10 h-10 text-white focus:outline-none"
+              className={`flex justify-center items-center w-10 h-10 ${scrolled ? 'text-gray-900' : 'text-white'} focus:outline-none`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -169,12 +169,12 @@ const Navbar = () => {
 
       {/* Mobile Menu Sidebar (full screen) */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-gray-900 shadow-lg transform transition-transform duration-500 ease-in-out z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:hidden`}
+        className={`fixed top-0 left-0 h-full w-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:hidden`}
       >
         <div className="flex flex-col h-full pt-20 px-8 overflow-y-auto relative">
           {/* Close button */}
           <button
-            className="absolute top-5 right-5 text-white p-2"
+            className={`absolute top-5 right-5 ${scrolled ? 'text-gray-900' : 'text-white'} p-2`}
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
           >
@@ -201,7 +201,7 @@ const Navbar = () => {
               <Link
                 key={index}
                 href={item.href}
-                className="text-white text-lg font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b border-gray-700"
+                className={`${scrolled ? 'text-gray-900' : 'text-white'} text-lg font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
@@ -218,7 +218,7 @@ const Navbar = () => {
 
           {/* Contact info (mobile) */}
           <div className="mt-6 pt-6 border-t border-gray-700">
-            <div className="flex flex-col space-y-4 text-white">
+            <div className="flex flex-col space-y-4 text-gray-900">
               <span className="flex items-center gap-3">
                 <FaPhoneIcon className="text-amber-400" />
                 {CONTACT_INFO.phone}
@@ -236,7 +236,7 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-white hover:text-amber-400 transition-colors duration-300 p-2 rounded-full bg-gray-800 hover:bg-gray-700"
+                className={`${scrolled ? 'text-gray-900 hover:text-amber-400' : 'text-white hover:text-amber-400'} transition-colors duration-300 p-2 rounded-full bg-gray-800 hover:bg-gray-700`}
                 aria-label={item.name}
               >
                 <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
