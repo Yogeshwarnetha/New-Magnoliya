@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 
 export default function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith("/admin");
 
 
   // Google Tag (gtag.js)
@@ -28,11 +29,15 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
     document.head.appendChild(script2);
   }, []);
 
+  const shouldHideNavbarFooter =
+    isAdminRoute
+
+
   return (
     <>
-      <Navbar />
+      {!shouldHideNavbarFooter && <Navbar />}
       {children}
-      <Footer />
+      {!shouldHideNavbarFooter && <Footer />}
     </>
   );
 }
