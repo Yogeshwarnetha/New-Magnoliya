@@ -23,16 +23,36 @@ const Gallery = () => {
     // Category-wise organized images
     const galleryImages = {
         weddings: [
-            { id: 1, src: "", title: "Elegant Wedding Reception" },
-            { id: 2, src: "", title: "Grand Ballroom Wedding" },
-            { id: 3, src: "", title: "Outdoor Wedding Ceremony" },
-            { id: 4, src: "", title: "Wedding Cake Celebration" },
-            { id: 5, src: "", title: "Cocktail Reception" },
-            { id: 6, src: "", title: "Wedding Decor" },
-            { id: 7, src: "", title: "Bridal Party" },
-            { id: 8, src: "", title: "Reception Dinner" },
-            { id: 9, src: "", title: "Wedding Dance" },
-            { id: 10, src: "", title: "Bridal Preparation" }
+            { id: 1, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171410.jpg", title: "Elegant Wedding Reception" },
+            { id: 2, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171510.jpg", title: "Grand Ballroom Wedding" },
+            { id: 3, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171519.jpg", title: "Outdoor Wedding Ceremony" },
+            { id: 4, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171749.jpg", title: "Wedding Cake Celebration" },
+            { id: 5, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171841.jpg", title: "Cocktail Reception" },
+            { id: 6, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171519.jpg", title: "Wedding Decor" },
+            { id: 7, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171525.jpg", title: "Bridal Party" },
+            { id: 8, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171742.jpg", title: "Reception Dinner" },
+            { id: 9, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_173043.jpg", title: "Wedding Dance" },
+            { id: 10, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_173103.jpg", title: "Bridal Preparation" },
+            { id: 61, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_173648.jpg", title: "Wedding Decor" },
+            { id: 62, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171847.jpg", title: "Bridal Party" },
+            { id: 63, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_172041.jpg", title: "Reception Dinner" },
+            { id: 64, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174321.jpg", title: "Wedding Dance" },
+            { id: 65, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174330.jpg", title: "Bridal Preparation" },
+            { id: 66, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174756.jpg", title: "Wedding Dance" },
+            { id: 67, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_185400.jpg", title: "Bridal Preparation" },
+            { id: 68, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_184113.jpg", title: "Wedding Dance" },
+            { id: 69, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_192517.jpg", title: "Bridal Preparation" },
+            { id: 70, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_185206.jpg", title: "Wedding Dance" },
+            { id: 71, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_190316.jpg", title: "Bridal Preparation" },
+            { id: 72, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_183915.jpg", title: "Wedding Dance" },
+            { id: 73, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_194433.jpg", title: "Bridal Preparation" },
+            { id: 74, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_193110.jpg", title: "Wedding Dance" },
+            { id: 75, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/DSC_0220.JPG", title: "Bridal Preparation" },
+            { id: 76, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/DSC_0233.JPG", title: "Wedding Dance" },
+            { id: 77, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/DSC_0235.JPG", title: "Bridal Preparation" },
+            { id: 78, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/DSC_0228.JPG", title: "Wedding Dance" },
+            { id: 79, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/DSC_0237.JPG", title: "Bridal Preparation" },
+            { id: 80, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_195507.jpg", title: "Wedding Dance" }
         ],
         corporate: [
             { id: 11, src: "", title: "Corporate Conference" },
@@ -68,7 +88,7 @@ const Gallery = () => {
             { id: 39, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0360.JPG", title: "Fine Dining Setup" },
             { id: 40, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0375.JPG", title: "Restaurant View" },
             { id: 51, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0386.JPG", title: "Restaurant View" },
-            { id: 52, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0393.JPG", title: "Restaurant View" },
+            { id: 52, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0304.JPG", title: "Restaurant View" },
             { id: 52, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0387.JPG", title: "Restaurant View" },
             { id: 53, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0346.JPG", title: "Restaurant View" },
             { id: 54, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_210347.jpg", title: "Restaurant View" },
@@ -77,7 +97,7 @@ const Gallery = () => {
             { id: 57, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195034.jpg", title: "Restaurant View" },
             { id: 58, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194932.jpg", title: "Restaurant View" },
             { id: 59, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195318.jpg", title: "Restaurant View" },
-            { id: 60, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195318.jpg", title: "Restaurant View" }
+            { id: 60, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0392.JPG", title: "Restaurant View" }
 
 
         ],
@@ -290,7 +310,7 @@ const Gallery = () => {
                                 />
                                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-end">
                                     <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                        <h3 className="font-semibold">{image.title}</h3>
+                                        {/* <h3 className="font-semibold">{image.title}</h3> */}
                                         <p className="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 capitalize">
                                             {image.category}
                                         </p>
