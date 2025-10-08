@@ -43,7 +43,7 @@ const initialTestimonials: Testimonial[] = [
     },
 ];
 
-const TestimonialsPage: React.FC = () => {
+const TestimonialsPage = () => {
     const [testimonials, setTestimonials] = useState<Testimonial[]>(initialTestimonials);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [name, setName] = useState('');
