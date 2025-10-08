@@ -36,15 +36,15 @@ const SOCIAL_LINKS = [
 const menuItems = [
   { label: "Home", href: "/" },
   { label: "Weddings", href: "/weddings" },
-  { label: "Corporate Events", href: "/corporate" },
+  // { label: "Corporate Events", href: "/corporate" },
   { label: "Event Venues", href: "/venues" },
   // { label: "Event Services", href: "/services" },
 
   // Second line items
   { label: "Rooms & Suites", href: "/rooms-suites" },
   { label: "Dining", href: "/dining" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "About Us", href: "/about" },
+  // { label: "Gallery", href: "/gallery" },
+  // { label: "About Us", href: "/about" },
 ];
 
 const Navbar = () => {
@@ -113,7 +113,7 @@ const Navbar = () => {
             <div className="flex flex-col items-center space-y-2 max-w-4xl">
               {/* First line */}
               <div className="flex flex-wrap items-center justify-center space-x-3">
-                {menuItems.slice(0, 4).map((item, index) => (
+                {menuItems.slice(0, 6).map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}

@@ -55,16 +55,11 @@ const Gallery = () => {
             { id: 80, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_195507.jpg", title: "Wedding Dance" }
         ],
         corporate: [
-            { id: 11, src: "", title: "Corporate Conference" },
-            { id: 12, src: "", title: "Executive Meeting" },
-            { id: 13, src: "", title: "Award Ceremony" },
-            { id: 14, src: "", title: "Business Seminar" },
-            { id: 15, src: "", title: "Team Building" },
-            { id: 16, src: "", title: "Networking Event" },
-            { id: 17, src: "", title: "Product Launch" },
-            { id: 18, src: "", title: "Corporate Gala" },
-            { id: 19, src: "", title: "Board Meeting" },
-            { id: 20, src: "", title: "Training Session" }
+            { id: 11, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.40.09_2f5aa1ef.jpg", title: "Corporate Conference" },
+            { id: 12, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.11_9e1fa16c.jpg", title: "Executive Meeting" },
+            { id: 13, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.25_408b6bf0.jpg", title: "Award Ceremony" },
+            { id: 14, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.49_9366c702.jpg", title: "Business Seminar" },
+
         ],
         dining: [
             { id: 21, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0276.JPG", title: "Fine Dining Experience" },
@@ -102,16 +97,15 @@ const Gallery = () => {
 
         ],
         venues: [
-            { id: 41, src: "", title: "Garden Terrace" },
-            { id: 42, src: "", title: "Water View Lounge" },
-            { id: 43, src: "", title: "Luxury Suite" },
-            { id: 44, src: "", title: "Grand Ballroom" },
-            { id: 45, src: "", title: "Conference Hall" },
-            { id: 46, src: "", title: "Outdoor Venue" },
-            { id: 47, src: "", title: "Poolside Area" },
-            { id: 48, src: "", title: "Executive Lounge" },
-            { id: 49, src: "", title: "Banquet Hall" },
-            { id: 50, src: "", title: "Event Space" }
+            { id: 41, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg", title: "Garden Terrace" },
+            { id: 42, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg", title: "Water View Lounge" },
+            { id: 43, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Left.jpg", title: "Luxury Suite" },
+            { id: 44, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Back.jpg", title: "Grand Ballroom" },
+            { id: 45, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg", title: "Conference Hall" },
+            { id: 46, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Kwaza%20hall.jpg", title: "Outdoor Venue" },
+            { id: 47, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Liberty%20Hall.jpg", title: "Poolside Area" },
+            { id: 48, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Lake%20Side.jpg", title: "Executive Lounge" },
+
         ]
     };
 
@@ -133,24 +127,24 @@ const Gallery = () => {
         {
             id: 1,
             title: "Venue Tour",
-            thumbnail: "w=800&q=80",
-            videoSrc: "https://res.cloudinary.com/dwd2dks0h/video/upload/Final_-_Trim_p8yxaf.mp4",
+            thumbnail: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_194433.jpg",
+            videoSrc: "https://res.cloudinary.com/dwd2dks0h/video/upload/v1759594855/Web_zsq9z3.mp4",
             description: "Take a virtual tour of our beautiful event spaces"
         },
-        {
-            id: 2,
-            title: "Wedding Highlights",
-            thumbnail: "w=800&q=80",
-            videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
-            description: "Beautiful moments from recent weddings"
-        },
-        {
-            id: 3,
-            title: "Corporate Events",
-            thumbnail: "w=800&q=80",
-            videoSrc: "https://www.w3schools.com/html/movie.mp4",
-            description: "Successful business gatherings at our venue"
-        }
+        // {
+        //     id: 2,
+        //     title: "Wedding Highlights",
+        //     thumbnail: "w=800&q=80",
+        //     videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
+        //     description: "Beautiful moments from recent weddings"
+        // },
+        // {
+        //     id: 3,
+        //     title: "Corporate Events",
+        //     thumbnail: "w=800&q=80",
+        //     videoSrc: "https://www.w3schools.com/html/movie.mp4",
+        //     description: "Successful business gatherings at our venue"
+        // }
     ];
 
     // Open video modal
@@ -262,7 +256,7 @@ const Gallery = () => {
             {/* Hero Section */}
             <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <img
-                    src="w=2000&q=80"
+                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg"
                     alt="Gallery"
                     className="w-full h-full object-cover"
                 />
