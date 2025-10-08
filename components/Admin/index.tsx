@@ -23,6 +23,18 @@ const adminMenuItems: AdminMenuItem[] = [
         icon: FaHome
     },
     {
+        id: 6,
+        text: "Homepage Content",
+        route: "/admin/homepage",
+        icon: FaHome
+    },
+    {
+        id: 7,
+        text: "About Page",
+        route: "/admin/about",
+        icon: FaStar
+    },
+    {
         id: 2,
         text: "Contact Form Data",
         route: "/admin/contact-form-data",
@@ -35,9 +47,33 @@ const adminMenuItems: AdminMenuItem[] = [
         icon: FaStar
     },
     {
+        id: 8,
+        text: "Weddings",
+        route: "/admin/weddings",
+        icon: FaCalendarCheck
+    },
+    {
         id: 4,
         text: "Gallery Management",
         route: "/admin/gallery",
+        icon: FaImages
+    },
+    {
+        id: 9,
+        text: "Event Venues",
+        route: "/admin/venues",
+        icon: FaImages
+    },
+    {
+        id: 10,
+        text: "Rooms & Suites",
+        route: "/admin/rooms-suites",
+        icon: FaImages
+    },
+    {
+        id: 11,
+        text: "Dining",
+        route: "/admin/dining",
         icon: FaImages
     },
     {
