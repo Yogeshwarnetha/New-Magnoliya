@@ -56,7 +56,7 @@ const Homepage = () => {
         "State-of-the-Art AV & Lighting",
         "Terrace & Garden Venues",
         "End-to-End Event Management",
-        "Luxury Spa & Wellness",
+        // "Luxury Spa & Wellness",
         "24/7 Concierge Service",
         "Customized Event Planning"
     ];

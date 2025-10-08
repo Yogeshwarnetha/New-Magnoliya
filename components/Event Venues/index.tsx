@@ -9,13 +9,25 @@ const EventVenue = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [rotation, setRotation] = useState(0);
     const [isAutoPanning, setIsAutoPanning] = useState(false);
+    const [showBookingForm, setShowBookingForm] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        eventType: '',
+        preferredVenue: 'grand-ballroom',
+        eventDate: '',
+        guestCount: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
     const dragStartRef = useRef(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement | null>(null);
     const startPanRef = useRef(0);
     const [pan, setPan] = useState(0); // pixels to offset panorama image
     const [maxPan, setMaxPan] = useState(0);
-
 
     const venues = [
         {
@@ -115,6 +127,53 @@ const EventVenue = () => {
         { id: 'reception', name: 'Reception Style' }
     ];
 
+    const eventTypes = [
+        'Wedding',
+        'Corporate Event',
+        'Birthday Party',
+        'Conference',
+        'Graduation',
+        'Baby Shower',
+        'Gala',
+        'Other'
+    ];
+
+    // Form handlers
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        
+        // Simulate form submission
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        
+        // Reset form after success
+        setTimeout(() => {
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                eventType: '',
+                preferredVenue: 'grand-ballroom',
+                eventDate: '',
+                guestCount: '',
+                message: ''
+            });
+            setSubmitSuccess(false);
+            setShowBookingForm(false);
+        }, 3000);
+    };
+
     // Mouse/Touch handlers for panoramic viewer
     const handleMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true);
@@ -195,12 +254,204 @@ const EventVenue = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    
-
     const selectedVenue = venues.find(venue => venue.id === activeVenue) || venues[0];
 
     return (
         <div className="min-h-screen bg-gray-50">
+            {/* Booking Form Modal */}
+            {showBookingForm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-serif font-bold text-gray-800">Book Your Event</h2>
+                                <button
+                                    onClick={() => setShowBookingForm(false)}
+                                    className="text-gray-500 hover:text-gray-700 transition-colors"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {submitSuccess ? (
+                                <div className="text-center py-8">
+                                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Thank You!</h3>
+                                    <p className="text-gray-600">Your event inquiry has been submitted successfully. Our team will contact you within 24 hours.</p>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Full Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                required
+                                                value={formData.name}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                                placeholder="Enter your full name"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Email Address *
+                                            </label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                required
+                                                value={formData.email}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                                placeholder="Enter your email"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Phone Number *
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                id="phone"
+                                                name="phone"
+                                                required
+                                                value={formData.phone}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                                placeholder="Enter your phone number"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Event Type *
+                                            </label>
+                                            <select
+                                                id="eventType"
+                                                name="eventType"
+                                                required
+                                                value={formData.eventType}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                            >
+                                                <option value="">Select event type</option>
+                                                {eventTypes.map(type => (
+                                                    <option key={type} value={type}>{type}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label htmlFor="preferredVenue" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Preferred Venue *
+                                            </label>
+                                            <select
+                                                id="preferredVenue"
+                                                name="preferredVenue"
+                                                required
+                                                value={formData.preferredVenue}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                            >
+                                                {venues.map(venue => (
+                                                    <option key={venue.id} value={venue.id}>{venue.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="guestCount" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Expected Guest Count *
+                                            </label>
+                                            <input
+                                                type="number"
+                                                id="guestCount"
+                                                name="guestCount"
+                                                required
+                                                value={formData.guestCount}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                                placeholder="Number of guests"
+                                                min="1"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 mb-2">
+                                            Preferred Event Date *
+                                        </label>
+                                        <input
+                                            type="date"
+                                            id="eventDate"
+                                            name="eventDate"
+                                            required
+                                            value={formData.eventDate}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                                            Additional Information
+                                        </label>
+                                        <textarea
+                                            id="message"
+                                            name="message"
+                                            rows={4}
+                                            value={formData.message}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300"
+                                            placeholder="Tell us about your event vision, special requirements, or any questions you may have..."
+                                        />
+                                    </div>
+
+                                    <div className="flex gap-4 pt-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowBookingForm(false)}
+                                            className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-all duration-300"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="flex-1 px-6 py-3 bg-gold text-white font-semibold rounded-lg hover:bg-gold-dark transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            {isSubmitting ? (
+                                                <div className="flex items-center justify-center">
+                                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                    Submitting...
+                                                </div>
+                                            ) : (
+                                                'Submit Inquiry'
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Hero Section */}
             <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <img
@@ -215,6 +466,12 @@ const EventVenue = () => {
                         <p className="text-lg md:text-xl max-w-2xl mx-auto">
                             Exceptional spaces for unforgettable events and celebrations
                         </p>
+                        <button
+                            onClick={() => setShowBookingForm(true)}
+                            className="mt-8 bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        >
+                            Book Your Event
+                        </button>
                     </div>
                 </div>
             </section>
@@ -223,6 +480,7 @@ const EventVenue = () => {
                 src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg"
                 alt="Magnoliya venue panoramic view"
             />
+
             {/* Venues Section */}
             <section className="py-12 bg-gray-50">
                 <div className="container mx-auto px-4">
@@ -273,15 +531,18 @@ const EventVenue = () => {
                                         </div>
                                     </div>
 
-                                    <Link
-                                        href="/contact"
+                                    <button
+                                        onClick={() => {
+                                            setFormData(prev => ({ ...prev, preferredVenue: venue.id }));
+                                            setShowBookingForm(true);
+                                        }}
                                         className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                                     >
-                                        Inquire About This Venue
+                                        Book Your Event
                                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -417,12 +678,15 @@ const EventVenue = () => {
                     </div>
 
                     <div className="text-center mt-12">
-                        <Link href="/gallery" className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                            View Full Gallery
+                        <button
+                            onClick={() => setShowBookingForm(true)}
+                            className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                        >
+                            Book Your Event
                             <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -435,11 +699,14 @@ const EventVenue = () => {
                         Let us help you create an unforgettable experience in our exceptional venues
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/contact" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1">
+                        <button
+                            onClick={() => setShowBookingForm(true)}
+                            className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1"
+                        >
+                            Book Your Event
+                        </button>
+                        <Link href="/contact" className="border-2 border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white transform hover:-translate-y-1">
                             Schedule a Tour
-                        </Link>
-                        <Link href="/booking" className="border-2 border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white transform hover:-translate-y-1">
-                            Request Booking
                         </Link>
                     </div>
                 </div>
