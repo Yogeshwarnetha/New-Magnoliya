@@ -4,32 +4,28 @@ import Link from 'next/link';
 const RoomsAndSuites = () => {
     const roomTypes = [
         {
-            name: "Standard Rooms",
-            description: "Comfortable accommodations with all essential amenities",
-            image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            price: "$149/night",
-            features: ["Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker"]
+            name: "King Room",
+            description: "Spacious room with one king bed, perfect for solo travelers or couples",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-king-688be9.avif",
+            features: ["One King Bed", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"]
         },
         {
-            name: "Deluxe Rooms",
-            description: "Spacious rooms with premium amenities and enhanced comfort",
-            image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            price: "$199/night",
-            features: ["Premium View", "Marble Bathroom", "Mini Bar", "Enhanced Amenities"]
+            name: "Double Queen Room",
+            description: "Comfortable room with two queen beds, ideal for families or groups",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-double-queen-e39b41.jpg",
+            features: ["Two Queen Beds", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"]
         },
         {
-            name: "Suites",
-            description: "Luxurious suites with separate living areas and exclusive access",
-            image: "https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            price: "$299/night",
-            features: ["Separate Living Area", "Premium View", "Luxury Bath Amenities", "Express Check-in"]
+            name: "King Suite",
+            description: "Luxurious suite with separate living area and premium amenities",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
+            features: ["Separate Living Area", "One King Bed", "Microwave", "Mini Refrigerator", "Premium Bath Amenities"]
         },
         {
-            name: "Water View Rooms",
-            description: "Beautiful rooms with stunning water views and premium comforts",
-            image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            price: "$229/night",
-            features: ["Water View", "Private Balcony", "Premium Toiletries", "Enhanced Comfort"]
+            name: "Accessible Room",
+            description: "Fully accessible room designed for guests with mobility needs",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/hearing-accessbiel-king.jpg",
+            features: ["ADA Compliant", "Roll-in Shower", "Lowered Features", "Accessible Routes", "All Standard Amenities"]
         }
     ];
 
@@ -40,7 +36,7 @@ const RoomsAndSuites = () => {
             description: "Elegant and welcoming entrance area"
         },
         {
-            image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+            image: "https://images.unsplash.com-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
             title: "Pool",
             description: "Indoor pool for relaxation and exercise"
         },
@@ -56,7 +52,7 @@ const RoomsAndSuites = () => {
             {/* Hero Section */}
             <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <img
-                    src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif"
                     alt="Luxury Rooms"
                     className="w-full h-full object-cover"
                 />
@@ -137,7 +133,6 @@ const RoomsAndSuites = () => {
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-semibold mb-2">{room.name}</h3>
-                                    <p className="text-gold mb-2 font-medium">{room.price}</p>
                                     <p className="text-gray-600 mb-4 text-sm">{room.description}</p>
                                     <ul className="space-y-2 mb-6">
                                         {room.features.map((feature, i) => (
@@ -159,34 +154,6 @@ const RoomsAndSuites = () => {
                                         </svg>
                                     </a>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Hotel Features */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">Hotel Features</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Discover the amenities and facilities that make your stay exceptional
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {hotelFeatures.map((feature, index) => (
-                            <div key={index} className="text-center">
-                                <div className="rounded-2xl overflow-hidden mb-6 shadow-lg">
-                                    <img
-                                        src={feature.image}
-                                        alt={feature.title}
-                                        className="w-full h-64 object-cover"
-                                    />
-                                </div>
-                                <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">{feature.title}</h3>
-                                <p className="text-gray-600">{feature.description}</p>
                             </div>
                         ))}
                     </div>

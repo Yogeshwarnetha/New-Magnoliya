@@ -56,52 +56,61 @@ const Homepage = () => {
         "State-of-the-Art AV & Lighting",
         "Terrace & Garden Venues",
         "End-to-End Event Management",
-        "Luxury Spa & Wellness",
+        // "Luxury Spa & Wellness",
         "24/7 Concierge Service",
         "Customized Event Planning"
     ];
 
-    // Featured event venues
+    // Featured event venues - Updated with actual venue data
     const eventVenues = [
         {
             name: "Grand Ballroom",
-            capacity: "Up to 500 guests",
-            image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Elegant space for grand celebrations"
+            capacity: "Up to 1,800 guests",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg",
+            description: "Breathtaking setting with soaring ceilings and elegant design for weddings, galas, and large-scale gatherings",
+            link: "/venues#grand-ballroom"
         },
         {
-            name: "Garden Terrace",
+            name: "Lakeview Terrace",
             capacity: "Up to 200 guests",
-            image: "https://images.unsplash.com/photo-1549451378-6e2e2c1c3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Open-air venue with lush surroundings"
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg",
+            description: "Open-air space with serene lake views, perfect for cocktail hours and social gatherings",
+            link: "/venues#lakeview-terrace"
         },
         {
-            name: "Water View Lounge",
-            capacity: "Up to 100 guests",
-            image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Intimate setting with panoramic water views"
+            name: "Kwanzan Hall",
+            capacity: "Up to 260 guests",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Kwaza%20hall.jpg",
+            description: "Polished private atmosphere with advanced AV capabilities for business meetings and intimate gatherings",
+            link: "/venues#kwanzan-hall"
         }
     ];
 
-    // Featured rooms
+    // Featured rooms - Updated with actual room data
     const featuredRooms = [
         {
-            name: "Deluxe Suite",
-            price: "$299/night",
-            image: "https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Spacious suite with premium amenities"
+            name: "King Room",
+            price: "Spacious & Comfortable",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-king-688be9.avif",
+            description: "Spacious room with one king bed, perfect for solo travelers or couples",
+            features: ["One King Bed", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"],
+            link: "/rooms"
         },
         {
-            name: "Executive Room",
-            price: "$199/night",
-            image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Comfortable elegance for business travelers"
+            name: "Double Queen Room",
+            price: "Ideal for Families",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-double-queen-e39b41.jpg",
+            description: "Comfortable room with two queen beds, ideal for families or groups",
+            features: ["Two Queen Beds", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"],
+            link: "/rooms"
         },
         {
-            name: "Presidential Suite",
-            price: "$599/night",
-            image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            description: "Ultimate luxury with exclusive access"
+            name: "King Suite",
+            price: "Luxurious Experience",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
+            description: "Luxurious suite with separate living area and premium amenities",
+            features: ["Separate Living Area", "One King Bed", "Microwave", "Mini Refrigerator", "Premium Bath Amenities"],
+            link: "/rooms"
         }
     ];
 
@@ -433,7 +442,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            {/* Featured Event Venues */}
+            {/* Featured Event Venues - Updated with actual venue data */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Featured Event Venues</h2>
@@ -452,7 +461,7 @@ const Homepage = () => {
                                     <h3 className="text-xl font-semibold mb-2">{venue.name}</h3>
                                     <p className="text-gold mb-2 font-medium">{venue.capacity}</p>
                                     <p className="text-gray-600 mb-4">{venue.description}</p>
-                                    <Link href="/venues" className="text-gold font-medium hover:text-gold-dark transition-colors duration-300 flex items-center">
+                                    <Link href={venue.link} className="text-gold font-medium hover:text-gold-dark transition-colors duration-300 flex items-center">
                                         View Details
                                         <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -470,7 +479,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            {/* Rooms & Suites Preview */}
+            {/* Rooms & Suites Preview - Updated with actual room data */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Luxury Accommodations</h2>
@@ -489,9 +498,23 @@ const Homepage = () => {
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-semibold mb-2">{room.name}</h3>
-                                    <p className="text-gray-600 mb-4">{room.description}</p>
-                                    <Link href="/rooms" className="text-gold font-medium hover:text-gold-dark transition-colors duration-300 flex items-center">
-                                        View Details
+                                    <p className="text-gray-600 mb-4 text-sm">{room.description}</p>
+                                    <div className="mb-4">
+                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Key Features:</h4>
+                                        <ul className="space-y-1">
+                                            {room.features.slice(0, 3).map((feature, i) => (
+                                                <li key={i} className="flex items-center text-xs text-gray-600">
+                                                    <span className="text-gold mr-2">•</span>
+                                                    {feature}
+                                                </li>
+                                            ))}
+                                            {room.features.length > 3 && (
+                                                <li className="text-xs text-gray-500">+{room.features.length - 3} more features</li>
+                                            )}
+                                        </ul>
+                                    </div>
+                                    <Link href={room.link} className="text-gold font-medium hover:text-gold-dark transition-colors duration-300 flex items-center">
+                                        View Details & Book
                                         <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>

@@ -34,17 +34,17 @@ const SOCIAL_LINKS = [
 ];
 
 const menuItems = [
-  { label: "Home", href: "/" },
+  // { label: "Home", href: "/" },
   { label: "Weddings", href: "/weddings" },
   // { label: "Corporate Events", href: "/corporate" },
-  { label: "Event Venues", href: "/venues" },
+  { label: "Exceptional Experience", href: "/venues" },
   // { label: "Event Services", href: "/services" },
 
   // Second line items
   { label: "Rooms & Suites", href: "/rooms-suites" },
   { label: "Dining", href: "/dining" },
-  // { label: "Gallery", href: "/gallery" },
-  // { label: "About Us", href: "/about" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "About Us", href: "/about" },
 ];
 
 const Navbar = () => {
@@ -126,7 +126,7 @@ const Navbar = () => {
               </div>
 
               {/* Second line */}
-              <div className="flex flex-wrap items-center justify-center space-x-3">
+              {/* <div className="flex flex-wrap items-center justify-center space-x-3">
                 {menuItems.slice(4).map((item, index) => (
                   <Link
                     key={index + 4}
@@ -137,7 +137,7 @@ const Navbar = () => {
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
 
