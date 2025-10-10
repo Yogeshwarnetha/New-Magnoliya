@@ -150,13 +150,13 @@ const EventVenue = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        
+
         // Simulate form submission
         await new Promise(resolve => setTimeout(resolve, 2000));
-        
+
         setIsSubmitting(false);
         setSubmitSuccess(true);
-        
+
         // Reset form after success
         setTimeout(() => {
             setFormData({
@@ -476,7 +476,7 @@ const EventVenue = () => {
                 </div>
             </section>
 
-           
+
 
             {/* Venues Section */}
             <section className="py-12 bg-gray-50">
@@ -625,7 +625,7 @@ const EventVenue = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-white p-6 rounded-lg shadow-md">
+                            {/* <div className="bg-white p-6 rounded-lg shadow-md">
                                 <h4 className="text-lg font-semibold text-gray-800 mb-4">Planning Guidance</h4>
                                 <ul className="space-y-2 text-gray-700">
                                     <li className="flex items-start">
@@ -641,7 +641,7 @@ const EventVenue = () => {
                                         <span>Our event planners can help optimize your layout</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -688,7 +688,7 @@ const EventVenue = () => {
                 </div>
             </section>
 
-             <PanoramicViewer 
+            <PanoramicViewer
                 src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/IMG_20250711_165221_00_004.jpg"
                 alt="Magnoliya venue panoramic view"
             />

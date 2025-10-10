@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { usePathname } from 'next/navigation';
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import {
   FaFacebookF,
   FaInstagram,
@@ -40,7 +40,7 @@ const menuItems = [
   { label: "Home", href: "/" },
   { label: "Weddings", href: "/weddings" },
   // { label: "Corporate Events", href: "/corporate" },
-  { label: "Exceptional Experience", href: "/venues" },
+  { label: "Event Venues", href: "/venues" },
   // { label: "Event Services", href: "/services" },
 
   // Second line items
@@ -67,7 +67,7 @@ const Navbar = () => {
     <>
       {/* Topbar (desktop only) */}
       {!scrolled && (
-        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-between z-40">
+        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-around z-40">
           <div className="flex items-center space-x-6 text-sm">
             <span className="flex items-center gap-2">
               <FaPhoneIcon className="text-amber-400" size={12} />
