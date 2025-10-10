@@ -32,7 +32,7 @@ export default function RootLayoutServer({ children }: { children: React.ReactNo
         />
       </head>
       <body
-        className={font.className}
+        className={`${font.className} content-transparent`}
       >
 
         <noscript>

@@ -276,7 +276,7 @@ const Homepage = () => {
                 {/* Hero Content */}
                 <div className="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-4">
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-                        Luxury Stays. Memorable Events.
+                        Memorable Events, Luxury Stays
                     </h1>
                     <p className="text-2xl md:text-4xl mb-10 animate-fade-in animation-delay-300">
                         Exceptional Experiences.
@@ -471,7 +471,10 @@ const Homepage = () => {
                             </div>
                         ))}
                     </div>
-                    <div className="text-center mt-12">
+                    <div className="text-center mt-12 gap-4 flex justify-center space-x-4">
+                        <Link href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="blank" className="btn-primary">
+                            Booking Request
+                        </Link>
                         <Link href="/venues" className="btn-primary">
                             Explore All Venues
                         </Link>
