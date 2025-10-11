@@ -38,9 +38,9 @@ const SOCIAL_LINKS = [
 
 const menuItems = [
   { label: "Home", href: "/" },
+  { label: "Event Venues", href: "/venues" },
   { label: "Weddings", href: "/weddings" },
   // { label: "Corporate Events", href: "/corporate" },
-  { label: "Event Venues", href: "/venues" },
   // { label: "Event Services", href: "/services" },
 
   // Second line items
