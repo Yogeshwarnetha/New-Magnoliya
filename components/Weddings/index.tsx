@@ -19,8 +19,6 @@ const Weddings = () => {
             name: 'Ceremonies',
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%202.jpg",
-                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%203.jpg",
-                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%204.jpg"
             ]
         },
         {
@@ -37,7 +35,6 @@ const Weddings = () => {
             name: 'Wedding Details',
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%207.jpg",
-                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%208.jpg",
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%209.jpg"
             ]
         }
@@ -84,6 +81,8 @@ const Weddings = () => {
         }
     ];
 
+    const bookingLink = "https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062";
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
@@ -98,19 +97,149 @@ const Weddings = () => {
                     <div className="px-4">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">Weddings</h1>
                         <p className="text-lg md:text-xl max-w-2xl mx-auto">
-                            From intimate ceremonies to grand celebrations
+                            Your Forever Starts Here at Magnoliya Grand Manor
                         </p>
                     </div>
                 </div>
             </section>
 
-            {/* Wedding Offerings */}
-            <section className="py-16 bg-white">
+            {/* Venue Spaces with Images - Directly after hero */}
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4">
-                    {/* Heading */}
+                    {/* Main Heading */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">
+                            Your Forever Starts Here
+                        </h2>
+                        <div className="w-48 h-1 bg-gold mx-auto"></div>
+                        <p className="text-xl text-gray-600 mt-6 max-w-7xl mx-auto">
+                            At Magnoliya Grand Manor, weddings unfold with timeless elegance and romantic grandeur.
+Surrounded by breathtaking landscapes, every detail is artfully curated to reflect your unique
+love story. With moments imbued with elegance and grace, your wedding becomes an intimate
+and unforgettable experience.
+                        </p>
+                        <p className="text-xl text-gray-600 mt-6 max-w-7xl mx-auto">
+                            From the heartfelt vows and graceful toasts of an American wedding, where love is celebrated
+beneath soft light and classic charm, to the vivid splendor of an Indian wedding, alive with the
+colors of Mehendi, the joy of Haldi, and the rhythm of Sangeet, Magnoliya Grand Manor
+transforms every tradition from diverse cultures into a masterpiece of celebration. Each
+event—whether a serene exchange of vows or a dance beneath a thousand lights—is woven
+together with elegance, warmth, and the promise of forever.
+                        </p>
+                    </div>
 
+                    <div className="space-y-16">
+                        {/* Magnoliya Grand Ballroom */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                            <div className="relative rounded-2xl overflow-hidden h-96 order-2 lg:order-1">
+                                <img
+                                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg"
+                                    alt="Magnoliya Grand Ballroom"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            </div>
+                            <div className="order-1 lg:order-2 lg:pr-8">
+                                <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-4">
+                                    Magnoliya Grand Ballroom
+                                </h3>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-4">
+                                    The Ballroom offers an enchanting setting for unforgettable weddings. With soaring ceilings,
+                                    radiant chandeliers, and sweeping views, it exudes timeless elegance and romance.
+                                </p>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-4">
+                                    The graceful ambiance and grandeur of this exquisite space transform every celebration into a truly
+                                    extraordinary experience. From the first toast to the final dance, your wedding unfolds in
+                                    unmatched sophistication.
+                                </p>
+                                <p className="text-gold font-semibold mb-6">
+                                    For more intimate gatherings, the Yoshino, Denali, and Kwanzan ballrooms provide the perfect blend of style and intimacy.
+                                </p>
+                                <a
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+                                >
+                                    Book This Venue
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Lakeview Garden */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                            <div className="lg:pl-8">
+                                <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-4">
+                                    Lakeview Garden
+                                </h3>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-4">
+                                    The Garden offers a serene setting where love blossoms beneath open skies. Surrounded by lush
+                                    greenery and views of the shimmering water stream.
+                                </p>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                                    Ideal for outdoor ceremonies, it provides a naturally elegant atmosphere where every moment feels intimate and timeless. This serene space is perfect for couples seeking a classic garden wedding with effortless charm.
+                                </p>
+                                <a
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+                                >
+                                    Book This Venue
+                                </a>
+                            </div>
+                            <div className="relative rounded-2xl overflow-hidden h-96">
+                                <img
+                                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/34993d40-e8ac-4adf-ad13-167ddaa25e9b.jpeg"
+                                    alt="Lakeview Garden"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            </div>
+                        </div>
+
+                        {/* Lakeview Terrace */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                            <div className="relative rounded-2xl overflow-hidden h-96 order-2 lg:order-1">
+                                <img
+                                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg"
+                                    alt="Lakeview Terrace"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                            </div>
+                            <div className="order-1 lg:order-2 lg:pr-8">
+                                <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-4">
+                                    Lakeview Terrace
+                                </h3>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-4">
+                                    Our Terrace provides a stylish open-air venue overlooking the lake and beautifully landscaped
+                                    grounds.
+                                </p>
+                                <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                                    Perfect for cocktail receptions, rehearsal dinners, or smaller ceremonies, it combines
+                                    scenic views with modern sophistication. As day turns to evening, the Terrace creates a relaxed
+                                    yet refined ambiance for celebrating with family and friends.
+                                </p>
+                                <a
+                                    href={bookingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+                                >
+                                    Book This Venue
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Wedding Offerings */}
+            <section className="py-16 bg-gray-50">
+                <div className="container mx-auto px-4">
                     {/* Intro Block */}
-                    <div className="max-w-4xl mx-auto bg-gray-50 rounded-2xl p-8 mb-12">
+                    <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 mb-12">
                         <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
                             Weddings at Our Venue
                         </h3>
@@ -125,8 +254,6 @@ const Weddings = () => {
                             your vision to life with grace, style, and a sense of occasion.
                         </p>
                     </div>
-
-
 
                     {/* Packages */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -153,12 +280,14 @@ const Weddings = () => {
                                             </li>
                                         ))}
                                     </ul>
-                                    <Link
-                                        href="/contact"
+                                    <a
+                                        href={bookingLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="block w-full bg-gold hover:bg-gold-dark text-white text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
                                     >
                                         Customize This Package
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         ))}
@@ -170,11 +299,15 @@ const Weddings = () => {
                             All packages can be customized to fit your specific needs and
                             vision.
                         </p>
-                        <Link href="/contact" className="btn-primary">
+                        <a
+                            href={bookingLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+                        >
                             Talk to a Wedding Planner
-                        </Link>
+                        </a>
                     </div>
-
 
                     <div className="text-center my-12">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">
@@ -186,7 +319,7 @@ const Weddings = () => {
                         </p>
                     </div>
 
-                    {/* NEW CEREMONIES CARDS */}
+                    {/* Wedding Ceremonies Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                         {/* Bridal Showers & Engagement Parties */}
                         <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
@@ -242,12 +375,47 @@ const Weddings = () => {
                                 style.
                             </p>
                         </div>
-
-
                     </div>
-
                 </div>
             </section>
+
+            {/* 360° Tours Section */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
+
+                    <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Explore our spaces with interactive 360° tours. Use touch or mouse to look around, and open fullscreen from the tour controls.</p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+                            <div className="w-full aspect-[16/9] bg-black">
+                                <iframe
+                                    title="360 Tour Collection 7J4X8"
+                                    src="https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    className="w-full h-full border-0"
+                                />
+                            </div>
+                            
+                        </div>
+
+                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+                            <div className="w-full aspect-[16/9] bg-black">
+                                <iframe
+                                    title="360 Tour Collection 7J4Ft"
+                                    src="https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    className="w-full h-full border-0"
+                                />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Gallery Section */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
@@ -257,33 +425,6 @@ const Weddings = () => {
                             Browse through our collection of beautiful wedding moments
                         </p>
                     </div>
-
-                    {/* Gallery Filter (COMMENTED OUT: All Photos, Ceremonies, Receptions, Wedding Details) */}
-                    {/*
-                    <div className="flex flex-wrap justify-center gap-4 mb-8">
-                        <button
-                            onClick={() => setActiveGallery('all')}
-                            className={`px-6 py-2 rounded-full font-medium transition-colors duration-300 ${activeGallery === 'all'
-                                ? 'bg-gold text-white'
-                                : 'bg-white text-gray-700 hover:bg-gray-100'
-                                }`}
-                        >
-                            All Photos
-                        </button>
-                        {weddingGalleries.map((gallery) => (
-                            <button
-                                key={gallery.id}
-                                onClick={() => setActiveGallery(gallery.id)}
-                                className={`px-6 py-2 rounded-full font-medium transition-colors duration-300 ${activeGallery === gallery.id
-                                    ? 'bg-gold text-white'
-                                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                                    }`}
-                            >
-                                {gallery.name}
-                            </button>
-                        ))}
-                    </div>
-                    */}
 
                     {/* Gallery Images */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
@@ -336,49 +477,6 @@ const Weddings = () => {
                 </div>
             </section>
 
-            {/* Planning Process */}
-            {/* <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">Our Wedding Planning Process</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            We guide you through every step to create your perfect day
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-white text-2xl font-bold">1</span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Initial Consultation</h3>
-                            <p className="text-gray-600">We discuss your vision, preferences, and requirements for your special day.</p>
-                        </div>
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-white text-2xl font-bold">2</span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Venue Selection</h3>
-                            <p className="text-gray-600">Choose the perfect space that matches your style and guest count.</p>
-                        </div>
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-white text-2xl font-bold">3</span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Planning & Coordination</h3>
-                            <p className="text-gray-600">Our team handles all details from décor to timeline management.</p>
-                        </div>
-                        <div className="text-center">
-                            <div className="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span className="text-white text-2xl font-bold">4</span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">The Big Day</h3>
-                            <p className="text-gray-600">We execute your vision flawlessly so you can enjoy every moment.</p>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
                 <div className="container mx-auto px-4 text-center">
@@ -387,12 +485,22 @@ const Weddings = () => {
                         Let us help you create the wedding of your dreams at Magnoliya Grand
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/contact" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
+                        <a
+                            href={bookingLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl"
+                        >
                             Schedule a Tour
-                        </Link>
-                        <Link href="/booking" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
+                        </a>
+                        <a
+                            href={bookingLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white"
+                        >
                             Request Pricing
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </section>

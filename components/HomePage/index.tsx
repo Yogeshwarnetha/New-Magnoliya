@@ -605,6 +605,43 @@ const Homepage = () => {
                 </div>
             </section>
 
+             {/* 360° Tours Section */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
+
+                    <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Explore our spaces with interactive 360° tours. Use touch or mouse to look around, and open fullscreen from the tour controls.</p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+                            <div className="w-full aspect-[16/9] bg-black">
+                                <iframe
+                                    title="360 Tour Collection 7J4X8"
+                                    src="https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    className="w-full h-full border-0"
+                                />
+                            </div>
+                            
+                        </div>
+
+                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+                            <div className="w-full aspect-[16/9] bg-black">
+                                <iframe
+                                    title="360 Tour Collection 7J4Ft"
+                                    src="https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    className="w-full h-full border-0"
+                                />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Gallery Preview */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
