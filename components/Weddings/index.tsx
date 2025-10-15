@@ -19,8 +19,8 @@ const Weddings = () => {
             name: 'Ceremonies',
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%202.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%203.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%204.jpg"
+                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%203.jpg",
+                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%204.jpg"
             ]
         },
         {
@@ -37,7 +37,7 @@ const Weddings = () => {
             name: 'Wedding Details',
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%207.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%208.jpg",
+                // "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%208.jpg",
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%209.jpg"
             ]
         }
@@ -256,7 +256,8 @@ const Weddings = () => {
                         </p>
                     </div>
 
-                    {/* Gallery Filter */}
+                    {/* Gallery Filter (COMMENTED OUT: All Photos, Ceremonies, Receptions, Wedding Details) */}
+                    {/*
                     <div className="flex flex-wrap justify-center gap-4 mb-8">
                         <button
                             onClick={() => setActiveGallery('all')}
@@ -280,6 +281,7 @@ const Weddings = () => {
                             </button>
                         ))}
                     </div>
+                    */}
 
                     {/* Gallery Images */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
