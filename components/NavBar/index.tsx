@@ -21,8 +21,10 @@ const FaBarsIcon = FaBars as React.ElementType;
 const IoCloseIcon = IoClose as React.ElementType;
 
 const CONTACT_INFO = {
-  phone: "+1 234 567 890",
-  email: "info@magnoliya.com",
+  phone1: "+1 (703) 843-5536",
+  phone2: "+1 (703) 844-35649",
+
+  email: "sales@magnoliyagrand.com",
 };
 
 const SOCIAL_LINKS = [
@@ -35,10 +37,10 @@ const SOCIAL_LINKS = [
 ];
 
 const menuItems = [
-  // { label: "Home", href: "/" },
+  { label: "Home", href: "/" },
+  { label: "Event Venues", href: "/venues" },
   { label: "Weddings", href: "/weddings" },
   // { label: "Corporate Events", href: "/corporate" },
-  { label: "Exceptional Experience", href: "/venues" },
   // { label: "Event Services", href: "/services" },
 
   // Second line items
@@ -69,7 +71,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-6 text-sm">
             <span className="flex items-center gap-2">
               <FaPhoneIcon className="text-amber-400" size={12} />
-              {CONTACT_INFO.phone}
+              {CONTACT_INFO.phone1} | {CONTACT_INFO.phone2}
             </span>
             <span className="flex items-center gap-2">
               <FaEnvelopeIcon className="text-amber-400" size={12} />
@@ -116,15 +118,17 @@ const Navbar = () => {
               {/* First line */}
               <div className="flex flex-wrap items-center justify-center space-x-3">
                 {menuItems.slice(0, 6).map((item, index) => {
-                  const isActive = item.href === '/' ? pathname === '/' : pathname?.startsWith(item.href || '');
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+                  const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
                   return (
                     <Link
                       key={index}
                       href={item.href}
-                      className={`nav-link ${isActive ? 'text-[#AD7906]' : (scrolled ? 'text-gray-900' : 'text-white')} transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
+                      className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
+                      aria-current={isActive ? 'page' : undefined}
                     >
                       {item.label}
-                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${isActive ? 'bg-[#AD7906]' : 'bg-amber-400'} transition-all duration-300 group-hover:w-full ${isActive ? 'w-full' : ''}`}></span>
+                      <span className={`${isActive ? 'w-full' : 'w-0 group-hover:w-full'} absolute bottom-0 left-0 h-0.5 bg-amber-400 transition-all duration-300`}></span>
                     </Link>
                   );
                 })}
@@ -148,9 +152,11 @@ const Navbar = () => {
 
           {/* Booking Button - Right side */}
           <div className="hidden lg:flex">
-            <button className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-              Booking Request
-            </button>
+            <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="blank">
+              <button className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                Booking Request
+              </button>
+            </a>
           </div>
 
           {/* Hamburger menu for mobile */}
@@ -203,13 +209,14 @@ const Navbar = () => {
           {/* Menu items */}
           <div className="flex flex-col space-y-6">
             {menuItems.map((item, index) => {
-              const isActive = item.href === '/' ? pathname === '/' : pathname?.startsWith(item.href || '');
+              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
               return (
                 <Link
                   key={index}
                   href={item.href}
-                  className={`${isActive ? 'text-[#AD7906] font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
+                  className={`${isActive ? 'text-amber-400 border-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
                   onClick={() => setIsOpen(false)}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {item.label}
                 </Link>
@@ -229,7 +236,7 @@ const Navbar = () => {
             <div className="flex flex-col space-y-4 text-gray-900">
               <span className="flex items-center gap-3">
                 <FaPhoneIcon className="text-amber-400" />
-                {CONTACT_INFO.phone}
+                {CONTACT_INFO.phone1} | {CONTACT_INFO.phone2}
               </span>
               <span className="flex items-center gap-3">
                 <FaEnvelopeIcon className="text-amber-400" />

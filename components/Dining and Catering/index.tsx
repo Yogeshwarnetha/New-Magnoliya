@@ -59,7 +59,141 @@ function MenuPopupModal({ isOpen, onClose, menuData }: { isOpen: boolean; onClos
     );
 }
 
-function GalleryCarousel({ images, itemsPerView = 3 }: GalleryCarouselProps) {
+// Single Item Carousel with Continuous Loop
+function SingleItemCarousel({ images }: { images: CateringOption[] }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(true);
+
+    // Create extended array for seamless looping
+    const extendedImages = [...images, images[0]];
+
+    // Auto-scroll effect for continuous loop
+    useEffect(() => {
+        const interval = setInterval(() => {
+            handleNext();
+        }, 4000); // 4 seconds between slides
+
+        return () => clearInterval(interval);
+    }, [currentIndex]);
+
+    const handleNext = () => {
+        setIsTransitioning(true);
+        setCurrentIndex((prev) => {
+            if (prev === images.length - 1) {
+                // When we reach the last real image, we'll jump to the duplicate first image
+                return prev + 1;
+            } else if (prev === images.length) {
+                // Reset to first image without animation, then enable animation
+                setTimeout(() => {
+                    setCurrentIndex(0);
+                    setIsTransitioning(true);
+                }, 50);
+                return prev;
+            }
+            return prev + 1;
+        });
+    };
+
+    const handlePrev = () => {
+        setIsTransitioning(true);
+        setCurrentIndex((prev) => {
+            if (prev === 0) {
+                // Jump to the duplicate last image at the end
+                return images.length - 1;
+            }
+            return prev - 1;
+        });
+    };
+
+    const goToSlide = (index: number) => {
+        setIsTransitioning(true);
+        setCurrentIndex(index);
+    };
+
+    // Calculate the actual display index (for indicators)
+    const displayIndex = currentIndex >= images.length ? 0 : currentIndex;
+
+    return (
+        <div className="flex flex-col items-center w-full max-w-4xl mx-auto">
+            <div className="relative w-full overflow-hidden rounded-xl">
+                {/* Main Carousel Container */}
+                <div
+                    className={`flex transition-transform duration-500 ease-in-out ${isTransitioning ? '' : 'transition-none'
+                        }`}
+                    style={{
+                        transform: `translateX(-${currentIndex * 100}%)`,
+                    }}
+                >
+                    {extendedImages.map((item, index) => (
+                        <div
+                            key={index}
+                            className="w-full flex-shrink-0"
+                        >
+                            <div className="relative h-80 md:h-96 rounded-xl overflow-hidden mx-2">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end">
+                                    <div className="p-6 text-white">
+                                        <h3 className="text-2xl font-serif font-bold mb-2">{item.title}</h3>
+                                        <p className="text-lg opacity-90">{item.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Navigation Arrows */}
+                <button
+                    onClick={handlePrev}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300"
+                    aria-label="Previous slide"
+                >
+                    &lt;
+                </button>
+                <button
+                    onClick={handleNext}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300"
+                    aria-label="Next slide"
+                >
+                    &gt;
+                </button>
+            </div>
+
+            {/* Carousel Indicators */}
+            <div className="flex gap-3 mt-6">
+                {images.map((_, idx) => (
+                    <button
+                        key={idx}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === displayIndex
+                            ? 'bg-gold scale-125'
+                            : 'bg-gray-300 hover:bg-gray-400'
+                            }`}
+                        onClick={() => goToSlide(idx)}
+                        aria-label={`Go to slide ${idx + 1}`}
+                    />
+                ))}
+            </div>
+
+            {/* Slide Counter */}
+            <div className="mt-4 text-gray-600 text-sm">
+                {displayIndex + 1} / {images.length}
+            </div>
+        </div>
+    );
+}
+
+// Updated GalleryCarousel to use single item view
+function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
+    // For single item view, use the new SingleItemCarousel
+    if (itemsPerView === 1) {
+        return <SingleItemCarousel images={images} />;
+    }
+
+    // Keep the original multi-item carousel for other cases
     const [startIdx, setStartIdx] = useState(0);
     const [modalOpen, setModalOpen] = useState(false);
     const [activeIdx, setActiveIdx] = useState(0);
@@ -130,7 +264,7 @@ function GalleryCarousel({ images, itemsPerView = 3 }: GalleryCarouselProps) {
                     </>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className={`grid gap-4 ${itemsPerView === 3 ? 'grid-cols-1 md:grid-cols-3' : itemsPerView === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
                     {visibleImages.map((img, idx) => (
                         <div
                             key={startIdx + idx}
@@ -250,7 +384,7 @@ const Dining = () => {
             description: "Enjoy a midday break with our carefully crafted lunch menu featuring fresh salads, gourmet sandwiches, daily specials, and light entrees. Perfect for business lunches or casual dining, our lunch offerings combine quality ingredients with creative preparations.",
             images: [
                 "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                "https://images.unsplash.com/phone-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
             ]
         },
         dinner: {
@@ -353,19 +487,16 @@ const Dining = () => {
                 menuData={currentMenu}
             />
 
-
-
-
             <section className="relative h-[32rem] overflow-hidden">
                 <img
-                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Dinning.jpg"
+                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg"
                     alt="Event Venue"
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                     <div className="px-4">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Dining & Catering</h1>
+                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages.</h1>
                         <p className="text-xl md:text-2xl max-w-2xl mx-auto">
                             Exceptional culinary experiences crafted by our award-winning chefs
                         </p>
@@ -422,7 +553,7 @@ const Dining = () => {
                 </div>
             </section>
 
-            {/* Indoor and Outdoor Catering Gallery Carousel */}
+            {/* Indoor and Outdoor Catering Gallery Carousel - Now with Single Item */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
@@ -431,7 +562,8 @@ const Dining = () => {
                             We provide an array of unique settings for both indoor and outdoor dining. Imagine hosting an elegant plated dinner in one of our ballrooms, a romantic sunset reception on the waterfront terrace, or—coming soon—a truly unforgettable gathering in our beautifully designed garden. Whatever the occasion, we'll work with you to create the perfect atmosphere.
                         </p>
                     </div>
-                    <GalleryCarousel images={cateringOptions} itemsPerView={3} />
+                    {/* Use single item carousel for better mobile experience */}
+                    <GalleryCarousel images={cateringOptions} itemsPerView={1} />
                 </div>
             </section>
 

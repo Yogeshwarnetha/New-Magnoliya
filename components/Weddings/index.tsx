@@ -108,7 +108,7 @@ const Weddings = () => {
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     {/* Heading */}
-                    
+
                     {/* Intro Block */}
                     <div className="max-w-4xl mx-auto bg-gray-50 rounded-2xl p-8 mb-12">
                         <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
@@ -188,6 +188,19 @@ const Weddings = () => {
 
                     {/* NEW CEREMONIES CARDS */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                        {/* Bridal Showers & Engagement Parties */}
+                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
+                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
+                                <FiGift />
+                            </div>
+                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
+                                Bridal Showers & Engagements
+                            </h4>
+                            <p className="text-gray-600 text-base">
+                                Celebrate milestones along your journey with elegance and joy.
+                            </p>
+                        </div>
+
                         {/* Ceremonies */}
                         <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
                             <div className="flex items-center justify-center mb-4 text-gold text-5xl">
@@ -230,18 +243,7 @@ const Weddings = () => {
                             </p>
                         </div>
 
-                        {/* Bridal Showers & Engagement Parties */}
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
-                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
-                                <FiGift />
-                            </div>
-                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
-                                Bridal Showers & Engagements
-                            </h4>
-                            <p className="text-gray-600 text-base">
-                                Celebrate milestones along your journey with elegance and joy.
-                            </p>
-                        </div>
+
                     </div>
 
                 </div>
