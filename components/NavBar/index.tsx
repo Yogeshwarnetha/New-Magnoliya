@@ -180,7 +180,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Sidebar (full screen) */}
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:hidden`}
+        className={`fixed top-0 left-0 h-full w-full ${scrolled ? 'bg-white text-gray-900' : 'bg-gray-900 text-white'} shadow-lg transform transition-transform duration-500 ease-in-out z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:hidden`}
       >
         <div className="flex flex-col h-full pt-20 px-8 overflow-y-auto relative">
           {/* Close button */}
@@ -196,7 +196,7 @@ const Navbar = () => {
           <div className="flex justify-center mb-10">
             <Link
               href="/"
-              className="text-2xl font-bold text-white font-cormorant flex items-center"
+              className={`text-2xl font-bold ${scrolled ? 'text-gray-900' : 'text-white'} font-cormorant flex items-center`}
             >
               <img
                 src="https://res.cloudinary.com/dwd2dks0h/image/upload/v1757458532/magnoliya-logo1_ljqkso.png"
@@ -233,7 +233,7 @@ const Navbar = () => {
 
           {/* Contact info (mobile) */}
           <div className="mt-6 pt-6 border-t border-gray-700">
-            <div className="flex flex-col space-y-4 text-gray-900">
+            <div className={`flex flex-col space-y-4 ${scrolled ? 'text-gray-900' : 'text-white'}`}>
               <span className="flex items-center gap-3">
                 <FaPhoneIcon className="text-amber-400" />
                 {CONTACT_INFO.phone1} | {CONTACT_INFO.phone2}
@@ -251,7 +251,7 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className={`${scrolled ? 'text-gray-900 hover:text-amber-400' : 'text-white hover:text-amber-400'} transition-colors duration-300 p-2 rounded-full bg-gray-800 hover:bg-gray-700`}
+                className={`${scrolled ? 'text-gray-900 hover:text-amber-400 bg-gray-200 hover:bg-gray-100' : 'text-white hover:text-amber-400 bg-gray-800 hover:bg-gray-700'} transition-colors duration-300 p-2 rounded-full`}
                 aria-label={item.name}
               >
                 <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
