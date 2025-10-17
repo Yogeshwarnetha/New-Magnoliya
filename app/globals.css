@@ -10,6 +10,18 @@
   
   body {
     @apply font-montserrat;
+   /* Global page background: subtle gradient overlay with a tiled background image.
+     Place your tile image in `public/bg.jpg` (or update the path below).
+     The gradient is the first layer and covers the viewport; the second layer
+     is the tiled image. Adjust the tile size (150px) to make the image smaller/larger. */
+   min-height: 100vh;
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, cover;
+    background-position: center top, center top;
+    /* Keep the banner fixed to the viewport for a parallax-like effect; remove `fixed` if unwanted */
+    background-attachment: fixed, fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5 {

@@ -15,6 +15,9 @@ const Homepage = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const sectionRef = useRef(null);
 
+    // Background image URL
+    const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
     // Hero carousel images
     const heroSlides = [
         {
@@ -356,20 +359,35 @@ const Homepage = () => {
 
     return (
         <div className="relative">
-            {/* Hero Banner with Video */}
-            <div className="relative h-screen overflow-hidden">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute w-full h-full object-cover"
-                >
-                    <source src="https://res.cloudinary.com/dwd2dks0h/video/upload/v1759594855/Web_zsq9z3.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+            {/* Background image for content below the hero banner */}
+            <div
+                className="absolute left-0 right-0 z-0 homepage-bg-darken"
+                style={{
+                    top: '100vh',
+                    bottom: 0,
+                    backgroundImage: `url('${backgroundImage}')`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                }}
+            />
 
-                {/* Overlay */}
+            {/* Hero Banner with Video */}
+            <div className="relative h-screen overflow-hidden z-10">
+                <div className="absolute inset-0 homepage-video-overlay z-0">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="absolute w-full h-full object-cover"
+                    >
+                        <source src="https://res.cloudinary.com/dwd2dks0h/video/upload/v1759594855/Web_zsq9z3.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                {/* Vignette overlay to darken edges while keeping center bright */}
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
                 {/* Hero Content */}
@@ -393,10 +411,10 @@ const Homepage = () => {
             </div>
 
             {/* Redesigned Experience Luxury Section */}
-            <section className="py-20 bg-gray-50 relative overflow-hidden">
+            <section className="py-20 relative overflow-hidden z-10">
                 {/* Background decorative elements */}
-                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent z-10"></div>
-                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent z-10"></div>
+                {/* <div className="absolute top-0 left-0 w-full h-32 "></div>
+                <div className="absolute bottom-0 left-0 w-full h-32"></div> */}
 
                 <div className="container mx-auto px-4 relative z-20">
                     <div className="text-center mb-16">
@@ -407,6 +425,7 @@ const Homepage = () => {
                             Discover the exceptional services and amenities that define the Magnoliya Grand experience
                         </p>
                     </div>
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {navigationTiles.map((tile, index) => (
@@ -460,90 +479,91 @@ const Homepage = () => {
                     </div>
                 </div>
             </section>
+            
 
             {/* Redesigned The Magnoliya Grand Experience Section */}
-<section className="py-20 bg-gradient-to-br from-white via-gray-50 to-gold/5 relative overflow-hidden">
-    {/* Background decorative elements */}
-    <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-    <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+            <section className="py-20 relative overflow-hidden z-10">
+                {/* Background decorative elements */}
+                <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
-    <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-800 mb-4">
-                The <span className="text-gold font-medium">Magnoliya Grand</span> Experience
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Discover the exceptional amenities and services that set us apart as the premier destination for luxury stays and memorable events.
-            </p>
-        </div>
-
-        {/* Enhanced Highlights Grid without Icons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {highlights.map((highlight, index) => (
-                <div
-                    key={index}
-                    className="group relative bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-3"
-                >
-                    {/* Content Container */}
-                    <div className="p-8">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3 group-hover:text-gold-dark transition-colors duration-300">
-                            {highlight.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                            {highlight.description}
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-800 mb-4">
+                            The <span className="text-gold font-medium">Magnoliya Grand</span> Experience
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Discover the exceptional amenities and services that set us apart as the premier destination for luxury stays and memorable events.
                         </p>
-
-                        {/* Hover effect line */}
-                        <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-gold-light to-gold group-hover:w-full transition-all duration-700"></div>
                     </div>
 
-                    {/* Gold corner accent */}
-                    <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gold transform rotate-45 translate-x-8 -translate-y-8 group-hover:bg-gold-dark transition-colors duration-500"></div>
+                    {/* Enhanced Highlights Grid without Icons */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {highlights.map((highlight, index) => (
+                            <div
+                                key={index}
+                                className="group relative bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-3"
+                            >
+                                {/* Content Container */}
+                                <div className="p-8">
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-3 group-hover:text-gold-dark transition-colors duration-300">
+                                        {highlight.title}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                        {highlight.description}
+                                    </p>
+
+                                    {/* Hover effect line */}
+                                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-gold-light to-gold group-hover:w-full transition-all duration-700"></div>
+                                </div>
+
+                                {/* Gold corner accent */}
+                                <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-16 h-16 bg-gold transform rotate-45 translate-x-8 -translate-y-8 group-hover:bg-gold-dark transition-colors duration-500"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Stats Section */}
+                    <div className="mt-20 bg-white rounded-2xl shadow-lg p-8">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+                            
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">1,800</div>
+                                <div className="text-gray-600 font-medium">Guest Capacity</div>
+                                <div className="text-xs text-gray-500">Grand Ballroom</div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">98%</div>
+                                <div className="text-gray-600 font-medium">Guest Satisfaction</div>
+                                <div className="text-xs text-gray-500">Rating</div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">24/7</div>
+                                <div className="text-gray-600 font-medium">Concierge</div>
+                                <div className="text-xs text-gray-500">Service Available</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Additional CTA */}
+                    <div className="text-center mt-16">
+                        <Link
+                            href="/experiences"
+                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gold-light to-gold text-gray-900 font-semibold rounded-full transition-all duration-300 hover:shadow-2xl hover:from-gold hover:to-gold-dark hover:-translate-y-1 text-lg"
+                        >
+                            <span className="mr-3">Discover All Experiences</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </Link>
                     </div>
                 </div>
-            ))}
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-20 bg-white rounded-2xl shadow-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
-                
-                <div className="space-y-2">
-                    <div className="text-3xl md:text-4xl font-bold text-gold">1,800</div>
-                    <div className="text-gray-600 font-medium">Guest Capacity</div>
-                    <div className="text-xs text-gray-500">Grand Ballroom</div>
-                </div>
-                <div className="space-y-2">
-                    <div className="text-3xl md:text-4xl font-bold text-gold">98%</div>
-                    <div className="text-gray-600 font-medium">Guest Satisfaction</div>
-                    <div className="text-xs text-gray-500">Rating</div>
-                </div>
-                <div className="space-y-2">
-                    <div className="text-3xl md:text-4xl font-bold text-gold">24/7</div>
-                    <div className="text-gray-600 font-medium">Concierge</div>
-                    <div className="text-xs text-gray-500">Service Available</div>
-                </div>
-            </div>
-        </div>
-
-        {/* Additional CTA */}
-        <div className="text-center mt-16">
-            <Link
-                href="/experiences"
-                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gold-light to-gold text-gray-900 font-semibold rounded-full transition-all duration-300 hover:shadow-2xl hover:from-gold hover:to-gold-dark hover:-translate-y-1 text-lg"
-            >
-                <span className="mr-3">Discover All Experiences</span>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </Link>
-        </div>
-    </div>
-</section>
+            </section>
 
             {/* About Magnoliya Grand with Carousel */}
-            <section className="py-20 bg-white">
+            <section className="py-20 relative z-10">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div className="w-full lg:w-1/2">
@@ -628,7 +648,7 @@ const Homepage = () => {
             </section>
 
             {/* Featured Event Venues - Updated without dark overlay */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Featured Event Venues</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -668,7 +688,7 @@ const Homepage = () => {
             </section>
 
             {/* Rooms & Suites Preview */}
-            <section className="py-16 bg-white">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Luxury Accommodations</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -720,7 +740,7 @@ const Homepage = () => {
             </section>
 
             {/* Dining Experience */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div className="w-full lg:w-1/2">
@@ -757,7 +777,7 @@ const Homepage = () => {
             </section>
 
             {/* Testimonials */}
-            <section className="py-16 bg-white">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Guest Experiences</h2>
                     <div className="max-w-4xl mx-auto relative h-64">
@@ -791,7 +811,7 @@ const Homepage = () => {
             </section>
 
             {/* 360° Tours Section */}
-            <section className="py-16 bg-white">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
 
@@ -828,7 +848,7 @@ const Homepage = () => {
             </section>
 
             {/* Gallery Preview */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-16 relative z-10">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Gallery</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -860,7 +880,7 @@ const Homepage = () => {
             </section>
 
             {/* Call-to-Action Strip */}
-            <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
+            <section className="py-16 bg-gradient-to-r from-gold-light to-gold relative z-10">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-black mb-6">
                         Plan Your Dream Stay or Event Today
