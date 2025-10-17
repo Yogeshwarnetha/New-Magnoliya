@@ -11,8 +11,10 @@ type MenuPopup = {
 
 type CateringOption = {
     title: string;
-    description: string;
+    description?: string;
     image: string;
+    // optional per-image fit: 'contain' will use object-contain, otherwise object-cover
+    fit?: 'contain' | 'cover';
 };
 
 type GalleryCarouselProps = {
@@ -108,7 +110,7 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
     const displayIndex = currentIndex >= images.length ? 0 : currentIndex;
 
     return (
-        <div className="flex flex-col items-center w-full max-w-4xl mx-auto">
+        <div className="flex flex-col items-center w-full max-w-6xl mx-auto">
             <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl">
                 <div
                     className={`flex transition-transform duration-500 ease-in-out ${isTransitioning ? '' : 'transition-none'}`}
@@ -116,18 +118,13 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
                 >
                     {extendedImages.map((item, index) => (
                         <div key={index} className="w-full flex-shrink-0">
-                            <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden mx-2">
+                            <div className="relative h-96 md:h-[34rem] rounded-2xl overflow-hidden mx-2">
                                 <img
                                     src={item.image}
                                     alt={item.title}
-                                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                                    className={`w-full h-full ${item.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center transform hover:scale-105 transition-transform duration-700`}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex items-end">
-                                    <div className="p-8 text-white">
-                                        <h3 className="text-3xl font-serif font-bold mb-3">{item.title}</h3>
-                                        <p className="text-xl opacity-95 leading-relaxed">{item.description}</p>
-                                    </div>
-                                </div>
+                                {/* Removed title/description overlay per request - only image visible */}
                             </div>
                         </div>
                     ))}
@@ -136,19 +133,19 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
                 {/* Navigation Arrows */}
                 <button
                     onClick={handlePrev}
-                    className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/30 transition-all duration-300 shadow-lg"
+                    className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full hover:bg-transparent transition-all duration-300"
                     aria-label="Previous slide"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 <button
                     onClick={handleNext}
-                    className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/30 transition-all duration-300 shadow-lg"
+                    className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full hover:bg-transparent transition-all duration-300"
                     aria-label="Next slide"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
@@ -169,10 +166,7 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
                 ))}
             </div>
 
-            {/* Enhanced Slide Counter */}
-            <div className="mt-4 text-gray-600 text-lg font-semibold bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-                {displayIndex + 1} / {images.length}
-            </div>
+            {/* Slide counter removed as requested */}
         </div>
     );
 }
@@ -233,20 +227,20 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
                         <button
                             onClick={prevSlide}
                             disabled={startIdx === 0}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 backdrop-blur-sm text-gray-800 p-3 rounded-full disabled:opacity-30 shadow-lg hover:bg-white transition-all duration-300"
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full disabled:opacity-30 hover:bg-transparent transition-all duration-300"
                             aria-label="Previous slide"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button
                             onClick={nextSlide}
                             disabled={startIdx + itemsPerView >= images.length}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/80 backdrop-blur-sm text-gray-800 p-3 rounded-full disabled:opacity-30 shadow-lg hover:bg-white transition-all duration-300"
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full disabled:opacity-30 hover:bg-transparent transition-all duration-300"
                             aria-label="Next slide"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
@@ -257,20 +251,15 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
                     {visibleImages.map((img, idx) => (
                         <div
                             key={startIdx + idx}
-                            className="relative h-72 transition-all duration-300 cursor-pointer group"
+                            className="relative h-96 md:h-[28rem] transition-all duration-300 cursor-pointer group"
                             onClick={() => openModal(startIdx + idx)}
                         >
                             <img
                                 src={img.image}
                                 alt={img.title}
-                                className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500 shadow-lg"
+                                className={`w-full h-full ${img.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center rounded-2xl group-hover:scale-105 transition-transform duration-500 shadow-lg`}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                                <div className="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    <h3 className="text-xl font-semibold mb-2">{img.title}</h3>
-                                    <p className="text-sm opacity-90">{img.description}</p>
-                                </div>
-                            </div>
+                            {/* overlay intentionally left empty so titles/descriptions are not shown */}
                         </div>
                     ))}
                 </div>
@@ -305,10 +294,7 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
                             alt={images[activeIdx].title}
                             className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
                         />
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-2xl">
-                            <h3 className="text-2xl font-semibold text-white mb-2">{images[activeIdx].title}</h3>
-                            <p className="text-white/90">{images[activeIdx].description}</p>
-                        </div>
+                        {/* No title/description in modal - only image displayed */}
                     </div>
                 </div>
             )}
@@ -436,28 +422,35 @@ const Dining = () => {
     const cateringOptions = [
         {
             title: "Indoor Catering",
-            description: "Elegant plated dinners in our beautiful ballrooms with customizable menus and professional service.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat1.jpg"
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004474.jpg"
         },
         {
             title: "Outdoor Catering",
-            description: "Romantic sunset receptions on our waterfront terrace with scenic views and ambient lighting.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg"
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004481.jpg"
         },
         {
             title: "Garden Catering (Coming Soon)",
-            description: "Truly unforgettable gatherings in our beautifully designed garden with natural surroundings.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat2.jpg"
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000007750.jpg"
         },
         {
             title: "Corporate Events",
-            description: "Professional catering services for business meetings and corporate gatherings.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/R6II6815.jpg"
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000006379.jpg"
         },
         {
             title: "Wedding Receptions",
-            description: "Custom menus and impeccable service for your special day.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Cat3.jpg"
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000006571.jpg"
+        },
+        {
+            title: "Private Parties",
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000007748.jpg"
+        },
+        {
+            title: "Birthday Celebrations",
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000005033.jpg"
+        },
+        {
+            title: "Holiday Gatherings",
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/FoodBeveragesHeroBanner.jpg"
         }
     ];
 
@@ -579,6 +572,12 @@ const Dining = () => {
                             At Magnoliya Grand, we offer more than just dining—we create an experience to savor. Our restaurant transforms every meal into an immersive journey through taste and culture. Our vision is to unite the world's best flavors under one roof, crafted with passion and artistry. Whether it's the fragrant sizzle of Asian stir-fries, the rustic appeal of Italian classics, the smoky richness of American barbecue, the vibrant zest of Mexican street food, or the regal depth of Indian curries, our multi-cuisine concept showcases diversity at its finest. What makes Magnoliya Grand unique is the blend of tradition and innovation—every plate is a canvas where authenticity meets creative flair, providing an experience that delights both the palate and the imagination.
                         </p>
                     </div>
+
+                    <div className=''>
+
+                        <GalleryCarousel images={cateringOptions} itemsPerView={1} />
+                    </div>
+
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
                         <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
@@ -742,7 +741,7 @@ const Dining = () => {
             </section>
 
             {/* Enhanced Indoor and Outdoor Catering Section */}
-            <section className="py-20 bg-white">
+            {/* <section className="py-20 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Indoor and Outdoor Catering</h2>
@@ -752,7 +751,7 @@ const Dining = () => {
                     </div>
                     <GalleryCarousel images={cateringOptions} itemsPerView={1} />
                 </div>
-            </section>
+            </section> */}
 
             {/* Our Culinary Excellence Section */}
             <section className="py-20 bg-gray-50">
@@ -857,7 +856,7 @@ const Dining = () => {
             </section> */}
 
             {/* 360° Tours Section */}
-            <section className="py-16 bg-white">
+            {/* <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
 
@@ -891,10 +890,10 @@ const Dining = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Enhanced CTA Section */}
-            <section className="py-20 bg-gradient-to-br from-gold to-gold-dark">
+            {/* <section className="py-20 bg-gradient-to-br from-gold to-gold-dark">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-4xl md:text-5xl font-serif text-black mb-6">Reserve Your Table</h2>
                     <p className="text-xl text-black/90 mb-10 max-w-3xl mx-auto">
@@ -909,7 +908,7 @@ const Dining = () => {
                         </Link>
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 };

@@ -38,8 +38,7 @@ const EventVenue = () => {
             squareFeet: '14,500',
             theater: '1,800',
             banquet: '1,200',
-            classroom: '800',
-            reception: '1,000'
+
         },
         {
             id: 'front-pre-function',
@@ -49,8 +48,7 @@ const EventVenue = () => {
             squareFeet: '4,000',
             theater: '1,500',
             banquet: '1,200',
-            classroom: '600',
-            reception: '800'
+
         },
         {
             id: 'side-pre-function',
@@ -60,8 +58,7 @@ const EventVenue = () => {
             squareFeet: '2,500',
             theater: '1,500',
             banquet: '1,200',
-            classroom: '600',
-            reception: '800'
+
         },
         {
             id: 'back-pre-function',
@@ -71,8 +68,7 @@ const EventVenue = () => {
             squareFeet: '2,000',
             theater: '1,500',
             banquet: '1,200',
-            classroom: '500',
-            reception: '700'
+
         },
         {
             id: 'lakeview-terrace',
@@ -82,8 +78,7 @@ const EventVenue = () => {
             squareFeet: '1,800',
             theater: '200',
             banquet: '150',
-            classroom: '100',
-            reception: '180'
+
         },
         {
             id: 'kwanzan-hall',
@@ -93,8 +88,7 @@ const EventVenue = () => {
             squareFeet: '2,000',
             theater: '260',
             banquet: '180',
-            classroom: '120',
-            reception: '200'
+
         },
         {
             id: 'liberty-hall',
@@ -104,27 +98,24 @@ const EventVenue = () => {
             squareFeet: '1,800',
             theater: '220',
             banquet: '170',
-            classroom: '80',
-            reception: '150'
+
         },
         {
             id: 'lakeview-garden',
-            name: 'Lakeview Garden (Coming Soon)',
+            name: 'Lakeview Garden',
             description: 'Soon to be unveiled, our Lakeview Garden will offer a breathtaking outdoor setting designed with weddings and special celebrations in mind. Surrounded by natural beauty and framed by views of the water, this enchanting garden creates a storybook atmosphere for ceremonies, receptions, and open-air gatherings. With endless possibilities for décor and a serene backdrop that shifts beautifully from day to night, the Lakeview Garden will be the perfect place to say "I do" or host any unforgettable outdoor event.',
             image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/34993d40-e8ac-4adf-ad13-167ddaa25e9b.jpeg',
             squareFeet: '5,500',
             theater: '650',
             banquet: '500',
-            classroom: '800',
-            reception: '1,000'
+
         }
     ];
 
     const capacityTypes = [
         { id: 'theater', name: 'Theater Style' },
         { id: 'banquet', name: 'Banquet Style' },
-        { id: 'classroom', name: 'Classroom Style' },
-        { id: 'reception', name: 'Reception Style' }
+
     ];
 
     const eventTypes = [
@@ -563,8 +554,6 @@ const EventVenue = () => {
                                         <th className="p-4 text-center font-semibold text-lg">Square Feet</th>
                                         <th className="p-4 text-center font-semibold text-lg">Theater Style</th>
                                         <th className="p-4 text-center font-semibold text-lg">Banquet Style</th>
-                                        <th className="p-4 text-center font-semibold text-lg">Classroom Style</th>
-                                        <th className="p-4 text-center font-semibold text-lg">Reception Style</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -586,16 +575,7 @@ const EventVenue = () => {
                                                     {venue.banquet}
                                                 </span>
                                             </td>
-                                            <td className="p-4 text-center border-b border-gray-200">
-                                                <span className="bg-purple-100 text-purple-800 py-1 px-3 rounded-full text-sm font-medium">
-                                                    {venue.classroom}
-                                                </span>
-                                            </td>
-                                            <td className="p-4 text-center border-b border-gray-200">
-                                                <span className="bg-yellow-100 text-yellow-800 py-1 px-3 rounded-full text-sm font-medium">
-                                                    {venue.reception}
-                                                </span>
-                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
@@ -614,14 +594,7 @@ const EventVenue = () => {
                                         <div className="w-4 h-4 bg-green-500 rounded mr-3"></div>
                                         <span className="text-gray-700">Banquet Style: Round tables with seating</span>
                                     </div>
-                                    <div className="flex items-center">
-                                        <div className="w-4 h-4 bg-purple-500 rounded mr-3"></div>
-                                        <span className="text-gray-700">Classroom Style: Tables with chairs facing forward</span>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <div className="w-4 h-4 bg-yellow-500 rounded mr-3"></div>
-                                        <span className="text-gray-700">Reception Style: Standing cocktail format</span>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -647,7 +620,7 @@ const EventVenue = () => {
                 </div>
             </section>
 
-              {/* 360° Tours Section */}
+            {/* 360° Tours Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
@@ -665,7 +638,7 @@ const EventVenue = () => {
                                     className="w-full h-full border-0"
                                 />
                             </div>
-                            
+
                         </div>
 
                         <div className="w-full rounded-2xl overflow-hidden shadow-lg">
@@ -678,7 +651,7 @@ const EventVenue = () => {
                                     className="w-full h-full border-0"
                                 />
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -726,7 +699,7 @@ const EventVenue = () => {
             </section>
 
 
-          
+
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
