@@ -235,149 +235,179 @@ together with elegance, warmth, and the promise of forever.
                 </div>
             </section>
 
-            {/* Wedding Offerings */}
-            <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    {/* Intro Block */}
-                    <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 mb-12">
-                        <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
-                            Weddings at Our Venue
-                        </h3>
-                        <p className="text-lg text-gray-600 leading-relaxed text-center">
-                            Your wedding deserves a setting as unforgettable as the day itself.
-                            Our venue provides a canvas that adapts beautifully to any theme,
-                            from timeless elegance to modern luxury. Expansive spaces, filled
-                            with natural light and refined architectural details, offer the
-                            perfect backdrop for lavish décor, personalized touches, and moments
-                            of pure romance. Whether you envision a grand celebration or a more
-                            intimate affair, our halls and outdoor spaces allow you to bring
-                            your vision to life with grace, style, and a sense of occasion.
-                        </p>
-                    </div>
+          {/* Wedding Packages with Image Backgrounds */}
+<section className="py-16 bg-gray-50">
+    <div className="container mx-auto px-4">
+        {/* Intro Block */}
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 mb-12 shadow-lg">
+            <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6 text-center">
+                Weddings at Our Venue
+            </h3>
+            <p className="text-lg text-gray-600 leading-relaxed text-center">
+                Your wedding deserves a setting as unforgettable as the day itself.
+                Our venue provides a canvas that adapts beautifully to any theme,
+                from timeless elegance to modern luxury. Expansive spaces, filled
+                with natural light and refined architectural details, offer the
+                perfect backdrop for lavish décor, personalized touches, and moments
+                of pure romance. Whether you envision a grand celebration or a more
+                intimate affair, our halls and outdoor spaces allow you to bring
+                your vision to life with grace, style, and a sense of occasion.
+            </p>
+        </div>
 
-                    {/* Packages */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                        {weddingPackages.map((pkg, index) => (
-                            <div
-                                key={index}
-                                className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+        {/* Packages with Image Backgrounds - Only for the 3 main packages */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {weddingPackages.map((pkg, index) => {
+                // Different background images for each package
+                const packageImages = [
+                    "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/20250831_194427%20(1).jpg", // Intimate
+                    "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/20250920_182834.jpg", // Grand
+                    "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Wedding%205.jpg"  // Luxury
+                ];
+
+                return (
+                    <div
+                        key={index}
+                        className="group relative rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 min-h-[600px]"
+                    >
+                        {/* Background Image */}
+                        <div className="absolute inset-0">
+                            <img
+                                src={packageImages[index]}
+                                alt={pkg.name}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                            {/* Subtle dark overlay */}
+                            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="relative z-10 flex flex-col justify-between h-full p-8 text-white">
+                            {/* Top Content */}
+                            <div>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-serif font-bold mb-2">
+                                        {pkg.name}
+                                    </h3>
+                                    {/* <p className="text-3xl font-bold text-gold mb-2">{pkg.price}</p> */}
+                                    <p className="text-gold-light font-medium">{pkg.description}</p>
+                                </div>
+
+                                {/* Features List */}
+                                <ul className="space-y-3 mb-8">
+                                    {pkg.includes.map((item, i) => (
+                                        <li key={i} className="flex items-center">
+                                            <span className="text-gold mr-3 text-lg">✓</span>
+                                            <span className="text-white text-sm font-medium">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* CTA Button */}
+                            <a
+                                href={bookingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block w-full bg-gold hover:bg-gold-dark text-white text-center font-semibold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                             >
-                                <div className="h-48 bg-gradient-to-r from-gold-light to-gold flex items-center justify-center">
-                                    <div className="text-center text-white p-4">
-                                        <h3 className="text-2xl font-serif font-bold mb-2">
-                                            {pkg.name}
-                                        </h3>
-                                        <p className="text-xl font-semibold">{pkg.price}</p>
-                                        <p className="text-gold-light">{pkg.description}</p>
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <ul className="space-y-3 mb-6">
-                                        {pkg.includes.map((item, i) => (
-                                            <li key={i} className="flex items-center">
-                                                <span className="text-gold mr-2">✓</span>
-                                                <span className="text-gray-700">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <a
-                                        href={bookingLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block w-full bg-gold hover:bg-gold-dark text-white text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
-                                    >
-                                        Customize This Package
-                                    </a>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="text-center">
-                        <p className="text-gray-600 mb-6">
-                            All packages can be customized to fit your specific needs and
-                            vision.
-                        </p>
-                        <a
-                            href={bookingLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
-                        >
-                            Talk to a Wedding Planner
-                        </a>
-                    </div>
-
-                    <div className="text-center my-12">
-                        <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">
-                            Our Wedding Offerings
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            From intimate ceremonies to grand celebrations, we bring your vision
-                            to life with exceptional attention to detail
-                        </p>
-                    </div>
-
-                    {/* Wedding Ceremonies Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                        {/* Bridal Showers & Engagement Parties */}
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
-                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
-                                <FiGift />
-                            </div>
-                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
-                                Bridal Showers & Engagements
-                            </h4>
-                            <p className="text-gray-600 text-base">
-                                Celebrate milestones along your journey with elegance and joy.
-                            </p>
+                                Customize This Package
+                            </a>
                         </div>
 
-                        {/* Ceremonies */}
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
-                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
-                                <FiHeart />
-                            </div>
-                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
-                                Ceremonies
-                            </h4>
-                            <p className="text-gray-600 text-base">
-                                Elegant and intimate settings designed to make your vows
-                                unforgettable.
-                            </p>
-                        </div>
-
-                        {/* Receptions */}
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
-                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
-                                <FiMusic />
-                            </div>
-                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
-                                Receptions
-                            </h4>
-                            <p className="text-gray-600 text-base">
-                                Celebrate your union with a memorable reception full of joy,
-                                music, and dancing.
-                            </p>
-                        </div>
-
-                        {/* Rehearsal Dinners */}
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
-                            <div className="flex items-center justify-center mb-4 text-gold text-5xl">
-                                <FiCalendar />
-                            </div>
-                            <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
-                                Rehearsal Dinners
-                            </h4>
-                            <p className="text-gray-600 text-base">
-                                Gather your loved ones for a relaxed pre-wedding celebration in
-                                style.
-                            </p>
-                        </div>
+                        {/* Gold Accent Border */}
+                        <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/30 transition-all duration-500"></div>
                     </div>
+                );
+            })}
+        </div>
+
+        {/* Footer */}
+        <div className="text-center">
+            <p className="text-gray-600 mb-6">
+                All packages can be customized to fit your specific needs and
+                vision.
+            </p>
+            <a
+                href={bookingLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+            >
+                Talk to a Wedding Planner
+            </a>
+        </div>
+
+        {/* Wedding Offerings Section - Keep original white cards */}
+        <div className="text-center my-12">
+            <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">
+                Our Wedding Offerings
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                From intimate ceremonies to grand celebrations, we bring your vision
+                to life with exceptional attention to detail
+            </p>
+        </div>
+
+        {/* Wedding Ceremonies Cards - Keep original white design */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            {/* Bridal Showers & Engagement Parties */}
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
+                <div className="flex items-center justify-center mb-4 text-gold text-5xl">
+                    <FiGift />
                 </div>
-            </section>
+                <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
+                    Bridal Showers & Engagements
+                </h4>
+                <p className="text-gray-600 text-base">
+                    Celebrate milestones along your journey with elegance and joy.
+                </p>
+            </div>
+
+            {/* Ceremonies */}
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
+                <div className="flex items-center justify-center mb-4 text-gold text-5xl">
+                    <FiHeart />
+                </div>
+                <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
+                    Ceremonies
+                </h4>
+                <p className="text-gray-600 text-base">
+                    Elegant and intimate settings designed to make your vows
+                    unforgettable.
+                </p>
+            </div>
+
+            {/* Receptions */}
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
+                <div className="flex items-center justify-center mb-4 text-gold text-5xl">
+                    <FiMusic />
+                </div>
+                <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
+                    Receptions
+                </h4>
+                <p className="text-gray-600 text-base">
+                    Celebrate your union with a memorable reception full of joy,
+                    music, and dancing.
+                </p>
+            </div>
+
+            {/* Rehearsal Dinners */}
+            <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300">
+                <div className="flex items-center justify-center mb-4 text-gold text-5xl">
+                    <FiCalendar />
+                </div>
+                <h4 className="text-xl font-serif font-semibold mb-2 text-gray-800">
+                    Rehearsal Dinners
+                </h4>
+                <p className="text-gray-600 text-base">
+                    Gather your loved ones for a relaxed pre-wedding celebration in
+                    style.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
             {/* 360° Tours Section */}
             <section className="py-16 bg-white">
