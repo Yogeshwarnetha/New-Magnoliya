@@ -23,7 +23,7 @@ const Gallery = () => {
     // Category-wise organized images
     const galleryImages = {
         weddings: [
-            { id: 1, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171410.jpg", title: "Elegant Wedding Reception" },
+            { id: 1, src: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/LibertyBallroom_Picture.jpg", title: "Elegant Wedding Reception" },
             // { id: 2, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171510.jpg", title: "Grand Ballroom Wedding" },
             // { id: 3, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171519.jpg", title: "Outdoor Wedding Ceremony" },
             // { id: 4, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171749.jpg", title: "Wedding Cake Celebration" },
@@ -37,13 +37,13 @@ const Gallery = () => {
             // { id: 62, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_171847.jpg", title: "Bridal Party" },
             // { id: 63, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_172041.jpg", title: "Reception Dinner" },
             { id: 64, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174321.jpg", title: "Wedding Dance" },
-            { id: 65, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174330.jpg", title: "Bridal Preparation" },
+            // { id: 65, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174330.jpg", title: "Bridal Preparation" },
             { id: 66, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_174756.jpg", title: "Wedding Dance" },
-            { id: 67, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_185400.jpg", title: "Bridal Preparation" },
+            // { id: 67, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_185400.jpg", title: "Bridal Preparation" },
             // { id: 68, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_184113.jpg", title: "Wedding Dance" },
             // { id: 69, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_192517.jpg", title: "Bridal Preparation" },
             // { id: 70, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_185206.jpg", title: "Wedding Dance" },
-            // { id: 71, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_190316.jpg", title: "Bridal Preparation" },
+            { id: 71, src: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/WaterViewGarden.png", title: "Bridal Preparation" },
             // { id: 72, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_183915.jpg", title: "Wedding Dance" },
             { id: 73, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_194433.jpg", title: "Bridal Preparation" },
             // { id: 74, src: "https://pub-529898d7b434445e9797bf8fec46d127.r2.dev/20250913_193110.jpg", title: "Wedding Dance" },
@@ -56,9 +56,9 @@ const Gallery = () => {
         ],
         corporate: [
             { id: 11, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.40.09_2f5aa1ef.jpg", title: "Corporate Conference" },
-            { id: 12, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.11_9e1fa16c.jpg", title: "Executive Meeting" },
+            // { id: 12, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.11_9e1fa16c.jpg", title: "Executive Meeting" },
             { id: 13, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.25_408b6bf0.jpg", title: "Award Ceremony" },
-            { id: 14, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.49_9366c702.jpg", title: "Business Seminar" },
+            // { id: 14, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.49_9366c702.jpg", title: "Business Seminar" },
 
         ],
         dining: [
@@ -71,7 +71,7 @@ const Gallery = () => {
             // { id: 27, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194806.jpg", title: "Restaurant Interior" },
             // { id: 28, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194818.jpg", title: "Dessert Display" },
             // { id: 29, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194926.jpg", title: "Private Dining" },
-            { id: 30, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0307.JPG", title: "Chef's Special" },
+            // { id: 30, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0307.JPG", title: "Chef's Special" },
             // { id: 31, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195005.jpg", title: "Breakfast Service" },
             // { id: 32, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194932.jpg", title: "Lunch Menu" },
             // { id: 33, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0302.JPG", title: "Dinner Service" },
@@ -81,7 +81,7 @@ const Gallery = () => {
             // { id: 37, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0364.JPG", title: "Catering Service" },
             // { id: 38, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0361.JPG", title: "Beverage Station" },
             // { id: 39, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0360.JPG", title: "Fine Dining Setup" },
-            { id: 40, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0375.JPG", title: "Restaurant View" },
+            // { id: 40, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0375.JPG", title: "Restaurant View" },
             // { id: 51, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0386.JPG", title: "Restaurant View" },
             // { id: 52, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0304.JPG", title: "Restaurant View" },
             // { id: 52, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0387.JPG", title: "Restaurant View" },
@@ -92,7 +92,7 @@ const Gallery = () => {
             // { id: 57, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195034.jpg", title: "Restaurant View" },
             // { id: 58, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_194932.jpg", title: "Restaurant View" },
             // { id: 59, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_195318.jpg", title: "Restaurant View" },
-            { id: 60, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0392.JPG", title: "Restaurant View" }
+            // { id: 60, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/DSC_0392.JPG", title: "Restaurant View" }
 
 
         ],
@@ -101,10 +101,10 @@ const Gallery = () => {
             { id: 42, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg", title: "Water View Lounge" },
             { id: 43, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Left.jpg", title: "Luxury Suite" },
             { id: 44, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Back.jpg", title: "Grand Ballroom" },
-            { id: 45, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg", title: "Conference Hall" },
+            // { id: 45, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg", title: "Conference Hall" },
             { id: 46, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Kwaza%20hall.jpg", title: "Outdoor Venue" },
-            { id: 47, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Liberty%20Hall.jpg", title: "Poolside Area" },
-            { id: 48, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Lake%20Side.jpg", title: "Executive Lounge" },
+            { id: 47, src: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_0087.jpg", title: "Poolside Area" },
+            // { id: 48, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Lake%20Side.jpg", title: "Executive Lounge" },
 
         ]
     };
