@@ -472,66 +472,53 @@ const Dining = () => {
         }
     ];
 
-    // Multi-cuisine categories data for the zigzag layout
+    // Multi-cuisine categories data for the redesigned layout
     const cuisineCategories = [
         {
             title: "Multi-Cuisine",
-            description: "Embark on a culinary voyage at Magnoliya Grand, our premier Multi-Cuisine destination where the world's finest flavors unite on one table. From the aromatic allure of sizzling Asian stir-fries and the vibrant elegance of Mediterranean mezze to the hearty indulgence of continental grills, every creation is crafted à la carte with authenticity and artistry. Complement your meal with an exquisite selection of wines, top-shelf spirits, and masterfully mixed cocktails from our curated bar. Whether you're hosting a family celebration, entertaining distinguished guests, or simply indulging your wanderlust for flavor, Magnoliya Grand offers a dining experience as exquisite as the cuisines it celebrates.",
+            description: "Embark on a global journey where the world's finest cuisines unite under one roof. From Asian stir- fries to Mediterranean mezze and continental grills, each dish is crafted with artistry, authenticity, and flair.",
             images: [
                 "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
             ]
         },
         {
             title: "Italian",
-            description: "Savor the timeless romance of Italy, where every dish embodies the essence of la dolce vita. Relish velvety pastas such as our signature Rigatoni Vodka, delight in wood-fired pizzas crowned with artisan cheeses, and indulge in the silken elegance of a classic tiramisu. To complete the journey, our sommeliers have curated an exceptional selection of Italian wines—full-bodied reds, crisp whites, and sparkling prosecco—that perfectly complement the rich flavors of each course. Every bite, every sip, transports you to a rustic Roman trattoria- where warm hospitality, bold flavors, and culinary passion converge in an unforgettable symphony.",
+            description: "Experience the romance of Italy through velvety pastas, wood-fired pizzas, and classic tiramisu. Paired with fine wines and warm hospitality, every bite captures the essence of la dolce vita.",
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%201.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%202.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%203.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%204.png"
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%202.png"
             ]
         },
         {
             title: "American",
-            description: "Relish the bold spirit of America, where every plate celebrates comfort, craft, and tradition. Indulge in juicy, flame-grilled burgers, savor golden hand-cut fries, and delight in smoky barbecue slow-cooked to perfection. Enjoy soul-warming classics like creamy mac and cheese and crisp buttermilk fried chicken, each dish designed to satisfy both nostalgia and appetite. Elevating the experience, our bar offers a robust selection of bourbons, craft beers, and signature cocktails—from smooth Old Fashioneds to refreshing whiskey sours—that pair seamlessly with every bite. Whether you seek a casual bite or a hearty feast, our American restaurant is a tribute to timeless flavors and convivial dining.",
+            description: "Celebrate the bold spirit of American cuisine with smoky barbecues, gourmet burgers, and comforting classics. Each dish honors tradition while delivering modern flavor and generous warmth.",
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%201.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%202.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%203.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%204.jpg"
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%202.jpg"
             ]
         },
         {
             title: "Indian",
-            description: "Immerse yourself in the kaleidoscope of spices and soulful flavors that define India's rich culinary heritage. From the velvety indulgence of slow-simmered House Black Daal and the regal depth of Laal Maans to the irresistible charm of street food favorites, every dish is a celebration of tradition and taste. Relish the crunch and zest of tangy chaats, savor smoky kebabs fresh from the tandoor, and explore the playful spirit of India's bustling bazaars through pani puri, samosas, and pav bhaji. Complemented by warm, pillowy breads and fragrant biryanis layered with spices, our Indian kitchen offers a journey that is vibrant, authentic, and unforgettable—an experience that awakens the senses with every bite.",
+            description: "Immerse yourself in the vibrant spices and soulful traditions of India. From tandoori kebabs to fragrant biryanis and rich curries, every plate tells a story of heritage, color, and passion.",
             images: [
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Indian%201.png",
-                // "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                // "https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                // "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Indian%201.png"
             ]
         },
         {
             title: "Mexican",
-            description: "Celebrate the spirited soul of Mexico with cuisine as colorful as its culture. From hand-pressed tortillas and flame-kissed salsas to tender carnitas and moles simmered to rich, earthy perfection, every dish pays homage to tradition and bold flavor. Relish the zest of tacos, elotes, and quesadillas, or savor refined classics like enchiladas, tamales, and chile rellenos. Elevate the experience with hand-shaken margaritas, smoky mezcal, or aged tequila from our curated bar, each sip amplifying the vibrancy of the cuisine. Whether for a lively fiesta or an intimate meal, our Mexican kitchen delivers passion, warmth, and unmistakable flair.",
+            description: "Savor the spirited flavors of Mexico with hand-pressed tortillas, smoky moles, and fresh salsas. Every dish bursts with color, zest, and the joyful essence of fiesta dining.",
             images: [
                 "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%201.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%202.png",
-                // "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                // "https://images.unsplash.com/photo-1565299585323-38174c13fae8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%202.png"
             ]
         },
         {
             title: "Desserts",
-            description: "Conclude your dining journey on a sublime note with confections designed to enchant the senses. Indulge in the decadent allure of molten chocolate lava cakes, the velvety elegance of creamy cheesecakes, and the timeless charm of classic crème brûlée with its golden caramelized crown. Discover playful modern icons like the famed tiramisu, delicate French macarons in jewel-toned hues, and silky panna cotta infused with seasonal flavors. For those seeking comfort, our warm apple pies, buttery croissants, and layered Black Forest gateaux deliver nostalgia with every bite. For grand celebrations, our Viennese Dessert Display—a lavish spread of tortes, pastries, and petit fours—is available on request. Pair these indulgences with sparkling champagne, dessert wines, or aromatic liqueurs for the perfect finish to an unforgettable feast.",
+            description: "End your journey on a sweet note with confections that enchant the senses. From molten chocolate cakes to French macarons and classic tiramisu, every dessert is a celebration of indulgence.",
             images: [
                 "https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
             ]
         }
     ];
@@ -555,7 +542,7 @@ const Dining = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                     <div className="px-4">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages.</h1>
+                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages</h1>
                         <p className="text-xl md:text-2xl max-w-2xl mx-auto">
                             Exceptional culinary experiences crafted by our award-winning chefs
                         </p>
@@ -569,8 +556,9 @@ const Dining = () => {
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Story</h2>
                         <p className="text-xl text-gray-600 max-w-7xl mx-auto leading-relaxed">
-                            At Magnoliya Grand, we offer more than just dining—we create an experience to savor. Our restaurant transforms every meal into an immersive journey through taste and culture. Our vision is to unite the world's best flavors under one roof, crafted with passion and artistry. Whether it's the fragrant sizzle of Asian stir-fries, the rustic appeal of Italian classics, the smoky richness of American barbecue, the vibrant zest of Mexican street food, or the regal depth of Indian curries, our multi-cuisine concept showcases diversity at its finest. What makes Magnoliya Grand unique is the blend of tradition and innovation—every plate is a canvas where authenticity meets creative flair, providing an experience that delights both the palate and the imagination.
-                        </p>
+                            At Magnoliya Grand, dining becomes an art form where global flavors meet refined
+                            craftsmanship. Every dish tells a story of passion, culture, and creativity—transforming
+                            each meal into an unforgettable sensory journey.                        </p>
                     </div>
 
                     <div className=''>
@@ -588,7 +576,9 @@ const Dining = () => {
                             </div>
                             <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Meet Our Culinary Maestros</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                Behind every memorable dish at Magnoliya Grand is a team of visionaries. Our kitchens are helmed by the acclaimed CGA Catering New York, renowned for excellence in fine dining and luxury event gastronomy. Leading the charge is Chef Vipin Rohilla, a culinary artist with decades of global experience spanning India, Europe, and the United States. Chef Rohilla's mastery of multi-cuisine innovation and devotion to refined technique give our menu its distinctive edge. Alongside him, an elite team of internationally trained chefs bring their cultural heritage, artistry, and passion together, crafting extraordinary dining moments that linger long after the last bite.
+                                Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their
+                                artistry blends technique and imagination, creating menus that inspire and delight with
+                                every bite.
                             </p>
                         </div>
 
@@ -600,7 +590,9 @@ const Dining = () => {
                             </div>
                             <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Our Core Values</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                At Magnoliya Grand, we believe great food begins with great principles. Freshness and authenticity are our compass; sustainability is our commitment. Every dish is created from responsibly sourced ingredients, celebrating both seasonality and cultural diversity. Our menus are inclusive, featuring abundant options for vegetarian, vegan, gluten-free, and halal/kosher diets, ensuring that every guest feels welcomed, valued, and indulged. In every detail, we embody hospitality that is heartfelt, ethical, and extraordinary.
+                                At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably
+                                sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as
+                                thoughtful as it is extraordinary.
                             </p>
                         </div>
 
@@ -612,62 +604,57 @@ const Dining = () => {
                             </div>
                             <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">The Guest Experience</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                Dining at Magnoliya Grand is not just a meal—it’s a destination. Designed with elegance and warmth, our ambiance blends modern sophistication with cultural accents that echo the cuisines we serve. Guests may enjoy cozy corners for intimate dinners, lively spaces for families, or refined seating for corporate gatherings. For those seeking something extraordinary, our private dining rooms and grand banquet halls transform occasions into unforgettable celebrations—whether weddings, birthdays, galas, or corporate events. Every detail, from décor to service, is meticulously curated to envelop guests in comfort, luxury, and joy.
+                                Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether
+                                an intimate dinner or a grand celebration, every moment is designed to delight and
+                                inspire.
                             </p>
                         </div>
                     </div>
 
-                    {/* Enhanced Flavorful Voyage Section with Zigzag Layout */}
+                    {/* Redesigned Flavorful Voyage Section */}
                     <div className="mb-16">
                         <div className="text-center mb-12">
                             <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Flavorful Voyage</h2>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                                Embark on a global culinary journey through our diverse multi-cuisine offerings
-                            </p>
                         </div>
 
-                        {/* Zigzag Layout for Cuisine Categories */}
-                        <div className="space-y-16">
+                        {/* Grid Layout for Cuisine Categories */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                             {cuisineCategories.map((category, index) => (
                                 <div
                                     key={index}
-                                    className={`flex flex-col lg:flex-row items-center gap-8 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+                                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden group flex flex-col h-full"
                                 >
-                                    {/* Images Section */}
-                                    <div className="lg:w-1/2 w-full">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            {category.images.slice(0, 4).map((image, imgIndex) => (
-                                                <div
-                                                    key={imgIndex}
-                                                    className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${imgIndex === 0 && category.images.length === 1 ? 'col-span-2' : ''}`}
-                                                >
-                                                    <img
-                                                        src={image}
-                                                        alt={`${category.title} ${imgIndex + 1}`}
-                                                        className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                                                </div>
-                                            ))}
-                                        </div>
+                                    {/* Single Featured Image */}
+                                    <div className="relative h-48 overflow-hidden flex-shrink-0">
+                                        <img
+                                            src={category.images[0]}
+                                            alt={category.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     </div>
 
                                     {/* Content Section */}
-                                    <div className="lg:w-1/2 w-full">
-                                        <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-                                            <h3 className="text-3xl font-serif font-bold text-gold mb-4">{category.title}</h3>
-                                            <p className="text-gray-600 leading-relaxed text-lg">{category.description}</p>
-                                            <button
+                                    <div className="p-6 flex flex-col flex-grow">
+                                        <h3 className="text-2xl font-serif font-bold text-gold mb-3">{category.title}</h3>
+                                        <p className="text-gray-600 leading-relaxed mb-4 flex-grow">
+                                            {category.description}
+                                        </p>
+                                        <div className="flex justify-between items-center mt-auto pt-4">
+                                            {/* <button
                                                 onClick={() => openMenuPopup(category.title.toLowerCase().replace(/\s+/g, '') as keyof typeof menuData)}
-                                                className="mt-6 bg-gold text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg transform hover:-translate-y-1"
+                                                className="bg-gold text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg transform hover:-translate-y-1 text-sm"
                                             >
                                                 View Menu
-                                            </button>
+                                            </button> */}
+
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
+
                     </div>
 
                     {/* Additional Highlights */}
@@ -675,18 +662,15 @@ const Dining = () => {
                         <div className="text-center p-6">
                             <h4 className="text-lg font-semibold mb-3 text-gray-800">Catering & Celebrations</h4>
                             <p className="text-gray-600">
-                                Through our partnership with CGA Catering New York, Magnoliya Grand extends its artistry to events of every scale. Our catering services are designed to elevate celebrations into unforgettable affairs—from elegant plated dinners and lavish buffets to themed live stations and bespoke party platters. With customizable packages crafted around your preferences, we ensure menus reflect your vision while showcasing our culinary excellence. Whether it’s a wedding, corporate gala, or private soirée, our team delivers world-class dining with flawless execution.
-                            </p>
+                                Through CGA Catering New York, we bring world-class cuisine to events of every scale.
+                                From elegant weddings to corporate galas, our bespoke menus elevate every occasion
+                                with flawless execution.                            </p>
                         </div>
-                        {/* <div className="text-center p-6">
-                            <h4 className="text-lg font-semibold mb-3 text-gray-800">Seasonal Menus</h4>
-                            <p className="text-gray-600">Our chefs regularly update menus to feature the freshest seasonal ingredients and innovative culinary creations.</p>
-                        </div> */}
                         <div className="text-center p-6">
                             <h4 className="text-lg font-semibold mb-3 text-gray-800">Beyond the Plate</h4>
                             <p className="text-gray-600">
-                                At Magnoliya Grand, food is more than sustenance—it is theatre, storytelling, and passion. From the artistry of our dishes, the vibrancy of our kitchens, and the soul of our chefs at work, guests are invited into the heart of our culinary journey. With every dish, every story, and every detail, Magnoliya Grand transforms dining into an unforgettable memory.
-
+                                At Magnoliya Grand, food becomes storytelling, artistry, and emotion. Every dish, every
+                                flavor, and every detail is crafted to create lasting memories beyond the table.
                             </p>
                         </div>
                     </div>
@@ -739,19 +723,6 @@ const Dining = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Enhanced Indoor and Outdoor Catering Section */}
-            {/* <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Indoor and Outdoor Catering</h2>
-                        <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                            We provide an array of unique settings for both indoor and outdoor dining. Imagine hosting an elegant plated dinner in one of our ballrooms, a romantic sunset reception on the waterfront terrace, or—coming soon—a truly unforgettable gathering in our beautifully designed garden.
-                        </p>
-                    </div>
-                    <GalleryCarousel images={cateringOptions} itemsPerView={1} />
-                </div>
-            </section> */}
 
             {/* Our Culinary Excellence Section */}
             <section className="py-20 bg-gray-50">
@@ -806,109 +777,6 @@ const Dining = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Enhanced Menu Section */}
-            {/* <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Catering Menus</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Explore our diverse menu options for your next event
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                        <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 shadow-2xl border border-gray-100">
-                            <h3 className="text-2xl font-serif font-bold mb-6 text-gold">Magnoliya Multi Cuisine Restaurant</h3>
-                            <div className="space-y-4">
-                                {['american', 'mexican', 'italian', 'indian', 'middleEastern'].map((menuKey) => (
-                                    <button
-                                        key={menuKey}
-                                        onClick={() => openMenuPopup(menuKey as keyof typeof menuData)}
-                                        className="w-full text-left p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gold hover:text-white border border-gray-200 hover:border-gold group"
-                                    >
-                                        <span className="text-lg font-semibold group-hover:text-white">
-                                            {menuData[menuKey as keyof typeof menuData].title}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 shadow-2xl border border-gray-100">
-                            <h3 className="text-2xl font-serif font-bold mb-6 text-gold">Garden and Grille Restaurant and Bar</h3>
-                            <div className="space-y-4">
-                                {['breakfast', 'lunch', 'dinner', 'bar'].map((menuKey) => (
-                                    <button
-                                        key={menuKey}
-                                        onClick={() => openMenuPopup(menuKey as keyof typeof menuData)}
-                                        className="w-full text-left p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gold hover:text-white border border-gray-200 hover:border-gold group"
-                                    >
-                                        <span className="text-lg font-semibold group-hover:text-white">
-                                            {menuData[menuKey as keyof typeof menuData].title}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
-            {/* 360° Tours Section */}
-            {/* <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
-
-                    <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Explore our spaces with interactive 360° tours. Use touch or mouse to look around, and open fullscreen from the tour controls.</p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
-                            <div className="w-full aspect-[16/9] bg-black">
-                                <iframe
-                                    title="360 Tour Collection 7J4X8"
-                                    src="https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1"
-                                    allowFullScreen
-                                    loading="lazy"
-                                    className="w-full h-full border-0"
-                                />
-                            </div>
-
-                        </div>
-
-                        <div className="w-full rounded-2xl overflow-hidden shadow-lg">
-                            <div className="w-full aspect-[16/9] bg-black">
-                                <iframe
-                                    title="360 Tour Collection 7J4Ft"
-                                    src="https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1"
-                                    allowFullScreen
-                                    loading="lazy"
-                                    className="w-full h-full border-0"
-                                />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
-            {/* Enhanced CTA Section */}
-            {/* <section className="py-20 bg-gradient-to-br from-gold to-gold-dark">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-4xl md:text-5xl font-serif text-black mb-6">Reserve Your Table</h2>
-                    <p className="text-xl text-black/90 mb-10 max-w-3xl mx-auto">
-                        Experience culinary excellence at Magnoliya Grand's award-winning restaurants
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-6">
-                        <Link href="/reservations" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1">
-                            Make a Reservation
-                        </Link>
-                        <Link href="/contact" className="border-2 border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white transform hover:-translate-y-1">
-                            Contact Us
-                        </Link>
-                    </div>
-                </div>
-            </section> */}
         </div>
     );
 };

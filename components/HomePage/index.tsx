@@ -34,34 +34,110 @@ const Homepage = () => {
         },
         {
             type: "image",
-            src: "https://images.unsplash.com/photo-1549451378-6e2e2c1c3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            src: "https://images.unsplash.com/photo-1549451371-587aa8e60963?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
             alt: "Garden Wedding"
         }
     ];
 
-    // Quick navigation tiles
+    // Enhanced navigation tiles with actual images
     const navigationTiles = [
-        { title: "Rooms & Suites", icon: "🛏️", link: "/rooms" },
-        { title: "Dining", icon: "🍽️", link: "/dining" },
-        { title: "Weddings & Social Events", icon: "💒", link: "/weddings" },
-        { title: "Corporate Events", icon: "🏢", link: "/corporate-events" },
-        { title: "Event Services", icon: "🎭", link: "/services" },
-        { title: "Gallery", icon: "🖼️", link: "/gallery" },
+        {
+            title: "Event Venues",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/DSC03324-Enhanced-NR.jpg",
+            alt: "Grand Ballroom Event Space",
+            link: "/venues",
+            description: "Stunning venues for weddings, conferences, and special events"
+        },
+        {
+            title: "Weddings & Social Events",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/P1157342.jpg",
+            alt: "Beautiful Wedding Setup",
+            link: "/weddings",
+            description: "Create unforgettable memories with our expert event planning"
+        },
+        {
+            title: "Corporate Events",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.40.09_2f5aa1ef.jpg",
+            alt: "Corporate Meeting Space",
+            link: "/corporate-events",
+            description: "Professional settings for meetings, conferences, and corporate gatherings"
+        },
+        {
+            title: "Rooms & Suites",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
+            alt: "Luxury Hotel Suite",
+            link: "/rooms",
+            description: "Elegant accommodations with premium amenities and comfort"
+        },
+        {
+            title: "Dining",
+            image: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_201602.jpg",
+            alt: "Fine Dining Restaurant",
+            link: "/dining",
+            description: "Exquisite culinary experiences in sophisticated settings"
+        },
+        {
+            title: "Gallery",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/DJI_0078-Edit.jpg",
+            alt: "Hotel Gallery Views",
+            link: "/gallery",
+            description: "Explore our stunning spaces and previous events"
+        },
     ];
 
-    // Highlights strip
+    // Enhanced highlights with icons and images
     const highlights = [
-        "Multicuisine Restaurants",
-        "Panoramic Water Views",
-        "State-of-the-Art AV & Lighting",
-        "Terrace & Garden Venues",
-        "End-to-End Event Management",
-        // "Luxury Spa & Wellness",
-        "24/7 Concierge Service",
-        "Customized Event Planning"
+        {
+            title: "Multicuisine Restaurants",
+            icon: "🍽️",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/_1196636.jpg",
+            description: "Award-winning dining experiences"
+        },
+        {
+            title: "Panoramic Water Views",
+            icon: "🌅",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/DJI_0078-Edit.jpg",
+            description: "Breathtaking lake and garden vistas"
+        },
+        {
+            title: "State-of-the-Art AV & Lighting",
+            icon: "💡",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg",
+            description: "Advanced technology for perfect events"
+        },
+        {
+            title: "Terrace & Garden Venues",
+            icon: "🌿",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg",
+            description: "Beautiful outdoor event spaces"
+        },
+        {
+            title: "End-to-End Event Management",
+            icon: "📋",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/P1157342.jpg",
+            description: "Comprehensive planning services"
+        },
+        {
+            title: "24/7 Concierge Service",
+            icon: "🛎️",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
+            description: "Round-the-clock personalized service"
+        },
+        {
+            title: "Customized Event Planning",
+            icon: "🎯",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Kwaza%20hall.jpg",
+            description: "Tailored solutions for your needs"
+        },
+        {
+            title: "Luxury Accommodations",
+            icon: "🛏️",
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-king-688be9.avif",
+            description: "Premium rooms and suites"
+        }
     ];
 
-    // Featured event venues - Updated with actual venue data
+    // Featured event venues
     const eventVenues = [
         {
             name: "Grand Ballroom",
@@ -86,7 +162,7 @@ const Homepage = () => {
         }
     ];
 
-    // Featured rooms - Updated with actual room data
+    // Featured rooms
     const featuredRooms = [
         {
             name: "King Room",
@@ -145,38 +221,32 @@ const Homepage = () => {
         "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/DJI_0078-Edit.jpg",
     ];
 
-
-    // Open modal with selected image
+    // Modal functions
     const openModal = (image: string) => {
         setSelectedImage(image);
         setZoomLevel(1);
         setPosition({ x: 0, y: 0 });
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        document.body.style.overflow = 'hidden';
     };
 
-    // Close modal
     const closeModal = () => {
         setSelectedImage(null);
-        document.body.style.overflow = 'auto'; // Enable scrolling
+        document.body.style.overflow = 'auto';
     };
 
-    // Zoom in
     const zoomIn = () => {
         setZoomLevel(prev => Math.min(prev + 0.25, 3));
     };
 
-    // Zoom out
     const zoomOut = () => {
         setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
     };
 
-    // Reset zoom and position
     const resetZoom = () => {
         setZoomLevel(1);
         setPosition({ x: 0, y: 0 });
     };
 
-    // Handle mouse down for dragging
     const handleMouseDown = (e: any) => {
         if (zoomLevel > 1) {
             setIsDragging(true);
@@ -187,7 +257,6 @@ const Homepage = () => {
         }
     };
 
-    // Handle mouse move for dragging
     const handleMouseMove = (e: any) => {
         if (isDragging && zoomLevel > 1) {
             setPosition({
@@ -196,6 +265,7 @@ const Homepage = () => {
             });
         }
     };
+
     const handleMouseUp = () => {
         setIsDragging(false);
     };
@@ -240,7 +310,7 @@ const Homepage = () => {
         return () => clearInterval(interval);
     }, [testimonials.length]);
 
-
+    // Keyboard events for modal
     useEffect(() => {
         const handleKeyDown = (e: any) => {
             if (selectedImage) {
@@ -293,10 +363,13 @@ const Homepage = () => {
                 </div>
             </div>
 
+            {/* Redesigned Experience Luxury Section */}
+            <section className="py-20 bg-gray-50 relative overflow-hidden">
+                {/* Background decorative elements */}
+                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent z-10"></div>
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent z-10"></div>
 
-            {/* Quick Navigation Tiles */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 relative z-20">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-4">
                             Experience <span className="text-gold">Luxury</span>
@@ -311,26 +384,39 @@ const Homepage = () => {
                             <Link
                                 key={index}
                                 href={tile.link}
-                                className="group relative bg-white p-10 rounded-xl shadow-md transition-all duration-500 hover:shadow-2xl hover:-translate-y-3"
+                                className="group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 h-full flex flex-col"
                             >
-                                {/* Gold accent bar */}
-                                <div className="absolute top-0 left-0 w-2 h-0 bg-gold group-hover:h-full transition-all duration-500"></div>
+                                {/* Image Container */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <Image
+                                        src={tile.image}
+                                        alt={tile.alt}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                    {/* Overlay gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                                    {/* Gold accent bar */}
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                                </div>
 
                                 {/* Content */}
-                                <div className="relative">
-                                    <h3 className="text-2xl font-semibold text-gray-800 mb-5 group-hover:text-gold-dark transition-colors duration-300">
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-gold-dark transition-colors duration-300">
                                         {tile.title}
                                     </h3>
 
-                                    <p className="text-gray-600 leading-relaxed mb-6">
-                                        Indulge in our exceptional {tile.title.toLowerCase()} designed for those who appreciate the finer things in life
+                                    <p className="text-gray-600 leading-relaxed mb-4 flex-1">
+                                        {tile.description}
                                     </p>
 
                                     {/* Elegant divider */}
-                                    <div className="w-16 h-0.5 bg-gold/30 mb-6 group-hover:w-24 group-hover:bg-gold transition-all duration-500"></div>
+                                    <div className="w-12 h-0.5 bg-gold/30 mb-4 group-hover:w-16 group-hover:bg-gold transition-all duration-500"></div>
 
                                     {/* Learn more text */}
-                                    <div className="flex items-center text-gold font-medium">
+                                    <div className="flex items-center text-gold font-medium mt-auto">
                                         <span className="mr-2">Discover More</span>
                                         <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -339,18 +425,18 @@ const Homepage = () => {
                                 </div>
 
                                 {/* Hover effect background */}
-                                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gold/10 transition-all duration-500 -z-10"></div>
+                                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/10 transition-all duration-500 -z-10"></div>
                             </Link>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Highlights Strip */}
-            <section className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-                {/* Decorative elements */}
-                <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-xl"></div>
-                <div className="absolute bottom-10 right-10 w-40 h-40 bg-gold/5 rounded-full blur-xl"></div>
+            {/* Redesigned The Magnoliya Grand Experience Section */}
+            <section className="py-20 bg-gradient-to-br from-white via-gray-50 to-gold/5 relative overflow-hidden">
+                {/* Background decorative elements */}
+                <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-16">
@@ -362,42 +448,91 @@ const Homepage = () => {
                         </p>
                     </div>
 
-                    {/* Highlights Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Enhanced Highlights Grid with Images */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {highlights.map((highlight, index) => (
                             <div
                                 key={index}
-                                className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group relative overflow-hidden"
+                                className="group relative bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-3"
                             >
-                                {/* Decorative corner accent */}
-                                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                                {/* Image Container */}
+                                <div className="relative h-40 overflow-hidden">
+                                    <Image
+                                        src={highlight.image}
+                                        alt={highlight.title}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    />
+                                    {/* Gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+
+                                    {/* Icon */}
+                                    <div className="absolute top-4 left-4 text-2xl bg-white/20 backdrop-blur-sm rounded-full p-2">
+                                        {highlight.icon}
+                                    </div>
+
+                                    {/* Number indicator */}
+                                    <div className="absolute top-4 right-4 text-white text-sm font-bold bg-gold rounded-full w-6 h-6 flex items-center justify-center">
+                                        {index + 1}
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-gold-dark transition-colors duration-300">
+                                        {highlight.title}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                        {highlight.description}
+                                    </p>
+
+                                    {/* Hover effect line */}
+                                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-gold-light to-gold group-hover:w-full transition-all duration-700"></div>
+                                </div>
+
+                                {/* Gold corner accent */}
+                                <div className="absolute top-0 right-0 w-8 h-8 overflow-hidden">
                                     <div className="absolute top-0 right-0 w-16 h-16 bg-gold transform rotate-45 translate-x-8 -translate-y-8 group-hover:bg-gold-dark transition-colors duration-500"></div>
                                 </div>
-
-                                {/* Number indicator */}
-                                <div className="text-5xl font-serif text-gray-200 font-light mb-4 group-hover:text-gold/20 transition-colors duration-500">
-                                    {String(index + 1).padStart(2, '0')}
-                                </div>
-
-                                {/* Highlight text */}
-                                <h3 className="text-xl font-medium text-gray-800 group-hover:text-gold-dark transition-colors duration-500">
-                                    {highlight}
-                                </h3>
-
-                                {/* Hover effect line */}
-                                <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-gold-light to-gold group-hover:w-full transition-all duration-700"></div>
                             </div>
                         ))}
+                    </div>
+
+                    {/* Stats Section */}
+                    <div className="mt-20 bg-white rounded-2xl shadow-lg p-8">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">50+</div>
+                                <div className="text-gray-600 font-medium">Successful Events</div>
+                                <div className="text-xs text-gray-500">Monthly Average</div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">1,800</div>
+                                <div className="text-gray-600 font-medium">Guest Capacity</div>
+                                <div className="text-xs text-gray-500">Grand Ballroom</div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">98%</div>
+                                <div className="text-gray-600 font-medium">Guest Satisfaction</div>
+                                <div className="text-xs text-gray-500">Rating</div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gold">24/7</div>
+                                <div className="text-gray-600 font-medium">Concierge</div>
+                                <div className="text-xs text-gray-500">Service Available</div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Additional CTA */}
                     <div className="text-center mt-16">
                         <Link
                             href="/experiences"
-                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gold-light to-gold text-gray-900 font-medium rounded-full transition-all duration-300 hover:shadow-2xl hover:from-gold hover:to-gold-dark hover:-translate-y-1"
+                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gold-light to-gold text-gray-900 font-semibold rounded-full transition-all duration-300 hover:shadow-2xl hover:from-gold hover:to-gold-dark hover:-translate-y-1 text-lg"
                         >
-                            Discover All Experiences
-                            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <span className="mr-3">Discover All Experiences</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         </Link>
@@ -442,7 +577,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            {/* Featured Event Venues - Updated with actual venue data */}
+            {/* Featured Event Venues */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Featured Event Venues</h2>
@@ -482,7 +617,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-            {/* Rooms & Suites Preview - Updated with actual room data */}
+            {/* Rooms & Suites Preview */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl text-center mb-12 font-serif">Luxury Accommodations</h2>
@@ -605,7 +740,7 @@ const Homepage = () => {
                 </div>
             </section>
 
-             {/* 360° Tours Section */}
+            {/* 360° Tours Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
@@ -623,7 +758,7 @@ const Homepage = () => {
                                     className="w-full h-full border-0"
                                 />
                             </div>
-                            
+
                         </div>
 
                         <div className="w-full rounded-2xl overflow-hidden shadow-lg">
@@ -636,7 +771,7 @@ const Homepage = () => {
                                     className="w-full h-full border-0"
                                 />
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -688,14 +823,13 @@ const Homepage = () => {
                             Book Now
                         </a>
                         <a href="/contact" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
-
                             Contact Us
                         </a>
                     </div>
                 </div>
             </section>
 
-
+            {/* Image Modal */}
             {selectedImage && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
@@ -761,7 +895,7 @@ const Homepage = () => {
                             onMouseLeave={handleMouseUp}
                         >
                             <img
-                                src={selectedImage.replace('300', '1200')} // Load higher resolution image
+                                src={selectedImage.replace('300', '1200')}
                                 alt="Enlarged view"
                                 className="max-w-full max-h-full object-contain cursor-move"
                                 style={{

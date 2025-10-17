@@ -117,7 +117,7 @@ const Navbar = () => {
             <div className="flex flex-col items-center space-y-2 max-w-4xl">
               {/* First line */}
               <div className="flex flex-wrap items-center justify-center space-x-3">
-                {menuItems.slice(0, 6).map((item, index) => {
+                {menuItems.slice(0, 7).map((item, index) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
                   const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
                   return (
