@@ -1,6 +1,6 @@
 // app/about/page.tsx
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const About = () => {
@@ -117,8 +117,34 @@ const About = () => {
         }
     ];
 
+    const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+
+    useEffect(() => {
+        const setVH = () => setViewportHeight(window.innerHeight);
+        setVH();
+        window.addEventListener('resize', setVH);
+        return () => window.removeEventListener('resize', setVH);
+    }, []);
+
+    // Background image url (same as Homepage)
+    const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="relative">
+            {/* Decorative repeating background (starts after the viewport height) */}
+            <div
+                className="absolute left-0 right-0 z-0 homepage-bg-darken"
+                style={{
+                    top: viewportHeight ? `${viewportHeight}px` : '100vh',
+                    bottom: 0,
+                    backgroundImage: `url('${backgroundImage}')`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                }}
+            />
+
+            <div className="min-h-screen relative z-10">
             {/* Hero Banner */}
             <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -138,7 +164,7 @@ const About = () => {
             </section>
 
             {/* Our Story Section */}
-            <section className="py-16 bg-white">
+            <section className="py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6 text-center">Our Story & Legacy</h2>
@@ -167,7 +193,7 @@ const About = () => {
             </section>
 
             {/* Sustainability Section */}
-            <section className="py-16 bg-green-50">
+            <section className="py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6 text-center">Our Commitment to Sustainability</h2>
@@ -215,7 +241,7 @@ const About = () => {
             </section>
 
             {/* Contact Information & Form Section */}
-            <section id="contact" className="py-16 bg-white">
+            <section id="contact" className="py-16">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Contact Us</h2>
 
@@ -406,7 +432,7 @@ const About = () => {
             </section>
 
             {/* Google Maps Embed */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-16">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">Find Us</h2>
                     <div className="rounded-xl overflow-hidden shadow-xl">
@@ -425,7 +451,7 @@ const About = () => {
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 bg-white">
+            <section className="py-16">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Frequently Asked Questions</h2>
 
@@ -500,7 +526,7 @@ const About = () => {
             </section> */}
 
             {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-amber-300 to-amber-400">
+            <section className="py-16 ">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-black mb-6">Experience the Magnoliya Difference</h2>
                     <p className="text-xl text-black mb-10 max-w-3xl mx-auto">
@@ -516,6 +542,7 @@ const About = () => {
                     </div>
                 </div>
             </section>
+        </div>
         </div>
     );
 };

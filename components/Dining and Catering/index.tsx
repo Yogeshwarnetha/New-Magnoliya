@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import Link from 'next/link';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Add this type definition at the top
 type MenuPopup = {
@@ -305,6 +305,27 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
 const Dining = () => {
     const [popupOpen, setPopupOpen] = useState(false);
     const [currentMenu, setCurrentMenu] = useState<MenuPopup | null>(null);
+    const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+    const [backgroundTop, setBackgroundTop] = useState<number | null>(null);
+    const heroRef = useRef<HTMLElement | null>(null);
+
+    // Decorative background image used on the Homepage
+    const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
+    useEffect(() => {
+        const compute = () => {
+            const vh = window.innerHeight;
+            setViewportHeight(vh);
+
+            const heroHeight = heroRef.current?.clientHeight ?? null;
+            if (heroHeight) setBackgroundTop(heroHeight);
+            else setBackgroundTop(vh);
+        };
+
+        compute();
+        window.addEventListener('resize', compute);
+        return () => window.removeEventListener('resize', compute);
+    }, []);
 
     const menuData = {
         multiCuisine: {
@@ -448,10 +469,10 @@ const Dining = () => {
             title: "Birthday Celebrations",
             image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000005033.jpg"
         },
-        {
-            title: "Holiday Gatherings",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/FoodBeveragesHeroBanner.jpg"
-        }
+        // {
+        //     title: "Holiday Gatherings",
+        //     image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/FoodBeveragesHeroBanner.jpg"
+        // }
     ];
 
     const culinaryTeam = [
@@ -524,259 +545,276 @@ const Dining = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-            {/* Menu Popup Modal */}
-            <MenuPopupModal
-                isOpen={popupOpen}
-                onClose={closeMenuPopup}
-                menuData={currentMenu}
+        <div className="relative min-h-screen">
+            {/* Decorative repeating background — start after hero (matches Gallery component) */}
+            <div
+                className="absolute left-0 right-0 z-0 homepage-bg-darken"
+                style={{
+                    top: backgroundTop ? `${backgroundTop}px` : (viewportHeight ? `${viewportHeight}px` : '40vh'),
+                    bottom: 0,
+                    backgroundImage: `url('${backgroundImage}')`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    pointerEvents: 'none'
+                }}
             />
 
-            {/* Banner Section */}
-            <section className="relative h-[32rem] overflow-hidden">
-                <img
-                    src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg"
-                    alt="Event Venue"
-                    className="w-full h-full object-cover"
+            {/* Content overlay */}
+            <div className="relative z-10">
+                {/* Menu Popup Modal */}
+                <MenuPopupModal
+                    isOpen={popupOpen}
+                    onClose={closeMenuPopup}
+                    menuData={currentMenu}
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-                    <div className="px-4">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages</h1>
-                        <p className="text-xl md:text-2xl max-w-2xl mx-auto">
-                            Exceptional culinary experiences crafted by our award-winning chefs
-                        </p>
-                    </div>
-                </div>
-            </section>
 
-            {/* Enhanced Culinary Story Section */}
-            <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Story</h2>
-                        <p className="text-xl text-gray-600 max-w-7xl mx-auto leading-relaxed">
-                            At Magnoliya Grand, dining becomes an art form where global flavors meet refined
-                            craftsmanship. Every dish tells a story of passion, culture, and creativity—transforming
-                            each meal into an unforgettable sensory journey.                        </p>
-                    </div>
-
-                    <div className=''>
-
-                        <GalleryCarousel images={cateringOptions} itemsPerView={1} />
-                    </div>
-
-
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                            <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Meet Our Culinary Maestros</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their
-                                artistry blends technique and imagination, creating menus that inspire and delight with
-                                every bite.
-                            </p>
-                        </div>
-
-                        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                            <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Our Core Values</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably
-                                sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as
-                                thoughtful as it is extraordinary.
-                            </p>
-                        </div>
-
-                        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                            <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                </svg>
-                            </div>
-                            <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">The Guest Experience</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether
-                                an intimate dinner or a grand celebration, every moment is designed to delight and
-                                inspire.
+                {/* Banner Section */}
+                <section ref={heroRef} className="relative h-[32rem] overflow-hidden">
+                    <img
+                        src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg"
+                        alt="Event Venue"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                    <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                        <div className="px-4">
+                            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages</h1>
+                            <p className="text-xl md:text-2xl max-w-2xl mx-auto">
+                                Exceptional culinary experiences crafted by our award-winning chefs
                             </p>
                         </div>
                     </div>
+                </section>
 
-                    {/* Redesigned Flavorful Voyage Section */}
-                    <div className="mb-16">
-                        <div className="text-center mb-12">
-                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Flavorful Voyage</h2>
+                {/* Enhanced Culinary Story Section */}
+                <section className="py-20">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Story</h2>
+                            <p className="text-xl text-gray-600 max-w-7xl mx-auto leading-relaxed">
+                                At Magnoliya Grand, dining becomes an art form where global flavors meet refined
+                                craftsmanship. Every dish tells a story of passion, culture, and creativity—transforming
+                                each meal into an unforgettable sensory journey.                        </p>
                         </div>
 
-                        {/* Grid Layout for Cuisine Categories */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                            {cuisineCategories.map((category, index) => (
-                                <div
-                                    key={index}
-                                    className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden group flex flex-col h-full"
-                                >
-                                    {/* Single Featured Image */}
-                                    <div className="relative h-48 overflow-hidden flex-shrink-0">
-                                        <img
-                                            src={category.images[0]}
-                                            alt={category.title}
-                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    </div>
+                        <div className=''>
 
-                                    {/* Content Section */}
-                                    <div className="p-6 flex flex-col flex-grow">
-                                        <h3 className="text-2xl font-serif font-bold text-gold mb-3">{category.title}</h3>
-                                        <p className="text-gray-600 leading-relaxed mb-4 flex-grow">
-                                            {category.description}
-                                        </p>
-                                        <div className="flex justify-between items-center mt-auto pt-4">
-                                            {/* <button
+                            <GalleryCarousel images={cateringOptions} itemsPerView={1} />
+                        </div>
+
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
+                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Meet Our Culinary Maestros</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their
+                                    artistry blends technique and imagination, creating menus that inspire and delight with
+                                    every bite.
+                                </p>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
+                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Our Core Values</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably
+                                    sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as
+                                    thoughtful as it is extraordinary.
+                                </p>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
+                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">The Guest Experience</h3>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether
+                                    an intimate dinner or a grand celebration, every moment is designed to delight and
+                                    inspire.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Redesigned Flavorful Voyage Section */}
+                        <div className="mb-16">
+                            <div className="text-center mb-12">
+                                <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Flavorful Voyage</h2>
+                            </div>
+
+                            {/* Grid Layout for Cuisine Categories */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                                {cuisineCategories.map((category, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden group flex flex-col h-full"
+                                    >
+                                        {/* Single Featured Image */}
+                                        <div className="relative h-48 overflow-hidden flex-shrink-0">
+                                            <img
+                                                src={category.images[0]}
+                                                alt={category.title}
+                                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        </div>
+
+                                        {/* Content Section */}
+                                        <div className="p-6 flex flex-col flex-grow">
+                                            <h3 className="text-2xl font-serif font-bold text-gold mb-3">{category.title}</h3>
+                                            <p className="text-gray-600 leading-relaxed mb-4 flex-grow">
+                                                {category.description}
+                                            </p>
+                                            <div className="flex justify-between items-center mt-auto pt-4">
+                                                {/* <button
                                                 onClick={() => openMenuPopup(category.title.toLowerCase().replace(/\s+/g, '') as keyof typeof menuData)}
                                                 className="bg-gold text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg transform hover:-translate-y-1 text-sm"
                                             >
                                                 View Menu
                                             </button> */}
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+
+
                         </div>
 
-
+                        {/* Additional Highlights */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="text-center p-6">
+                                <h4 className="text-lg font-semibold mb-3 text-gray-800">Catering & Celebrations</h4>
+                                <p className="text-gray-600">
+                                    Through CGA Catering New York, we bring world-class cuisine to events of every scale.
+                                    From elegant weddings to corporate galas, our bespoke menus elevate every occasion
+                                    with flawless execution.                            </p>
+                            </div>
+                            <div className="text-center p-6">
+                                <h4 className="text-lg font-semibold mb-3 text-gray-800">Beyond the Plate</h4>
+                                <p className="text-gray-600">
+                                    At Magnoliya Grand, food becomes storytelling, artistry, and emotion. Every dish, every
+                                    flavor, and every detail is crafted to create lasting memories beyond the table.
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                </section>
 
-                    {/* Additional Highlights */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="text-center p-6">
-                            <h4 className="text-lg font-semibold mb-3 text-gray-800">Catering & Celebrations</h4>
-                            <p className="text-gray-600">
-                                Through CGA Catering New York, we bring world-class cuisine to events of every scale.
-                                From elegant weddings to corporate galas, our bespoke menus elevate every occasion
-                                with flawless execution.                            </p>
-                        </div>
-                        <div className="text-center p-6">
-                            <h4 className="text-lg font-semibold mb-3 text-gray-800">Beyond the Plate</h4>
-                            <p className="text-gray-600">
-                                At Magnoliya Grand, food becomes storytelling, artistry, and emotion. Every dish, every
-                                flavor, and every detail is crafted to create lasting memories beyond the table.
+                {/* Our Restaurants Section */}
+                <section className="py-20">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Restaurants</h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                Discover our diverse culinary venues, each offering a unique atmosphere and exquisite flavors
                             </p>
                         </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* Our Restaurants Section */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Restaurants</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Discover our diverse culinary venues, each offering a unique atmosphere and exquisite flavors
-                        </p>
-                    </div>
-
-                    <div className="space-y-16">
-                        {restaurants.map((restaurant, index) => (
-                            <div
-                                key={index}
-                                className={`flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
-                            >
-                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
-                                    <img
-                                        src={restaurant.image}
-                                        alt={restaurant.name}
-                                        className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-                                    />
-                                </div>
-                                <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                    <h3 className="text-2xl lg:text-3xl font-serif font-bold mb-4 text-gray-800">{restaurant.name}</h3>
-                                    <p className="text-gold text-lg font-semibold mb-4">{restaurant.cuisine}</p>
-                                    <p className="text-gray-600 mb-6 leading-relaxed text-lg">{restaurant.description}</p>
-                                    <ul className="flex flex-wrap gap-3 mb-8">
-                                        {restaurant.features.map((feature, i) => (
-                                            <li key={i} className="bg-gold/10 text-gold font-semibold px-4 py-2 rounded-full text-sm">
-                                                {feature}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <Link href="/reservations" className="inline-flex items-center bg-gold text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg">
+                        <div className="space-y-16">
+                            {restaurants.map((restaurant, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+                                >
+                                    <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                                        <img
+                                            src={restaurant.image}
+                                            alt={restaurant.name}
+                                            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="lg:w-1/2 w-full p-8 lg:p-12">
+                                        <h3 className="text-2xl lg:text-3xl font-serif font-bold mb-4 text-gray-800">{restaurant.name}</h3>
+                                        <p className="text-gold text-lg font-semibold mb-4">{restaurant.cuisine}</p>
+                                        <p className="text-gray-600 mb-6 leading-relaxed text-lg">{restaurant.description}</p>
+                                        <ul className="flex flex-wrap gap-3 mb-8">
+                                            {restaurant.features.map((feature, i) => (
+                                                <li key={i} className="bg-gold/10 text-gold font-semibold px-4 py-2 rounded-full text-sm">
+                                                    {feature}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {/* <Link href="/reservations" className="inline-flex items-center bg-gold text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg">
                                         Make Reservation
                                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>
-                                    </Link>
+                                    </Link> */}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Our Culinary Excellence Section */}
+                <section className="py-20">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Excellence</h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                Dedicated to quality, sustainability, and exceptional dining experiences
+                            </p>
+                        </div>
+                        <div className="space-y-16">
+                            {/* Skilled Experts */}
+                            <div className="flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
+                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                                    <img
+                                        src={culinaryTeam[0].image}
+                                        alt={culinaryTeam[0].title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="lg:w-1/2 w-full p-8 lg:p-12">
+                                    <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[0].title}</h3>
+                                    <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[0].description}</p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Our Culinary Excellence Section */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Excellence</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Dedicated to quality, sustainability, and exceptional dining experiences
-                        </p>
-                    </div>
-                    <div className="space-y-16">
-                        {/* Skilled Experts */}
-                        <div className="flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
-                            <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
-                                <img
-                                    src={culinaryTeam[0].image}
-                                    alt={culinaryTeam[0].title}
-                                    className="w-full h-full object-cover"
-                                />
+                            {/* Sustainability */}
+                            <div className="flex flex-col lg:flex-row-reverse items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
+                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                                    <img
+                                        src={culinaryTeam[1].image}
+                                        alt={culinaryTeam[1].title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="lg:w-1/2 w-full p-8 lg:p-12">
+                                    <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[1].title}</h3>
+                                    <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[1].description}</p>
+                                </div>
                             </div>
-                            <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[0].title}</h3>
-                                <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[0].description}</p>
+                            {/* Health & Safety */}
+                            <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl">
+                                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-8">{culinaryTeam[2].title}</h3>
+                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {culinaryTeam[2].description.split('.').filter((point: string) => Boolean(point.trim())).map((point: string, idx: number) => (
+                                        <li key={idx} className="flex items-start space-x-3">
+                                            <div className="w-2 h-2 bg-gold rounded-full mt-2 flex-shrink-0"></div>
+                                            <span className="text-gray-600 text-lg">{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</span>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
-                        {/* Sustainability */}
-                        <div className="flex flex-col lg:flex-row-reverse items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
-                            <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
-                                <img
-                                    src={culinaryTeam[1].image}
-                                    alt={culinaryTeam[1].title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[1].title}</h3>
-                                <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[1].description}</p>
-                            </div>
-                        </div>
-                        {/* Health & Safety */}
-                        <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl">
-                            <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-8">{culinaryTeam[2].title}</h3>
-                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {culinaryTeam[2].description.split('.').filter((point: string) => Boolean(point.trim())).map((point: string, idx: number) => (
-                                    <li key={idx} className="flex items-start space-x-3">
-                                        <div className="w-2 h-2 bg-gold rounded-full mt-2 flex-shrink-0"></div>
-                                        <span className="text-gray-600 text-lg">{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
     );
 };

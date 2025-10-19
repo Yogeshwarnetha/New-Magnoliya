@@ -398,6 +398,7 @@ const Homepage = () => {
                     <p className="text-2xl md:text-4xl mb-10 animate-fade-in animation-delay-300">
                         Exceptional Experiences.
                     </p>
+                    
                 </div>
 
                 {/* Scroll indicator */}

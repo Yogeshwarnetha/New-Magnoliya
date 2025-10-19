@@ -11,7 +11,8 @@ import {
   FaTiktok,
   FaBars,
   FaPhone,
-  FaEnvelope
+  FaEnvelope,
+  FaChevronDown
 } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
@@ -19,11 +20,11 @@ const FaPhoneIcon = FaPhone as React.ElementType;
 const FaEnvelopeIcon = FaEnvelope as React.ElementType;
 const FaBarsIcon = FaBars as React.ElementType;
 const IoCloseIcon = IoClose as React.ElementType;
+const FaChevronDownIcon = FaChevronDown as React.ElementType;
 
 const CONTACT_INFO = {
   phone1: "+1 (703) 843-5536",
   phone2: "+1 (703) 844-35649",
-
   email: "sales@magnoliyagrand.com",
 };
 
@@ -38,11 +39,16 @@ const SOCIAL_LINKS = [
 
 const menuItems = [
   { label: "Home", href: "/" },
-  { label: "Event Venues", href: "/venues" },
-  { label: "Weddings", href: "/weddings" },
-  // { label: "Corporate Events", href: "/corporate" },
-  // { label: "Event Services", href: "/services" },
-
+  { 
+    label: "Events", 
+    href: "/venues",
+    dropdown: [
+      { label: "Corporate Events", href: "/corporate" },
+      { label: "Weddings", href: "/weddings" },
+      { label: "Social Events", href: "/venues" }
+    ]
+  },
+  // { label: "Weddings", href: "/weddings" },
   // Second line items
   { label: "Rooms & Suites", href: "/rooms-suites" },
   { label: "Dining", href: "/dining" },
@@ -53,6 +59,7 @@ const menuItems = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -120,6 +127,56 @@ const Navbar = () => {
                 {menuItems.slice(0, 7).map((item, index) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
                   const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
+                  
+                  if (item.label === "Events" && item.dropdown) {
+                    return (
+                      <div 
+                        key={index}
+                        className="relative"
+                        onMouseEnter={() => setEventsDropdownOpen(true)}
+                        onMouseLeave={() => setEventsDropdownOpen(false)}
+                      >
+                        <div className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group cursor-pointer flex items-center gap-1`}>
+                          {item.label}
+                          <FaChevronDownIcon 
+                            size={12} 
+                            className={`transition-transform duration-300 ${eventsDropdownOpen ? 'rotate-180' : ''}`} 
+                          />
+                          <span className={`${isActive ? 'w-full' : 'w-0 group-hover:w-full'} absolute bottom-0 left-0 h-0.5 bg-amber-400 transition-all duration-300`}></span>
+                        </div>
+                        
+                        {/* Enhanced Dropdown Menu with gap protection */}
+                        {eventsDropdownOpen && (
+                          <div 
+                            className="absolute top-full left-0 w-56 bg-white rounded-lg shadow-2xl border border-gray-200 z-50 overflow-hidden"
+                            style={{ marginTop: '0px' }} // Remove any gap
+                            onMouseEnter={() => setEventsDropdownOpen(true)}
+                            onMouseLeave={() => setEventsDropdownOpen(false)}
+                          >
+                            {/* Dropdown Items */}
+                            <div className="py-2">
+                              {item.dropdown.map((dropdownItem, dropdownIndex) => (
+                                <Link
+                                  key={dropdownIndex}
+                                  href={dropdownItem.href}
+                                  className="block px-4 py-3 text-gray-900 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
+                                  onClick={() => setEventsDropdownOpen(false)}
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-medium">
+                                      {dropdownItem.label}
+                                    </span>
+                                    <div className="w-2 h-2 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
                   return (
                     <Link
                       key={index}
@@ -133,20 +190,6 @@ const Navbar = () => {
                   );
                 })}
               </div>
-
-              {/* Second line */}
-              {/* <div className="flex flex-wrap items-center justify-center space-x-3">
-                {menuItems.slice(4).map((item, index) => (
-                  <Link
-                    key={index + 4}
-                    href={item.href}
-                    className="nav-link text-white hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group"
-                  >
-                    {item.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                ))}
-              </div> */}
             </div>
           </div>
 
@@ -210,6 +253,30 @@ const Navbar = () => {
           <div className="flex flex-col space-y-6">
             {menuItems.map((item, index) => {
               const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+              
+              if (item.label === "Events" && item.dropdown) {
+                return (
+                  <div key={index} className="border-b border-gray-700 pb-2">
+                    <div className={`${isActive ? 'text-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg font-medium py-2 flex items-center justify-between`}>
+                      {item.label}
+                      <FaChevronDownIcon size={14} className="text-amber-400" />
+                    </div>
+                    <div className="ml-4 flex flex-col space-y-4 mt-4 bg-gray-800/30 rounded-xl p-4">
+                      {item.dropdown.map((dropdownItem, dropdownIndex) => (
+                        <Link
+                          key={dropdownIndex}
+                          href={dropdownItem.href}
+                          className={`${pathname === dropdownItem.href ? 'text-amber-400 font-semibold bg-amber-400/10' : (scrolled ? 'text-gray-600' : 'text-gray-300')} p-3 rounded-lg hover:bg-white/10 hover:text-amber-400 transition-all duration-300`}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {dropdownItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={index}
