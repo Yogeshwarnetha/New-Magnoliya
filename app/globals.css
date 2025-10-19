@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+/* Use Playfair Display for a rich serif look, with Cormorant Garamond as a complementary serif and Montserrat for UI text */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +10,8 @@
   }
   
   body {
-    @apply font-montserrat;
+    /* Use Playfair Display as the primary site font for a rich, elegant serif feel. */
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
    /* Global page background: subtle gradient overlay with a tiled background image.
      Place your tile image in `public/bg.jpg` (or update the path below).
      The gradient is the first layer and covers the viewport; the second layer
@@ -24,8 +26,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+  /* Headings use the same elegant serif but slightly bolder weights for presence */
   h1, h2, h3, h4, h5 {
-    @apply font-cormorant font-semibold;
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 }
 
