@@ -517,11 +517,37 @@ const EventVenue = () => {
                                 >
                                     {/* Image left for even, right for odd */}
                                     <div className={`h-[420px] lg:h-full ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                                        <img
-                                            src={venue.image}
-                                            alt={venue.name}
-                                            className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                                        />
+                                        {venue.id === 'grand-ballroom' ? (
+                                            <div className="w-full rounded-2xl overflow-hidden shadow-lg h-full">
+                                                <div className="w-full aspect-[16/9] bg-black h-full">
+                                                    <iframe
+                                                        title="360 Tour Grand Ballroom"
+                                                        src="https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1"
+                                                        allowFullScreen
+                                                        loading="lazy"
+                                                        className="w-full h-full border-0"
+                                                    />
+                                                </div>
+                                            </div>
+                                        ) : venue.id === 'front-pre-function' ? (
+                                            <div className="w-full rounded-2xl overflow-hidden shadow-lg h-full">
+                                                <div className="w-full aspect-[16/9] bg-black h-full">
+                                                    <iframe
+                                                        title="360 Tour Front Pre Function"
+                                                        src="https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1"
+                                                        allowFullScreen
+                                                        loading="lazy"
+                                                        className="w-full h-full border-0"
+                                                    />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={venue.image}
+                                                alt={venue.name}
+                                                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                            />
+                                        )}
                                     </div>
 
                                     <div className="p-8">
@@ -656,7 +682,7 @@ const EventVenue = () => {
                 </section>
 
                 {/* 360° Tours Section */}
-                <section className="py-16">
+                {/* <section className="py-16">
                     <div className="container mx-auto px-4">
                         <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">360° Venue Tours</h2>
 
@@ -690,7 +716,7 @@ const EventVenue = () => {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Photo Galleries */}
                 <section className="py-16">

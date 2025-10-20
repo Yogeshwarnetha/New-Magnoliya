@@ -15,8 +15,8 @@ const Footer = () => {
     { label: 'Gallery', href: '/gallery' },
     { label: 'About Us', href: '/about' },
     { label: 'Contact Us', href: '/contact' },
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
+    // { label: 'Privacy Policy', href: '/privacy' },
+    // { label: 'Terms of Service', href: '/terms' },
   ];
 
   const SOCIAL_LINKS = [

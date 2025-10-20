@@ -43,6 +43,16 @@ const ContactUs = () => {
         }, 3000);
     };
 
+    // Return local YYYY-MM-DD for date inputs to avoid timezone issues
+    const getLocalDateString = (d: Date) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const minEventDate = getLocalDateString(new Date());
+
     const faqs = [
         {
             question: "What types of events do you host?",
@@ -113,8 +123,8 @@ const ContactUs = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-800 mb-2">Address</h3>
-                                        <p className="text-gray-600">123 Luxury Avenue</p>
-                                        <p className="text-gray-600">Prestige District, MG 12345</p>
+                                        <p className="text-gray-600">7001 Infantry Ridge Rd,</p>
+                                        <p className="text-gray-600">Manassas, VA 20109</p>
                                     </div>
                                 </div>
 
@@ -126,8 +136,16 @@ const ContactUs = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-800 mb-2">Phone</h3>
-                                        <p className="text-gray-600">(703) 843-5536</p>
-                                        <p className="text-gray-600">(703) 843-5649</p>
+                                        <p className="text-gray-600">
+                                            <a href="tel:+17038435536" aria-label="Call Magnoliya Grand" className="hover:underline">
+                                                +1 (703) 843-5536
+                                            </a>
+                                        </p>
+                                        <p className="text-gray-600">
+                                            <a href="tel:+170384435649" aria-label="Call Magnoliya Grand secondary" className="hover:underline">
+                                                +1 (703) 844-35649
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
 
@@ -139,12 +157,15 @@ const ContactUs = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-800 mb-2">Email</h3>
-                                        <p className="text-gray-600">info@magnoliyagrand.com</p>
-                                        <p className="text-gray-600">events@magnoliyagrand.com</p>
+                                        <p className="text-gray-600">
+                                            <a href="mailto:sales@magnoliyagrand.com" aria-label="Email Magnoliya Grand" className="hover:underline">
+                                                sales@magnoliyagrand.com
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start">
+                                {/* <div className="flex items-start">
                                     <div className="bg-gold rounded-full p-3 mr-4 flex-shrink-0">
                                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -156,17 +177,17 @@ const ContactUs = () => {
                                         <p className="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
                                         <p className="text-gray-600">Sunday: By appointment only</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Social Media Links */}
-                            <div>
+                            {/* <div>
                                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Follow Us</h3>
                                 <div className="flex space-x-4">
                                     <a href="#" className="text-gray-600 hover:text-gold transition-colors duration-300">
                                         <span className="sr-only">Facebook</span>
                                         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                        ₹                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
                                         </svg>
                                     </a>
                                     <a href="#" className="text-gray-600 hover:text-gold transition-colors duration-300">
@@ -182,7 +203,7 @@ const ContactUs = () => {
                                         </svg>
                                     </a>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Contact Form */}
@@ -264,6 +285,7 @@ const ContactUs = () => {
                                             name="eventDate"
                                             value={formData.eventDate}
                                             onChange={handleChange}
+                                            min={minEventDate}
                                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
                                         />
                                     </div>

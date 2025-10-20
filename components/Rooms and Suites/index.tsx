@@ -5,6 +5,8 @@ const RoomsAndSuites = () => {
     const [viewportHeight, setViewportHeight] = useState<number | null>(null);
     const [backgroundTop, setBackgroundTop] = useState<number | null>(null);
     const heroRef = useRef<HTMLElement | null>(null);
+    const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
+    const [lightboxIndex, setLightboxIndex] = useState<number>(0);
 
     // Decorative background image used on the Homepage
     const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
@@ -23,6 +25,24 @@ const RoomsAndSuites = () => {
         window.addEventListener('resize', compute);
         return () => window.removeEventListener('resize', compute);
     }, []);
+
+    // Add keyboard navigation for lightbox
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!lightboxOpen) return;
+            
+            if (e.key === 'Escape') {
+                setLightboxOpen(false);
+            } else if (e.key === 'ArrowLeft') {
+                setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+            } else if (e.key === 'ArrowRight') {
+                setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxOpen]);
 
     const roomTypes = [
         {
@@ -69,6 +89,34 @@ const RoomsAndSuites = () => {
         }
     ];
 
+    // Gallery images with captions
+    const galleryImages = [
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/045-AAM_0171_HotelFront_2.jpg',
+            caption: 'Hotel Front Entrance'
+        },
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/066-AAM_LobbyRestaurant.jpg',
+            caption: 'Lobby Restaurant'
+        },
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0144_BackPatio.jpg',
+            caption: 'Back Patio Area'
+        },
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0228_Lobby.jpg',
+            caption: 'Main Lobby'
+        },
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0339_SwimmingPool.jpg',
+            caption: 'Swimming Pool'
+        },
+        {
+            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0360_Restaurant.jpg',
+            caption: 'Restaurant Dining Area'
+        }
+    ];
+
     return (
         <div className="relative min-h-screen">
             {/* Decorative repeating background — start after hero (matches other components) */}
@@ -90,7 +138,7 @@ const RoomsAndSuites = () => {
                 {/* Hero Section */}
                 <section ref={heroRef} className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
                     <img
-                        src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif"
+                        src="https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0198_HotelFront_1.jpg"
                         alt="Luxury Rooms"
                         className="w-full h-full object-cover"
                     />
@@ -197,6 +245,153 @@ const RoomsAndSuites = () => {
                         </div>
                     </div>
                 </section>
+
+                {/* Enhanced Gallery Section */}
+                <section className="py-16">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-4">Hotel Gallery</h2>
+                            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                                Explore our beautiful property through these stunning photos showcasing our amenities and accommodations.
+                            </p>
+                        </div>
+
+                        {/* Masonry-style grid for more dynamic layout */}
+                        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+                            {galleryImages.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className="break-inside-avoid group cursor-pointer transform transition-all duration-300 hover:scale-[1.02]"
+                                    onClick={() => { setLightboxIndex(index); setLightboxOpen(true); }}
+                                >
+                                    <div className="relative overflow-hidden rounded-xl shadow-lg bg-white">
+                                        <div className="aspect-w-16 aspect-h-12 bg-gray-100">
+                                            <img
+                                                src={image.src}
+                                                alt={image.caption}
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                                            <div className="p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
+                                                <p className="text-sm font-medium">{image.caption}</p>
+                                                <div className="flex items-center mt-1 text-xs opacity-90">
+                                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                    </svg>
+                                                    Click to view
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Grid layout alternative (uncomment to use instead of masonry) */}
+                        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {galleryImages.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className="group cursor-pointer transform transition-all duration-300 hover:scale-[1.02]"
+                                    onClick={() => { setLightboxIndex(index); setLightboxOpen(true); }}
+                                >
+                                    <div className="relative overflow-hidden rounded-xl shadow-lg bg-white h-64">
+                                        <img
+                                            src={image.src}
+                                            alt={image.caption}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                            <p className="text-white text-sm font-medium">{image.caption}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div> */}
+                    </div>
+                </section>
+
+                {/* Enhanced Lightbox Modal */}
+                {lightboxOpen && (
+                    <div 
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 px-4 backdrop-blur-sm"
+                        role="dialog" 
+                        aria-modal="true"
+                        aria-label="Image gallery"
+                        onClick={(e) => e.target === e.currentTarget && setLightboxOpen(false)}
+                    >
+                        <div className="max-w-6xl w-full max-h-[90vh] flex flex-col">
+                            {/* Header with counter and close button */}
+                            <div className="flex justify-between items-center text-white mb-4">
+                                <div className="text-sm opacity-80">
+                                    {lightboxIndex + 1} of {galleryImages.length}
+                                </div>
+                                <button
+                                    onClick={() => setLightboxOpen(false)}
+                                    className="p-2 hover:bg-white hover:bg-opacity-10 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+                                    aria-label="Close gallery"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {/* Main image container */}
+                            <div className="relative flex-1 flex items-center justify-center">
+                                <button
+                                    onClick={() => setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+                                    className="absolute left-4 z-10 p-3 text-white hover:bg-white hover:bg-opacity-10 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+                                    aria-label="Previous image"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+
+                                <div className="w-full h-full flex items-center justify-center">
+                                    <img 
+                                        src={galleryImages[lightboxIndex].src}
+                                        alt={galleryImages[lightboxIndex].caption}
+                                        className="max-w-full max-h-full object-contain rounded-lg"
+                                    />
+                                </div>
+
+                                <button
+                                    onClick={() => setLightboxIndex((prev) => (prev + 1) % galleryImages.length)}
+                                    className="absolute right-4 z-10 p-3 text-white hover:bg-white hover:bg-opacity-10 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+                                    aria-label="Next image"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {/* Image caption */}
+                            <div className="text-center text-white mt-4">
+                                <p className="text-lg font-medium">{galleryImages[lightboxIndex].caption}</p>
+                            </div>
+
+                            {/* Thumbnail navigation */}
+                            <div className="flex justify-center mt-6 space-x-2">
+                                {galleryImages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setLightboxIndex(index)}
+                                        className={`w-3 h-3 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white ${
+                                            index === lightboxIndex ? 'bg-white' : 'bg-white bg-opacity-40 hover:bg-opacity-60'
+                                        }`}
+                                        aria-label={`Go to image ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* CTA Section */}
                 <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
