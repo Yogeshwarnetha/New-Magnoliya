@@ -34,6 +34,11 @@ const RoomsAndSuites = () => {
             id: 4,
             image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_MagHotel_Front.jpg",
             title: "Rooms & Suites",
+        },
+        {
+            id: 5,
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/banner-5.jpg",
+            title: "Rooms & Suites",
         }
     ];
 
