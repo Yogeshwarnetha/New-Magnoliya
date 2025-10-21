@@ -400,7 +400,7 @@ const Homepage = () => {
                     </p>
                     <div className="animate-fade-in animation-delay-500">
                         <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="_blank" rel="noopener noreferrer" aria-label="Request a booking">
-                            <button className="border border-white text-white bg-transparent font-semibold py-2 px-6 transition-all duration-300 transform hover:scale-105 hover:bg-white/10 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50">
+                            <button className="bg-white text-gold font-semibold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:bg-white/95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gold/50">
                                 Book events/schedule meeting
                             </button>
                         </a>
