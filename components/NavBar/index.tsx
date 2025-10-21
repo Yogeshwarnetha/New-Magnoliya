@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import {
@@ -37,24 +37,22 @@ const SOCIAL_LINKS = [
   { name: "Tiktok", href: "https://www.tiktok.com/@magnoliyagrand?_t=ZT-8tbtueOhSP5&_r=1", img: "/tiktok.png" },
 ];
 
-const menuItems = [
+type DropdownItem = { label: string; href: string };
+type MenuItem = { label: string; href: string; dropdown?: DropdownItem[] };
+
+const menuItems: MenuItem[] = [
   { label: "Home", href: "/" },
-  { 
-    label: "Events", 
-    href: "/venues",
-    dropdown: [
-      { label: "Corporate Events", href: "/corporate" },
-      { label: "Weddings", href: "/weddings" },
-      { label: "Social Events", href: "/venues" }
-    ]
-  },
+
+  { label: "Event Venues", href: "/venues" },
+  { label: "Weddings", href: "/weddings" },
+  { label: "Corporate Events", href: "/corporate" },
   // { label: "Weddings", href: "/weddings" },
   // Second line items
   { label: "Rooms & Suites", href: "/rooms-suites" },
   { label: "Dining", href: "/dining" },
   { label: "Gallery", href: "/gallery" },
   { label: "About Us", href: "/about" },
-  { label: "Contact Us", href: "/contact" },
+  // { label: "Contact Us", href: "/contact" },
 
 ];
 
@@ -126,7 +124,7 @@ const Navbar = () => {
             <div className="flex flex-col items-center space-y-2 max-w-4xl">
               {/* First line */}
               <div className="flex flex-wrap items-center justify-center space-x-3">
-                {menuItems.slice(0, 7).map((item, index) => {
+                {menuItems.slice(0, 5).map((item: MenuItem, index: number) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
                   const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
                   
@@ -157,7 +155,7 @@ const Navbar = () => {
                           >
                             {/* Dropdown Items */}
                             <div className="py-2">
-                              {item.dropdown.map((dropdownItem, dropdownIndex) => (
+                              {item.dropdown!.map((dropdownItem: DropdownItem, dropdownIndex: number) => (
                                 <Link
                                   key={dropdownIndex}
                                   href={dropdownItem.href}
@@ -181,7 +179,7 @@ const Navbar = () => {
 
                   return (
                     <Link
-                      key={index}
+                      key={item.label + "-" + index}
                       href={item.href}
                       className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-[18px] font-medium relative group`}
                       aria-current={isActive ? 'page' : undefined}
@@ -192,6 +190,73 @@ const Navbar = () => {
                   );
                 })}
               </div>
+              {/* Second line - render remaining items (if any) */}
+              {menuItems.length > 5 && (
+                <div className="flex flex-wrap items-center justify-center space-x-3">
+                  {menuItems.slice(5).map((item, idx) => {
+                    const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+                    const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
+
+                    if (item.label === "Events" && item.dropdown) {
+                      return (
+                        <div 
+                          key={item.label + "-" + idx}
+                          className="relative"
+                          onMouseEnter={() => setEventsDropdownOpen(true)}
+                          onMouseLeave={() => setEventsDropdownOpen(false)}
+                        >
+                          <div className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-[18px] font-medium relative group cursor-pointer flex items-center gap-1`}>
+                            {item.label}
+                            <FaChevronDownIcon 
+                              size={12} 
+                              className={`transition-transform duration-300 ${eventsDropdownOpen ? 'rotate-180' : ''}`} 
+                            />
+                            <span className={`${isActive ? 'w-full' : 'w-0 group-hover:w-full'} absolute bottom-0 left-0 h-0.5 bg-amber-400 transition-all duration-300`}></span>
+                          </div>
+                          {eventsDropdownOpen && (
+                            <div 
+                              className="absolute top-full left-0 w-56 bg-white rounded-lg shadow-2xl border border-gray-200 z-50 overflow-hidden"
+                              style={{ marginTop: '0px' }}
+                              onMouseEnter={() => setEventsDropdownOpen(true)}
+                              onMouseLeave={() => setEventsDropdownOpen(false)}
+                            >
+                              <div className="py-2">
+                                {item.dropdown!.map((dropdownItem: DropdownItem, dropdownIndex: number) => (
+                                  <Link
+                                    key={dropdownIndex}
+                                    href={dropdownItem.href}
+                                    className="block px-4 py-3 text-gray-900 text-[18px] hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
+                                    onClick={() => setEventsDropdownOpen(false)}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-medium">
+                                        {dropdownItem.label}
+                                      </span>
+                                      <div className="w-2 h-2 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        key={item.label + "-" + idx}
+                        href={item.href}
+                        className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-[18px] font-medium relative group`}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        {item.label}
+                        <span className={`${isActive ? 'w-full' : 'w-0 group-hover:w-full'} absolute bottom-0 left-0 h-0.5 bg-amber-400 transition-all duration-300`}></span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
@@ -264,7 +329,7 @@ const Navbar = () => {
                       <FaChevronDownIcon size={14} className="text-amber-400" />
                     </div>
                     <div className="ml-4 flex flex-col space-y-4 mt-4 bg-gray-800/30 rounded-xl p-4">
-                      {item.dropdown.map((dropdownItem, dropdownIndex) => (
+                      {item.dropdown!.map((dropdownItem: DropdownItem, dropdownIndex: number) => (
                         <Link
                           key={dropdownIndex}
                           href={dropdownItem.href}
