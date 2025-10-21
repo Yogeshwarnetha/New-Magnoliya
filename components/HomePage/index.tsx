@@ -83,7 +83,7 @@ const Homepage = () => {
         },
         {
             title: "Dining",
-            image: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_201602.jpg",
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/image.png",
             alt: "Fine Dining Restaurant",
             link: "/dining",
             description: "Exquisite culinary experiences in sophisticated settings"
@@ -398,6 +398,13 @@ const Homepage = () => {
                     <p className="text-2xl md:text-4xl mb-10 animate-fade-in animation-delay-300 text-white">
                         Exceptional Experiences.
                     </p>
+                    <div className="animate-fade-in animation-delay-500">
+                        <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="_blank" rel="noopener noreferrer" aria-label="Request a booking">
+                            <button className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 px-6 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                Booking Request
+                            </button>
+                        </a>
+                    </div>
                     
                 </div>
 
@@ -896,7 +903,7 @@ const Homepage = () => {
                         Experience unparalleled luxury and impeccable service at Magnoliya Grand
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="/booking" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
+                        <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="_blank" rel="noopener noreferrer" className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                             Book Now
                         </a>
                         <a href="/contact" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +13,28 @@ const ContactUs = () => {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+    const [viewportHeight, setViewportHeight] = useState<number | null>(null);
+    const [backgroundTop, setBackgroundTop] = useState<number | null>(null);
+    const heroRef = useRef<HTMLElement | null>(null);
+
+    // Same decorative background image used on About page
+    const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
+    useEffect(() => {
+        const compute = () => {
+            const vh = window.innerHeight;
+            setViewportHeight(vh);
+
+            const heroHeight = heroRef.current?.clientHeight ?? null;
+            if (heroHeight) setBackgroundTop(heroHeight);
+            else setBackgroundTop(vh);
+        };
+
+        compute();
+        window.addEventListener('resize', compute);
+        return () => window.removeEventListener('resize', compute);
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -76,328 +98,363 @@ const ContactUs = () => {
         }
     ];
 
-    const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
-
     const toggleFAQ = (index: number) => {
         setActiveFAQ(activeFAQ === index ? null : index);
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <section className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
-                <img
-                    src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                    alt="Contact Us"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-                    <div className="px-4">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">Contact Us</h1>
-                        <p className="text-lg md:text-xl max-w-2xl mx-auto">
-                            Get in touch to start planning your event
-                        </p>
+        <div className="relative min-h-screen bg-white">
+            {/* Decorative repeating background — start after hero (matches About page) */}
+            <div
+                className="absolute left-0 right-0 z-0 homepage-bg-darken"
+                style={{
+                    top: backgroundTop ? `${backgroundTop}px` : (viewportHeight ? `${viewportHeight}px` : '40vh'),
+                    bottom: 0,
+                    backgroundImage: `url('${backgroundImage}')`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    pointerEvents: 'none'
+                }}
+            />
+
+            {/* Content overlay */}
+            <div className="relative z-10">
+                {/* Hero Section */}
+                <section ref={heroRef} className="relative h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden">
+                    <img
+                        src="https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_0093.jpg"
+                        alt="Contact Us"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                    <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                        <div className="px-4">
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 text-white">Contact Us</h1>
+                            {/* <p className="text-lg md:text-xl max-w-2xl mx-auto">
+                                Get in touch to start planning your event
+                            </p> */}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Contact Information & Form */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        {/* Contact Information */}
-                        <div>
-                            <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">Get In Touch</h2>
-                            <p className="text-lg text-gray-600 mb-8">
-                                Our team is ready to help you plan your next event. Reach out to us through any of the following methods:
-                            </p>
-
-                            <div className="space-y-6 mb-8">
-                                <div className="flex items-start">
-                                    <div className="bg-gold rounded-full p-3 mr-4 flex-shrink-0">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
+                {/* Contact Information & Form */}
+                <section className="py-24 relative overflow-hidden">
+                    {/* Background decorative elements */}
+                    <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/3 rounded-full translate-x-1/3 translate-y-1/3"></div>
+                    
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                            {/* Enhanced Contact Information */}
+                            <div>
+                                <div className="mb-8">
+                                    <div className="flex items-center mb-6">
+                                        <div className="w-12 h-px bg-gold mr-4"></div>
+                                        <span className="text-gold font-semibold tracking-widest text-sm uppercase">CONTACT US</span>
                                     </div>
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Address</h3>
-                                        <p className="text-gray-600">7001 Infantry Ridge Rd,</p>
-                                        <p className="text-gray-600">Manassas, VA 20109</p>
-                                    </div>
+                                    <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6 leading-tight">
+                                        Get In Touch
+                                    </h2>
+                                    <p className="text-xl text-gray-700 font-light">
+                                        Our team is ready to help you plan your next event. Reach out to us through any of the following methods:
+                                    </p>
                                 </div>
 
-                                <div className="flex items-start">
-                                    <div className="bg-gold rounded-full p-3 mr-4 flex-shrink-0">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Phone</h3>
-                                        <p className="text-gray-600">
-                                            <a href="tel:+17038435536" aria-label="Call Magnoliya Grand" className="hover:underline">
-                                                +1 (703) 843-5536
-                                            </a>
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <a href="tel:+170384435649" aria-label="Call Magnoliya Grand secondary" className="hover:underline">
-                                                +1 (703) 844-35649
-                                            </a>
-                                        </p>
-                                    </div>
+                                <div className="space-y-8 mb-12">
+                                    {[
+                                        {
+                                            icon: (
+                                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+                                            ),
+                                            title: "Address",
+                                            content: ["7001 Infantry Ridge Rd,", "Manassas, VA 20109"]
+                                        },
+                                        {
+                                            icon: (
+                                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                </svg>
+                                            ),
+                                            title: "Phone",
+                                            content: [
+                                                <a key="phone1" href="tel:+17038435536" aria-label="Call Magnoliya Grand" className="hover:underline transition-all duration-300">
+                                                    +1 (703) 843-5536
+                                                </a>,
+                                                <a key="phone2" href="tel:+170384435649" aria-label="Call Magnoliya Grand secondary" className="hover:underline transition-all duration-300">
+                                                    +1 (703) 844-35649
+                                                </a>
+                                            ]
+                                        },
+                                        {
+                                            icon: (
+                                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                </svg>
+                                            ),
+                                            title: "Email",
+                                            content: [
+                                                <a key="email" href="mailto:sales@magnoliyagrand.com" aria-label="Email Magnoliya Grand" className="hover:underline transition-all duration-300">
+                                                    sales@magnoliyagrand.com
+                                                </a>
+                                            ]
+                                        }
+                                    ].map((contact, index) => (
+                                        <div key={index} className="flex items-start group">
+                                            <div className="bg-gold rounded-2xl p-4 mr-6 flex-shrink-0 group-hover:scale-110 transition-all duration-300">
+                                                {contact.icon}
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-serif font-light text-gray-800 mb-3">{contact.title}</h3>
+                                                <div className="space-y-1">
+                                                    {contact.content.map((item, i) => (
+                                                        <p key={i} className="text-gray-700 font-light text-lg">{item}</p>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-
-                                <div className="flex items-start">
-                                    <div className="bg-gold rounded-full p-3 mr-4 flex-shrink-0">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Email</h3>
-                                        <p className="text-gray-600">
-                                            <a href="mailto:sales@magnoliyagrand.com" aria-label="Email Magnoliya Grand" className="hover:underline">
-                                                sales@magnoliyagrand.com
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* <div className="flex items-start">
-                                    <div className="bg-gold rounded-full p-3 mr-4 flex-shrink-0">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Hours</h3>
-                                        <p className="text-gray-600">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                                        <p className="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
-                                        <p className="text-gray-600">Sunday: By appointment only</p>
-                                    </div>
-                                </div> */}
                             </div>
 
-                            {/* Social Media Links */}
-                            {/* <div>
-                                <h3 className="text-xl font-semibold text-gray-800 mb-4">Follow Us</h3>
-                                <div className="flex space-x-4">
-                                    <a href="#" className="text-gray-600 hover:text-gold transition-colors duration-300">
-                                        <span className="sr-only">Facebook</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        ₹                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                                        </svg>
-                                    </a>
-                                    <a href="#" className="text-gray-600 hover:text-gold transition-colors duration-300">
-                                        <span className="sr-only">Instagram</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
-                                        </svg>
-                                    </a>
-                                    <a href="#" className="text-gray-600 hover:text-gold transition-colors duration-300">
-                                        <span className="sr-only">Twitter</span>
-                                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                                        </svg>
-                                    </a>
+                            {/* Enhanced Contact Form */}
+                            <div>
+                                <div className="mb-8">
+                                    <div className="flex items-center mb-6">
+                                        <div className="w-12 h-px bg-gold mr-4"></div>
+                                        <span className="text-gold font-semibold tracking-widest text-sm uppercase">SEND MESSAGE</span>
+                                    </div>
+                                    <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6 leading-tight">
+                                        Send Us a Message
+                                    </h2>
                                 </div>
-                            </div> */}
-                        </div>
 
-                        {/* Contact Form */}
-                        <div>
-                            <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-6">Send Us a Message</h2>
+                                {isSubmitted ? (
+                                    <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-2xl mb-8 text-lg">
+                                        <p>Thank you for your message! We'll get back to you soon.</p>
+                                    </div>
+                                ) : null}
 
-                            {isSubmitted ? (
-                                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                                    <p>Thank you for your message! We'll get back to you soon.</p>
-                                </div>
-                            ) : null}
+                                <form onSubmit={handleSubmit} className="space-y-8">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-3">Full Name *</label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-3">Email Address *</label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            />
+                                        </div>
+                                    </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-3">Phone Number</label>
+                                            <input
+                                                type="tel"
+                                                id="phone"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-3">Event Type *</label>
+                                            <select
+                                                id="eventType"
+                                                name="eventType"
+                                                value={formData.eventType}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            >
+                                                <option value="">Select Event Type</option>
+                                                <option value="wedding">Wedding</option>
+                                                <option value="corporate">Corporate Event</option>
+                                                <option value="social">Social Gathering</option>
+                                                <option value="conference">Conference</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 mb-3">Event Date</label>
+                                            <input
+                                                type="date"
+                                                id="eventDate"
+                                                name="eventDate"
+                                                value={formData.eventDate}
+                                                onChange={handleChange}
+                                                min={minEventDate}
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="guests" className="block text-sm font-medium text-gray-700 mb-3">Number of Guests</label>
+                                            <input
+                                                type="number"
+                                                id="guests"
+                                                name="guests"
+                                                value={formData.guests}
+                                                onChange={handleChange}
+                                                min="1"
+                                                className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div>
-                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            value={formData.name}
+                                        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-3">Message *</label>
+                                        <textarea
+                                            id="message"
+                                            name="message"
+                                            value={formData.message}
                                             onChange={handleChange}
                                             required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        />
+                                            rows={5}
+                                            className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold focus:border-transparent transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                                        ></textarea>
                                     </div>
-                                    <div>
-                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        />
-                                    </div>
-                                </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                                        <input
-                                            type="tel"
-                                            id="phone"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-1">Event Type *</label>
-                                        <select
-                                            id="eventType"
-                                            name="eventType"
-                                            value={formData.eventType}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        >
-                                            <option value="">Select Event Type</option>
-                                            <option value="wedding">Wedding</option>
-                                            <option value="corporate">Corporate Event</option>
-                                            <option value="social">Social Gathering</option>
-                                            <option value="conference">Conference</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 mb-1">Event Date</label>
-                                        <input
-                                            type="date"
-                                            id="eventDate"
-                                            name="eventDate"
-                                            value={formData.eventDate}
-                                            onChange={handleChange}
-                                            min={minEventDate}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="guests" className="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
-                                        <input
-                                            type="number"
-                                            id="guests"
-                                            name="guests"
-                                            value={formData.guests}
-                                            onChange={handleChange}
-                                            min="1"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        required
-                                        rows={5}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-gold focus:border-gold"
-                                    ></textarea>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="w-full bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-6 rounded-md transition-colors duration-300"
-                                >
-                                    Send Message
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Google Maps Embed */}
-            <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-8 text-center">Find Us</h2>
-                    <div className="rounded-xl overflow-hidden shadow-xl">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.150381926311!2d-77.4404844846512!3d38.89951457957098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b64e5bb5d0f36f%3A0x92f5e7c6b4b5f7b4!2sWashington%20DC%2C%20USA!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s"
-                            width="100%"
-                            height="450"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            title="Magnoliya Grand Location"
-                        ></iframe>
-                    </div>
-                </div>
-            </section>
-
-            {/* FAQ Section */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-serif text-gray-800 mb-12 text-center">Frequently Asked Questions</h2>
-
-                    <div className="max-w-4xl mx-auto space-y-4">
-                        {faqs.map((faq, index) => (
-                            <div key={index} className="border-b border-gray-200 pb-4">
-                                <button
-                                    onClick={() => toggleFAQ(index)}
-                                    className="flex justify-between items-center w-full text-left py-4 font-semibold text-gray-800 hover:text-gold transition-colors duration-300"
-                                >
-                                    <span>{faq.question}</span>
-                                    <svg
-                                        className={`w-5 h-5 transition-transform duration-300 ${activeFAQ === index ? 'transform rotate-180' : ''}`}
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-gold hover:bg-gold-dark text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 transform"
                                     >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                {activeFAQ === index && (
-                                    <div className="pb-4 text-gray-600">
-                                        {faq.answer}
-                                    </div>
-                                )}
+                                        Send Message
+                                    </button>
+                                </form>
                             </div>
-                        ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-gold-light to-gold">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif text-black mb-6">Ready to Plan Your Event?</h2>
-                    <p className="text-xl text-black mb-10 max-w-3xl mx-auto">
-                        Contact us today to start planning your unforgettable event at Magnoliya Grand
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="tel:7038435536" className="bg-black text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl">
-                            Call Now
-                        </a>
-                        <a href="#contact-form" className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
-                            Send Message
-                        </a>
+                {/* Enhanced Google Maps Section */}
+                <section className="py-24 relative overflow-hidden">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-gold mr-4"></div>
+                                <span className="text-gold font-semibold tracking-widest text-sm uppercase">LOCATION</span>
+                                <div className="w-20 h-px bg-gold ml-4"></div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
+                                Find Us
+                            </h2>
+                        </div>
+                        <div className="rounded-3xl overflow-hidden shadow-2xl border border-gold/20">
+                            <iframe
+                                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d758.2429680661145!2d-77.51543335632445!3d38.805043902081664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b65d2cdbc0b3f9%3A0x5cbc9082e6b64c66!2sMagnoliya%20Grand%20Conference%20and%20Event%20center!5e0!3m2!1sen!2sin!4v1760907389364!5m2!1sen!2sin'
+                                width="100%"
+                                height="450"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="Magnoliya Grand Location"
+                            ></iframe>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                {/* Enhanced FAQ Section */}
+                <section className="py-24 relative overflow-hidden">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-gold mr-4"></div>
+                                <span className="text-gold font-semibold tracking-widest text-sm uppercase">FAQ</span>
+                                <div className="w-20 h-px bg-gold ml-4"></div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
+                                Frequently Asked Questions
+                            </h2>
+                        </div>
+
+                        <div className="max-w-4xl mx-auto space-y-6">
+                            {faqs.map((faq, index) => (
+                                <div key={index} className="group border-b border-gray-200 pb-6">
+                                    <button
+                                        onClick={() => toggleFAQ(index)}
+                                        className="flex justify-between items-center w-full text-left py-6 font-serif text-xl text-gray-800 hover:text-gold transition-all duration-300"
+                                    >
+                                        <span className="font-light">{faq.question}</span>
+                                        <svg
+                                            className={`w-6 h-6 transition-transform duration-300 ${activeFAQ === index ? 'transform rotate-180 text-gold' : 'text-gray-400'}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    {activeFAQ === index && (
+                                        <div className="pb-4 text-gray-600 text-lg font-light leading-relaxed">
+                                            {faq.answer}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Enhanced CTA Section */}
+                <section className="py-24 relative overflow-hidden">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                        <div className="absolute inset-0" style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                        }}></div>
+                    </div>
+
+                    <div className="container mx-auto px-6 text-center relative z-10">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-black mr-4"></div>
+                                <span className="text-black font-semibold tracking-widest text-sm uppercase">READY TO PLAN YOUR EVENT?</span>
+                                <div className="w-20 h-px bg-black ml-4"></div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-serif font-light text-black mb-6">
+                                Ready to Plan Your Event?
+                            </h2>
+                            <p className="text-xl text-black/80 mb-10 max-w-2xl mx-auto font-light">
+                                Contact us today to start planning your unforgettable event at Magnoliya Grand
+                            </p>
+                            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                <a href="tel:7038435536" className="bg-black text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 transform">
+                                    Call Now
+                                </a>
+                                <a href="#contact-form" className="border-2 border-black text-black font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white transform hover:scale-105">
+                                    Send Message
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     );
 };

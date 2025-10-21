@@ -54,6 +54,8 @@ const menuItems = [
   { label: "Dining", href: "/dining" },
   { label: "Gallery", href: "/gallery" },
   { label: "About Us", href: "/about" },
+  { label: "Contact Us", href: "/contact" },
+
 ];
 
 const Navbar = () => {
@@ -136,7 +138,7 @@ const Navbar = () => {
                         onMouseEnter={() => setEventsDropdownOpen(true)}
                         onMouseLeave={() => setEventsDropdownOpen(false)}
                       >
-                        <div className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group cursor-pointer flex items-center gap-1`}>
+                        <div className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-[18px] font-medium relative group cursor-pointer flex items-center gap-1`}>
                           {item.label}
                           <FaChevronDownIcon 
                             size={12} 
@@ -159,7 +161,7 @@ const Navbar = () => {
                                 <Link
                                   key={dropdownIndex}
                                   href={dropdownItem.href}
-                                  className="block px-4 py-3 text-gray-900 hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
+                                  className="block px-4 py-3 text-gray-900 text-[18px] hover:bg-amber-50 hover:text-amber-600 transition-colors duration-200 border-b border-gray-100 last:border-b-0"
                                   onClick={() => setEventsDropdownOpen(false)}
                                 >
                                   <div className="flex items-center justify-between">
@@ -181,7 +183,7 @@ const Navbar = () => {
                     <Link
                       key={index}
                       href={item.href}
-                      className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium relative group`}
+                      className={`nav-link ${linkColorClass} hover:text-amber-400 transition-colors duration-300 px-2 py-2 rounded-lg text-[18px] font-medium relative group`}
                       aria-current={isActive ? 'page' : undefined}
                     >
                       {item.label}
@@ -257,7 +259,7 @@ const Navbar = () => {
               if (item.label === "Events" && item.dropdown) {
                 return (
                   <div key={index} className="border-b border-gray-700 pb-2">
-                    <div className={`${isActive ? 'text-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg font-medium py-2 flex items-center justify-between`}>
+                    <div className={`${isActive ? 'text-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-[18px] font-medium py-2 flex items-center justify-between`}>
                       {item.label}
                       <FaChevronDownIcon size={14} className="text-amber-400" />
                     </div>
@@ -281,7 +283,7 @@ const Navbar = () => {
                 <Link
                   key={index}
                   href={item.href}
-                  className={`${isActive ? 'text-amber-400 border-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-lg font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
+                  className={`${isActive ? 'text-amber-400 border-amber-400 font-semibold' : (scrolled ? 'text-gray-900' : 'text-white')} text-[18px] font-medium hover:text-amber-400 transition-colors duration-300 py-2 border-b ${scrolled ? 'border-gray-200' : 'border-gray-700'}`}
                   onClick={() => setIsOpen(false)}
                   aria-current={isActive ? 'page' : undefined}
                 >

@@ -73,7 +73,7 @@ const Gallery = () => {
             { id: 13, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.41.25_408b6bf0.jpg", title: "Award Ceremony" },
         ],
         dining: [
-            { id: 23, src: "https://pub-837447cab048469baef2e30fbd0a9877.r2.dev/20250831_201602.jpg", title: "Casual Dining" },
+            { id: 23, src: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/image.png", title: "Casual Dining" },
         ],
         venues: [
             // { id: 41, src: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg", title: "Garden Terrace" },
