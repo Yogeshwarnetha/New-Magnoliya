@@ -2,6 +2,20 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
+// Venue type with flexible index signature to allow dynamic capacity access
+type Venue = {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    squareFeet: string;
+    theater?: string | number;
+    banquet?: string | number;
+    tourUrl?: string;
+    iframeSrc?: string;
+    [key: string]: any;
+};
+
 const EventVenue = () => {
     const [activeVenue, setActiveVenue] = useState('grand-ballroom');
     const [activeCapacity, setActiveCapacity] = useState('theater');
@@ -43,7 +57,7 @@ const EventVenue = () => {
         return () => window.removeEventListener('resize', compute);
     }, []);
 
-    const venues = [
+    const venues: Venue[] = [
         {
             id: 'grand-ballroom',
             name: 'Grand Ballroom',
@@ -52,7 +66,9 @@ const EventVenue = () => {
             squareFeet: '14,500',
             theater: '1,800',
             banquet: '1,200',
-            tourUrl: 'https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1'
+            tourUrl: 'https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1',
+            // Direct iframe source to embed without using a toUrl helper
+            iframeSrc: 'https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1'
         },
         {
             id: 'front-pre-function',
@@ -62,7 +78,9 @@ const EventVenue = () => {
             squareFeet: '4,000',
             theater: '1,500',
             banquet: '1,200',
-            tourUrl: 'https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1'
+            tourUrl: 'https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1',
+            // Direct iframe source for embedding
+            iframeSrc: 'https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1'
         },
         {
             id: 'side-pre-function',
@@ -502,7 +520,7 @@ const EventVenue = () => {
                                                     <iframe
                                                         ref={el => iframeRefs.current[venue.id] = el}
                                                         title={`360 Tour ${venue.name}`}
-                                                        src={venue.tourUrl}
+                                                        src={venue.iframeSrc ?? venue.tourUrl}
                                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
                                                         allowFullScreen
                                                         referrerPolicy="no-referrer-when-downgrade"

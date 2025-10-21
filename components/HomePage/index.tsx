@@ -392,10 +392,10 @@ const Homepage = () => {
 
                 {/* Hero Content */}
                 <div className="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-4">
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in text-white">
                         Memorable Events, Luxury Stays
                     </h1>
-                    <p className="text-2xl md:text-4xl mb-10 animate-fade-in animation-delay-300">
+                    <p className="text-2xl md:text-4xl mb-10 animate-fade-in animation-delay-300 text-white">
                         Exceptional Experiences.
                     </p>
                     

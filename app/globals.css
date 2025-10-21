@@ -1,5 +1,6 @@
-/* Use Playfair Display for a rich serif look, with Cormorant Garamond as a complementary serif and Montserrat for UI text */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+/* EXACT Trump National DC Font Implementation */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,41 +11,101 @@
   }
   
   body {
-    /* Use Playfair Display as the primary site font for a rich, elegant serif feel. */
-    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-   /* Global page background: subtle gradient overlay with a tiled background image.
-     Place your tile image in `public/bg.jpg` (or update the path below).
-     The gradient is the first layer and covers the viewport; the second layer
-     is the tiled image. Adjust the tile size (150px) to make the image smaller/larger. */
-   min-height: 100vh;
+    /* EXACT: Montserrat for body text with specific weights */
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #333333;
+    min-height: 100vh;
     background-repeat: no-repeat, no-repeat;
     background-size: cover, cover;
     background-position: center top, center top;
-    /* Keep the banner fixed to the viewport for a parallax-like effect; remove `fixed` if unwanted */
     background-attachment: fixed, fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Headings use the same elegant serif but slightly bolder weights for presence */
-  h1, h2, h3, h4, h5 {
-    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  /* EXACT: Cormorant Garamond for headings with specific styling */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: #1a1a1a;
+  }
+
+  /* Specific heading weights like Trump National DC */
+  h1 {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  
+  h2 {
+    font-weight: 550;
+  }
+  
+  h3, h4, h5, h6 {
+    font-weight: 500;
+  }
+
+  /* Special display text - EXACT match */
+  .display-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 600;
     letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  /* Paragraph styling like Trump National DC */
+  p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #666666;
+  }
+
+  /* Strong/bold text */
+  strong, b {
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* Italic text */
+  em, i {
+    font-style: italic;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.6;
   }
 }
 
 @layer components {
   .btn-primary {
     @apply bg-gold-500 hover:bg-gold-600 text-white font-medium py-3 px-6 rounded-md transition-all duration-300 transform hover:scale-105;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
   
   .btn-secondary {
     @apply bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white font-medium py-3 px-6 rounded-md transition-all duration-300;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
   
   .nav-link {
     @apply relative text-white font-medium transition-colors duration-300 hover:text-gold-500;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.3px;
   }
   
   .nav-link::after {
@@ -61,6 +122,33 @@
   
   .footer-link {
     @apply text-gray-400 hover:text-gold-500 transition-colors duration-300;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
+
+  /* EXACT: Menu items styling */
+  .menu-item {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.2px;
+  }
+
+  /* EXACT: Section subtitle styling */
+  .section-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666666;
+  }
+
+  /* EXACT: Caption text */
+  .caption {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #888888;
   }
 }
 
@@ -90,13 +178,13 @@
   animation-delay: 700ms;
 }
 
-/* Add these styles to your CSS file */
-
-/* Gold color definition */
+/* Gold color definition - EXACT Trump National DC colors */
 :root {
   --gold: #AD7906;
   --gold-light: #F4E4A8;
   --gold-dark: #B8941F;
+  --dark: #1a1a1a;
+  --light: #f8f8f8;
 }
 
 /* Button styles */
@@ -111,6 +199,7 @@
   border-radius: 0.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(212, 175, 55, 0.3);
+  font-family: 'Montserrat', sans-serif;
 }
 
 .btn-primary:hover {
@@ -130,6 +219,7 @@
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .btn-secondary:hover {
@@ -179,6 +269,36 @@
 
 .border-gold {
   border-color: var(--gold);
+}
+
+/* EXACT: Font utility classes for Trump National DC */
+.font-cormorant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Font weight utilities */
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .shadow-2xl {
@@ -245,4 +365,43 @@
 
 .shadow-2xl {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* EXACT: Additional Trump National DC specific styles */
+.hero-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.section-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 550;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.body-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666666;
+}
+
+.menu-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0.2px;
+}
+
+.footer-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #888888;
 }

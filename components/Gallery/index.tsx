@@ -311,7 +311,7 @@ const Gallery = () => {
                                     <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                                         <div className="px-6 max-w-4xl">
                                             <div className="w-24 h-1 bg-gold mx-auto mb-6"></div>
-                                            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 leading-tight">
+                                            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 leading-tight text-white">
                                                 {slide.title || "Our Gallery"}
                                             </h1>
                                             {/* <p className="text-xl md:text-2xl text-gold font-light mb-8 max-w-2xl mx-auto">
