@@ -490,7 +490,7 @@ const EventVenue = () => {
                     <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                     <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                         <div className="px-4">
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">Event Venues</h1>
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4">Social Venues</h1>
                             <p className="text-lg md:text-xl max-w-2xl mx-auto">
                                 Exceptional spaces for unforgettable events and celebrations
                             </p>
