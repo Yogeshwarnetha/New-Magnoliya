@@ -285,7 +285,7 @@ const Weddings = () => {
                                 <div className="relative group order-1 lg:order-2">
                                     <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-700 h-[600px]">
                                         <img
-                                            src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/34993d40-e8ac-4adf-ad13-167ddaa25e9b.jpeg"
+                                        src='https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/IMG_1120.jpg'
                                             alt="Lakeview Garden"
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
@@ -303,7 +303,7 @@ const Weddings = () => {
                                 <div className="relative group">
                                     <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-700 h-[600px]">
                                         <img
-                                            src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/LakeView.jpg"
+                                            src="https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/A6389B85-6522-4139-B3F2-2FB33EFEF90D.jpg"
                                             alt="Lakeview Terrace"
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
@@ -581,9 +581,12 @@ const Weddings = () => {
                                                 <iframe
                                                     title={tour.title}
                                                     src={tour.src}
-                                                    allowFullScreen
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
+                                                    referrerPolicy="no-referrer-when-downgrade"
                                                     loading="lazy"
                                                     className="w-full h-full border-0"
+                                                    onLoad={() => { /* no-op: preserves ability to hook if needed */ }}
+                                                    onError={() => { /* show fallback handled by parent if required */ }}
                                                 />
                                             </div>
                                         </div>

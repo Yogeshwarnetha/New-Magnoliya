@@ -27,11 +27,11 @@ function MenuPopupModal({ isOpen, onClose, menuData }: { isOpen: boolean; onClos
     if (!isOpen || !menuData) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
-            <div className="bg-white rounded-xl max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-3xl max-w-6xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gold/20">
                 <div className="relative">
                     <button
-                        className="absolute top-4 right-4 text-gray-600 hover:text-gold text-2xl font-bold z-10 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg"
+                        className="absolute top-6 right-6 text-gray-600 hover:text-gold text-2xl font-bold z-10 bg-white/90 backdrop-blur-sm rounded-full w-10 h-10 flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300"
                         onClick={onClose}
                         aria-label="Close"
                     >
@@ -39,21 +39,23 @@ function MenuPopupModal({ isOpen, onClose, menuData }: { isOpen: boolean; onClos
                     </button>
 
                     {/* Images Gallery */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-8">
                         {menuData.images.map((image, index) => (
-                            <img
-                                key={index}
-                                src={image}
-                                alt={`${menuData.title} ${index + 1}`}
-                                className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
-                            />
+                            <div key={index} className="group relative overflow-hidden rounded-2xl">
+                                <img
+                                    src={image}
+                                    alt={`${menuData.title} ${index + 1}`}
+                                    className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-700"
+                                />
+                            </div>
                         ))}
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 pt-0">
-                        <h3 className="text-2xl font-serif font-bold text-gold mb-4">{menuData.title}</h3>
-                        <p className="text-gray-700 leading-relaxed">{menuData.description}</p>
+                    <div className="p-8 pt-4">
+                        <div className="w-16 h-1 bg-gold mb-4"></div>
+                        <h3 className="text-3xl font-serif font-light text-gray-800 mb-4">{menuData.title}</h3>
+                        <p className="text-gray-700 leading-relaxed text-lg font-light">{menuData.description}</p>
                     </div>
                 </div>
             </div>
@@ -110,42 +112,43 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
     const displayIndex = currentIndex >= images.length ? 0 : currentIndex;
 
     return (
-        <div className="flex flex-col items-center w-full max-w-6xl mx-auto">
-            <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl">
+        <div className="flex flex-col items-center w-full max-w-7xl mx-auto">
+            <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl">
                 <div
-                    className={`flex transition-transform duration-500 ease-in-out ${isTransitioning ? '' : 'transition-none'}`}
+                    className={`flex transition-transform duration-700 ease-in-out ${isTransitioning ? '' : 'transition-none'}`}
                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
                     {extendedImages.map((item, index) => (
                         <div key={index} className="w-full flex-shrink-0">
-                            <div className="relative h-96 md:h-[34rem] rounded-2xl overflow-hidden mx-2">
+                            <div className="relative h-96 md:h-[40rem] rounded-3xl overflow-hidden mx-2">
                                 <img
                                     src={item.image}
                                     alt={item.title}
-                                    className={`w-full h-full ${item.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center transform hover:scale-105 transition-transform duration-700`}
+                                    className={`w-full h-full ${item.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center transform hover:scale-105 transition-transform duration-1000`}
                                 />
-                                {/* Removed title/description overlay per request - only image visible */}
+                                {/* Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Navigation Arrows */}
+                {/* Enhanced Navigation Arrows */}
                 <button
                     onClick={handlePrev}
-                    className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full hover:bg-transparent transition-all duration-300"
+                    className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 backdrop-blur-sm text-white p-4 rounded-full hover:bg-gold transition-all duration-300 hover:scale-110 hover:shadow-2xl"
                     aria-label="Previous slide"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 <button
                     onClick={handleNext}
-                    className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full hover:bg-transparent transition-all duration-300"
+                    className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 backdrop-blur-sm text-white p-4 rounded-full hover:bg-gold transition-all duration-300 hover:scale-110 hover:shadow-2xl"
                     aria-label="Next slide"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
@@ -156,17 +159,16 @@ function SingleItemCarousel({ images }: { images: CateringOption[] }) {
                 {images.map((_, idx) => (
                     <button
                         key={idx}
-                        className={`w-4 h-4 rounded-full transition-all duration-300 transform hover:scale-125 ${idx === displayIndex
-                            ? 'bg-gold scale-125 shadow-lg'
-                            : 'bg-gray-300 hover:bg-gray-400'
-                            }`}
+                        className={`w-4 h-4 rounded-full transition-all duration-300 transform hover:scale-125 ${
+                            idx === displayIndex
+                                ? 'bg-gold scale-125 shadow-lg'
+                                : 'bg-gray-300 hover:bg-gray-400'
+                        }`}
                         onClick={() => goToSlide(idx)}
                         aria-label={`Go to slide ${idx + 1}`}
                     />
                 ))}
             </div>
-
-            {/* Slide counter removed as requested */}
         </div>
     );
 }
@@ -221,45 +223,45 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
 
     return (
         <div className="flex flex-col items-center">
-            <div className="relative w-full max-w-6xl">
+            <div className="relative w-full max-w-7xl">
                 {images.length > itemsPerView && (
                     <>
                         <button
                             onClick={prevSlide}
                             disabled={startIdx === 0}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full disabled:opacity-30 hover:bg-transparent transition-all duration-300"
+                            className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 backdrop-blur-sm text-white p-4 rounded-full disabled:opacity-30 hover:bg-gold transition-all duration-300 hover:scale-110"
                             aria-label="Previous slide"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button
                             onClick={nextSlide}
                             disabled={startIdx + itemsPerView >= images.length}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-transparent text-black p-3 rounded-full disabled:opacity-30 hover:bg-transparent transition-all duration-300"
+                            className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 backdrop-blur-sm text-white p-4 rounded-full disabled:opacity-30 hover:bg-gold transition-all duration-300 hover:scale-110"
                             aria-label="Next slide"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="black" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
                     </>
                 )}
 
-                <div className={`grid gap-6 ${itemsPerView === 3 ? 'grid-cols-1 lg:grid-cols-3' : itemsPerView === 2 ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+                <div className={`grid gap-8 ${itemsPerView === 3 ? 'grid-cols-1 lg:grid-cols-3' : itemsPerView === 2 ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
                     {visibleImages.map((img, idx) => (
                         <div
                             key={startIdx + idx}
-                            className="relative h-96 md:h-[28rem] transition-all duration-300 cursor-pointer group"
+                            className="relative h-96 md:h-[32rem] transition-all duration-500 cursor-pointer group"
                             onClick={() => openModal(startIdx + idx)}
                         >
                             <img
                                 src={img.image}
                                 alt={img.title}
-                                className={`w-full h-full ${img.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center rounded-2xl group-hover:scale-105 transition-transform duration-500 shadow-lg`}
+                                className={`w-full h-full ${img.fit === 'contain' ? 'object-contain' : 'object-cover'} object-center rounded-3xl group-hover:scale-110 transition-transform duration-700 shadow-2xl`}
                             />
-                            {/* overlay intentionally left empty so titles/descriptions are not shown */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-3xl"></div>
                         </div>
                     ))}
                 </div>
@@ -269,10 +271,11 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
                 {images.map((_, idx) => (
                     <button
                         key={idx}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${idx >= startIdx && idx < startIdx + itemsPerView
-                            ? 'bg-gold scale-125'
-                            : 'bg-gray-300 hover:bg-gray-400'
-                            }`}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                            idx >= startIdx && idx < startIdx + itemsPerView
+                                ? 'bg-gold scale-125'
+                                : 'bg-gray-300 hover:bg-gray-400'
+                        }`}
                         onClick={() => setStartIdx(Math.max(0, Math.min(idx, images.length - itemsPerView)))}
                         aria-label={`Show slide ${idx + 1}`}
                     />
@@ -280,21 +283,20 @@ function GalleryCarousel({ images, itemsPerView = 1 }: GalleryCarouselProps) {
             </div>
 
             {modalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95 p-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4">
                     <button
-                        className="absolute top-8 right-8 text-white bg-black/50 backdrop-blur-sm rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold hover:bg-black/70 transition-all duration-300 shadow-lg"
+                        className="absolute top-8 right-8 text-white bg-black/50 backdrop-blur-sm rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold hover:bg-gold transition-all duration-300 shadow-2xl hover:scale-110"
                         onClick={closeModal}
                         aria-label="Close"
                     >
                         &times;
                     </button>
-                    <div className="relative max-w-4xl max-h-full">
+                    <div className="relative max-w-6xl max-h-full">
                         <img
                             src={images[activeIdx].image}
                             alt={images[activeIdx].title}
-                            className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+                            className="max-w-full max-h-full object-contain rounded-3xl shadow-2xl"
                         />
-                        {/* No title/description in modal - only image displayed */}
                     </div>
                 </div>
             )}
@@ -308,9 +310,33 @@ const Dining = () => {
     const [viewportHeight, setViewportHeight] = useState<number | null>(null);
     const [backgroundTop, setBackgroundTop] = useState<number | null>(null);
     const heroRef = useRef<HTMLElement | null>(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
     // Decorative background image used on the Homepage
     const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
+    // Enhanced Carousel slides for hero section
+    const carouselSlides = [
+        {
+            id: 1,
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg",
+            title: "Food & Beverages",
+            description: "Exceptional culinary experiences crafted by our award-winning chefs"
+        },
+        {
+            id: 2,
+            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg",
+            title: "Multi-Cuisine Excellence",
+            description: "A journey through global flavors and culinary artistry"
+        },
+        {
+            id: 3,
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004474.jpg",
+            title: "Fine Dining Experience",
+            description: "Elegant settings for unforgettable dining moments"
+        }
+    ];
 
     useEffect(() => {
         const compute = () => {
@@ -326,6 +352,31 @@ const Dining = () => {
         window.addEventListener('resize', compute);
         return () => window.removeEventListener('resize', compute);
     }, []);
+
+    // Carousel auto-play effect
+    useEffect(() => {
+        if (!isAutoPlaying) return;
+
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % carouselSlides.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [isAutoPlaying, carouselSlides.length]);
+
+    const goToSlide = (index: number) => {
+        setCurrentSlide(index);
+        setIsAutoPlaying(false);
+        setTimeout(() => setIsAutoPlaying(true), 10000);
+    };
+
+    const nextSlide = () => {
+        goToSlide((currentSlide + 1) % carouselSlides.length);
+    };
+
+    const prevSlide = () => {
+        goToSlide((currentSlide - 1 + carouselSlides.length) % carouselSlides.length);
+    };
 
     const menuData = {
         multiCuisine: {
@@ -469,10 +520,6 @@ const Dining = () => {
             title: "Birthday Celebrations",
             image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000005033.jpg"
         },
-        // {
-        //     title: "Holiday Gatherings",
-        //     image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/FoodBeveragesHeroBanner.jpg"
-        // }
     ];
 
     const culinaryTeam = [
@@ -545,7 +592,7 @@ const Dining = () => {
     ];
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative min-h-screen bg-white">
             {/* Decorative repeating background — start after hero (matches Gallery component) */}
             <div
                 className="absolute left-0 right-0 z-0 homepage-bg-darken"
@@ -569,143 +616,220 @@ const Dining = () => {
                     menuData={currentMenu}
                 />
 
-                {/* Banner Section */}
-                <section ref={heroRef} className="relative h-[32rem] overflow-hidden">
-                    <img
-                        src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg"
-                        alt="Event Venue"
-                        className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                    <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-                        <div className="px-4">
-                            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Food & Beverages</h1>
-                            <p className="text-xl md:text-2xl max-w-2xl mx-auto">
-                                Exceptional culinary experiences crafted by our award-winning chefs
-                            </p>
+                {/* Enhanced Hero Carousel Section */}
+                <section ref={heroRef} className="relative h-[85vh] min-h-[600px] overflow-hidden">
+                    <div className="absolute inset-0">
+                        {/* Carousel Container */}
+                        <div className="relative w-full h-full">
+                            {carouselSlides.map((slide, index) => (
+                                <div
+                                    key={slide.id}
+                                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                                        index === currentSlide 
+                                            ? 'opacity-100 transform translate-x-0' 
+                                            : 'opacity-0 transform translate-x-4'
+                                    }`}
+                                >
+                                    <img
+                                        src={slide.image}
+                                        alt={slide.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {/* Enhanced gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                                    
+                                    {/* Enhanced Slide content */}
+                                    <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                                        <div className="px-6 max-w-4xl">
+                                            <div className="w-24 h-1 bg-gold mx-auto mb-6"></div>
+                                            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 leading-tight">
+                                                {slide.title}
+                                            </h1>
+                                            <p className="text-xl md:text-2xl text-gold font-light mb-8 max-w-2xl mx-auto">
+                                                {slide.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Enhanced Carousel Navigation */}
+                    <button
+                        onClick={prevSlide}
+                        className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white bg-black/50 backdrop-blur-sm rounded-full p-4 hover:bg-gold transition-all duration-300 z-20 hover:scale-110 hover:shadow-2xl"
+                        aria-label="Previous slide"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    
+                    <button
+                        onClick={nextSlide}
+                        className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white bg-black/50 backdrop-blur-sm rounded-full p-4 hover:bg-gold transition-all duration-300 z-20 hover:scale-110 hover:shadow-2xl"
+                        aria-label="Next slide"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    {/* Enhanced Carousel Indicators */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+                        {carouselSlides.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goToSlide(index)}
+                                className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+                                    index === currentSlide 
+                                    ? 'bg-gold scale-125 shadow-lg' 
+                                    : 'bg-white/50 hover:bg-white/70'
+                                }`}
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Scroll indicator */}
+                    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                        <div className="animate-bounce">
+                            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+                                <div className="w-1 h-3 bg-white rounded-full mt-2"></div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Enhanced Culinary Story Section */}
-                <section className="py-20">
-                    <div className="container mx-auto px-4">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Story</h2>
-                            <p className="text-xl text-gray-600 max-w-7xl mx-auto leading-relaxed">
+                <section className="py-24 relative overflow-hidden">
+                    {/* Background decorative elements */}
+                    <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/3 rounded-full translate-x-1/3 translate-y-1/3"></div>
+                    
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center mb-20">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-gold mr-4"></div>
+                                <span className="text-gold font-semibold tracking-widest text-sm uppercase">CULINARY STORY</span>
+                                <div className="w-20 h-px bg-gold ml-4"></div>
+                            </div>
+                            <h2 className="text-5xl md:text-6xl font-serif font-light text-gray-900 mb-6">
+                                Our Culinary Story
+                            </h2>
+                            <p className="text-xl text-gray-700 max-w-4xl mx-auto font-light leading-relaxed">
                                 At Magnoliya Grand, dining becomes an art form where global flavors meet refined
                                 craftsmanship. Every dish tells a story of passion, culture, and creativity—transforming
-                                each meal into an unforgettable sensory journey.                        </p>
+                                each meal into an unforgettable sensory journey.
+                            </p>
                         </div>
 
-                        <div className=''>
-
+                        {/* Enhanced Catering Carousel */}
+                        <div className="mb-20">
                             <GalleryCarousel images={cateringOptions} itemsPerView={1} />
                         </div>
 
-
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
+                        {/* Enhanced Feature Cards */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+                            {[
+                                {
+                                    icon: (
+                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    ),
+                                    title: "Meet Our Culinary Maestros",
+                                    description: "Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their artistry blends technique and imagination, creating menus that inspire and delight with every bite."
+                                },
+                                {
+                                    icon: (
+                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                    ),
+                                    title: "Our Core Values",
+                                    description: "At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as thoughtful as it is extraordinary."
+                                },
+                                {
+                                    icon: (
+                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                    ),
+                                    title: "The Guest Experience",
+                                    description: "Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether an intimate dinner or a grand celebration, every moment is designed to delight and inspire."
+                                }
+                            ].map((feature, index) => (
+                                <div
+                                    key={index}
+                                    className="group bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:-translate-y-2"
+                                >
+                                    <div className="w-16 h-16 bg-gold/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors duration-300">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-2xl font-serif font-light text-gray-800 mb-4">{feature.title}</h3>
+                                    <p className="text-gray-600 leading-relaxed font-light">{feature.description}</p>
                                 </div>
-                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Meet Our Culinary Maestros</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their
-                                    artistry blends technique and imagination, creating menus that inspire and delight with
-                                    every bite.
-                                </p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">Our Core Values</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably
-                                    sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as
-                                    thoughtful as it is extraordinary.
-                                </p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                                <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mb-6">
-                                    <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-2xl font-serif font-semibold mb-4 text-gray-800">The Guest Experience</h3>
-                                <p className="text-gray-600 leading-relaxed">
-                                    Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether
-                                    an intimate dinner or a grand celebration, every moment is designed to delight and
-                                    inspire.
-                                </p>
-                            </div>
+                            ))}
                         </div>
 
-                        {/* Redesigned Flavorful Voyage Section */}
-                        <div className="mb-16">
-                            <div className="text-center mb-12">
-                                <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Flavorful Voyage</h2>
+                        {/* Enhanced Flavorful Voyage Section */}
+                        <div className="mb-20">
+                            <div className="text-center mb-16">
+                                <div className="inline-flex items-center justify-center mb-6">
+                                    <div className="w-20 h-px bg-gold mr-4"></div>
+                                    <span className="text-gold font-semibold tracking-widest text-sm uppercase">FLAVORFUL VOYAGE</span>
+                                    <div className="w-20 h-px bg-gold ml-4"></div>
+                                </div>
+                                <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
+                                    Our Flavorful Voyage
+                                </h2>
                             </div>
 
-                            {/* Grid Layout for Cuisine Categories */}
+                            {/* Enhanced Cuisine Categories Grid */}
                             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                                 {cuisineCategories.map((category, index) => (
                                     <div
                                         key={index}
-                                        className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden group flex flex-col h-full"
+                                        className="group bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden hover:-translate-y-2"
                                     >
                                         {/* Single Featured Image */}
-                                        <div className="relative h-48 overflow-hidden flex-shrink-0">
+                                        <div className="relative h-64 overflow-hidden">
                                             <img
                                                 src={category.images[0]}
                                                 alt={category.title}
                                                 className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         </div>
 
                                         {/* Content Section */}
-                                        <div className="p-6 flex flex-col flex-grow">
-                                            <h3 className="text-2xl font-serif font-bold text-gold mb-3">{category.title}</h3>
-                                            <p className="text-gray-600 leading-relaxed mb-4 flex-grow">
+                                        <div className="p-8">
+                                            <h3 className="text-2xl font-serif font-light text-gold mb-4">{category.title}</h3>
+                                            <p className="text-gray-600 leading-relaxed font-light mb-6">
                                                 {category.description}
                                             </p>
-                                            <div className="flex justify-between items-center mt-auto pt-4">
-                                                {/* <button
-                                                onClick={() => openMenuPopup(category.title.toLowerCase().replace(/\s+/g, '') as keyof typeof menuData)}
-                                                className="bg-gold text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg transform hover:-translate-y-1 text-sm"
-                                            >
-                                                View Menu
-                                            </button> */}
-
-                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-
-
                         </div>
 
-                        {/* Additional Highlights */}
+                        {/* Enhanced Additional Highlights */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="text-center p-6">
-                                <h4 className="text-lg font-semibold mb-3 text-gray-800">Catering & Celebrations</h4>
-                                <p className="text-gray-600">
+                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border border-gray-100">
+                                <h4 className="text-xl font-serif font-light text-gray-800 mb-4">Catering & Celebrations</h4>
+                                <p className="text-gray-600 font-light">
                                     Through CGA Catering New York, we bring world-class cuisine to events of every scale.
                                     From elegant weddings to corporate galas, our bespoke menus elevate every occasion
-                                    with flawless execution.                            </p>
+                                    with flawless execution.
+                                </p>
                             </div>
-                            <div className="text-center p-6">
-                                <h4 className="text-lg font-semibold mb-3 text-gray-800">Beyond the Plate</h4>
-                                <p className="text-gray-600">
+                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border border-gray-100">
+                                <h4 className="text-xl font-serif font-light text-gray-800 mb-4">Beyond the Plate</h4>
+                                <p className="text-gray-600 font-light">
                                     At Magnoliya Grand, food becomes storytelling, artistry, and emotion. Every dish, every
                                     flavor, and every detail is crafted to create lasting memories beyond the table.
                                 </p>
@@ -714,12 +838,26 @@ const Dining = () => {
                     </div>
                 </section>
 
-                {/* Our Restaurants Section */}
-                <section className="py-20">
-                    <div className="container mx-auto px-4">
+                {/* Enhanced Restaurants Section */}
+                <section className="py-24 relative overflow-hidden">
+                    {/* Background pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                        <div className="absolute inset-0" style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                        }}></div>
+                    </div>
+
+                    <div className="container mx-auto px-6 relative z-10">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Restaurants</h2>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-gold mr-4"></div>
+                                <span className="text-gold font-semibold tracking-widest text-sm uppercase">OUR RESTAURANTS</span>
+                                <div className="w-20 h-px bg-gold ml-4"></div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
+                                Our Restaurants
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
                                 Discover our diverse culinary venues, each offering a unique atmosphere and exquisite flavors
                             </p>
                         </div>
@@ -728,19 +866,19 @@ const Dining = () => {
                             {restaurants.map((restaurant, index) => (
                                 <div
                                     key={index}
-                                    className={`flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+                                    className={`group flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''} hover:-translate-y-2`}
                                 >
-                                    <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                                    <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
                                         <img
                                             src={restaurant.image}
                                             alt={restaurant.name}
-                                            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                         />
                                     </div>
                                     <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                        <h3 className="text-2xl lg:text-3xl font-serif font-bold mb-4 text-gray-800">{restaurant.name}</h3>
-                                        <p className="text-gold text-lg font-semibold mb-4">{restaurant.cuisine}</p>
-                                        <p className="text-gray-600 mb-6 leading-relaxed text-lg">{restaurant.description}</p>
+                                        <h3 className="text-3xl font-serif font-light text-gray-800 mb-4">{restaurant.name}</h3>
+                                        <p className="text-gold text-xl font-light mb-6">{restaurant.cuisine}</p>
+                                        <p className="text-gray-600 mb-8 leading-relaxed text-lg font-light">{restaurant.description}</p>
                                         <ul className="flex flex-wrap gap-3 mb-8">
                                             {restaurant.features.map((feature, i) => (
                                                 <li key={i} className="bg-gold/10 text-gold font-semibold px-4 py-2 rounded-full text-sm">
@@ -748,12 +886,6 @@ const Dining = () => {
                                                 </li>
                                             ))}
                                         </ul>
-                                        {/* <Link href="/reservations" className="inline-flex items-center bg-gold text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-gold-dark hover:shadow-lg">
-                                        Make Reservation
-                                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </Link> */}
                                     </div>
                                 </div>
                             ))}
@@ -761,52 +893,62 @@ const Dining = () => {
                     </div>
                 </section>
 
-                {/* Our Culinary Excellence Section */}
-                <section className="py-20">
-                    <div className="container mx-auto px-4">
+                {/* Enhanced Culinary Excellence Section */}
+                <section className="py-24 relative overflow-hidden">
+                    <div className="container mx-auto px-6">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-serif text-gray-800 mb-6">Our Culinary Excellence</h2>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            <div className="inline-flex items-center justify-center mb-6">
+                                <div className="w-20 h-px bg-gold mr-4"></div>
+                                <span className="text-gold font-semibold tracking-widest text-sm uppercase">CULINARY EXCELLENCE</span>
+                                <div className="w-20 h-px bg-gold ml-4"></div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
+                                Our Culinary Excellence
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
                                 Dedicated to quality, sustainability, and exceptional dining experiences
                             </p>
                         </div>
+                        
                         <div className="space-y-16">
                             {/* Skilled Experts */}
-                            <div className="flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
-                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                            <div className="group flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
+                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
                                     <img
                                         src={culinaryTeam[0].image}
                                         alt={culinaryTeam[0].title}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                     />
                                 </div>
                                 <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                    <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[0].title}</h3>
-                                    <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[0].description}</p>
+                                    <h3 className="text-3xl font-serif font-light text-gray-800 mb-6">{culinaryTeam[0].title}</h3>
+                                    <p className="text-gray-600 text-lg leading-relaxed font-light">{culinaryTeam[0].description}</p>
                                 </div>
                             </div>
+                            
                             {/* Sustainability */}
-                            <div className="flex flex-col lg:flex-row-reverse items-center bg-white rounded-3xl shadow-2xl overflow-hidden">
-                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0">
+                            <div className="group flex flex-col lg:flex-row-reverse items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
+                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
                                     <img
                                         src={culinaryTeam[1].image}
                                         alt={culinaryTeam[1].title}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                     />
                                 </div>
                                 <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                    <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-6">{culinaryTeam[1].title}</h3>
-                                    <p className="text-gray-600 text-lg leading-relaxed">{culinaryTeam[1].description}</p>
+                                    <h3 className="text-3xl font-serif font-light text-gray-800 mb-6">{culinaryTeam[1].title}</h3>
+                                    <p className="text-gray-600 text-lg leading-relaxed font-light">{culinaryTeam[1].description}</p>
                                 </div>
                             </div>
+                            
                             {/* Health & Safety */}
-                            <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl">
-                                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-gray-800 mb-8">{culinaryTeam[2].title}</h3>
+                            <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
+                                <h3 className="text-3xl font-serif font-light text-gray-800 mb-8">{culinaryTeam[2].title}</h3>
                                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {culinaryTeam[2].description.split('.').filter((point: string) => Boolean(point.trim())).map((point: string, idx: number) => (
-                                        <li key={idx} className="flex items-start space-x-3">
-                                            <div className="w-2 h-2 bg-gold rounded-full mt-2 flex-shrink-0"></div>
-                                            <span className="text-gray-600 text-lg">{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</span>
+                                        <li key={idx} className="flex items-start space-x-4 p-4 hover:bg-gold/5 rounded-2xl transition-colors duration-300">
+                                            <div className="w-3 h-3 bg-gold rounded-full mt-2 flex-shrink-0"></div>
+                                            <span className="text-gray-600 text-lg font-light">{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</span>
                                         </li>
                                     ))}
                                 </ul>

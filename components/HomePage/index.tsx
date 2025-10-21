@@ -71,14 +71,14 @@ const Homepage = () => {
             title: "Corporate Events",
             image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/WhatsApp%20Image%202025-10-08%20at%2009.40.09_2f5aa1ef.jpg",
             alt: "Corporate Meeting Space",
-            link: "/corporate-events",
+            link: "/corporate",
             description: "Professional settings for meetings, conferences, and corporate gatherings"
         },
         {
             title: "Rooms & Suites",
             image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
             alt: "Luxury Hotel Suite",
-            link: "/rooms",
+            link: "/rooms-suites",
             description: "Elegant accommodations with premium amenities and comfort"
         },
         {
@@ -90,7 +90,7 @@ const Homepage = () => {
         },
         {
             title: "Gallery",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/DJI_0078-Edit.jpg",
+            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/P1157318.jpg",
             alt: "Hotel Gallery Views",
             link: "/gallery",
             description: "Explore our stunning spaces and previous events"
@@ -824,9 +824,12 @@ const Homepage = () => {
                                 <iframe
                                     title="360 Tour Collection 7J4X8"
                                     src="https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1"
-                                    allowFullScreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
+                                    referrerPolicy="no-referrer-when-downgrade"
                                     loading="lazy"
                                     className="w-full h-full border-0"
+                                    onLoad={() => {}}
+                                    onError={() => {}}
                                 />
                             </div>
 
@@ -837,9 +840,12 @@ const Homepage = () => {
                                 <iframe
                                     title="360 Tour Collection 7J4Ft"
                                     src="https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1"
-                                    allowFullScreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
+                                    referrerPolicy="no-referrer-when-downgrade"
                                     loading="lazy"
                                     className="w-full h-full border-0"
+                                    onLoad={() => {}}
+                                    onError={() => {}}
                                 />
                             </div>
 
