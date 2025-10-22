@@ -114,27 +114,31 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
     };
 
     return (
-        <div className="flex h-screen bg-gray-50">
+        <div className="flex h-screen bg-slate-50">
             {/* Sidebar */}
             <aside
-                className={`fixed inset-y-0 left-0 z-30 w-64 transform bg-white text-gray-800 shadow-xl transition-all duration-300 ease-in-out lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-                    }`}
+                className={`fixed inset-y-0 left-0 z-30 w-80 transform bg-white text-slate-900 shadow-lg border-r border-slate-200 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 ${
+                    sidebarOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
             >
                 <div className="flex h-full flex-col">
                     {/* Sidebar Header */}
-                    <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                    <div className="flex items-center justify-between p-6 border-b border-slate-200 bg-white">
                         <div className="flex items-center">
-                            <div className="bg-blue-600 rounded-lg w-8 h-8 flex items-center justify-center">
-                                <span className="text-white font-bold text-lg">CS</span>
+                            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl w-10 h-10 flex items-center justify-center shadow-md">
+                                <span className="text-white font-bold text-lg">MG</span>
                             </div>
-                            <h1 className="ml-2 text-xl font-bold text-gray-900">Magnoliya Grand</h1>
+                            <div className="ml-3">
+                                <h1 className="text-xl font-bold text-slate-900">Magnoliya Grand</h1>
+                                <p className="text-xs text-slate-600 font-medium">Admin Portal</p>
+                            </div>
                         </div>
                         <button
                             onClick={toggleSidebar}
-                            className="rounded-md p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700 lg:hidden"
+                            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200 lg:hidden"
                         >
                             <svg
-                                className="h-6 w-6"
+                                className="h-5 w-5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -151,36 +155,55 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
                     </div>
 
                     {/* Profile Section */}
-                    <div className="p-4 border-b border-gray-200">
+                    <div className="p-6 border-b border-slate-200 bg-slate-50/50">
                         <div className="flex items-center">
-                            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full w-10 h-10 flex items-center justify-center">
-                                <span className="text-white font-semibold">A</span>
+                            <div className="relative">
+                                <div className="bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl w-12 h-12 flex items-center justify-center shadow-md">
+                                    <span className="text-white font-semibold text-lg">A</span>
+                                </div>
+                                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
                             </div>
-                            <div className="ml-3">
-                                <p className="font-medium text-gray-900">Admin User</p>
-                                <p className="text-xs text-gray-500">admin@clearstay360.com</p>
-                                <p className="text-xs text-gray-500">Administrator</p>
+                            <div className="ml-4">
+                                <p className="font-semibold text-slate-900">Admin User</p>
+                                <p className="text-sm text-slate-600">admin@magnoliyagrand.com</p>
+                                <div className="flex items-center mt-1">
+                                    <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></div>
+                                    <p className="text-xs text-slate-500">Administrator</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Navigation Menu */}
-                    <div className="flex-1 overflow-y-auto py-4">
-                        <nav className="px-2 space-y-1">
+                    <div className="flex-1 overflow-y-auto py-6">
+                        <nav className="px-4 space-y-1">
                             {adminMenuItems.map((item) => {
                                 const isActive = pathname === item.route;
                                 return (
                                     <button
                                         key={item.id}
                                         onClick={() => handleNavigation(item.route)}
-                                        className={`group flex items-center w-full rounded-lg px-3 py-3 text-sm font-medium transition-colors duration-200 ${isActive
-                                            ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700 font-semibold'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                                            }`}
+                                        className={`group flex items-center w-full rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                                            isActive
+                                                ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600 shadow-sm'
+                                                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                                        }`}
                                     >
-                                        <span className="mr-3 opacity-80">{React.createElement(item.icon as React.ComponentType<any>, { className: 'w-5 h-5' })}</span>
-                                        <span className="flex-1 text-left">{item.text}</span>
-                                        {React.createElement(FaChevronRight as React.ComponentType<any>, { className: `h-3 w-3 transition-transform ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}` })}
+                                        <span className={`mr-3 transition-colors duration-200 ${
+                                            isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'
+                                        }`}>
+                                            {React.createElement(item.icon as React.ComponentType<any>, { 
+                                                className: 'w-5 h-5' 
+                                            })}
+                                        </span>
+                                        <span className="flex-1 text-left font-medium">{item.text}</span>
+                                        {React.createElement(FaChevronRight as React.ComponentType<any>, { 
+                                            className: `h-3 w-3 transition-all duration-200 ${
+                                                isActive 
+                                                    ? 'text-blue-600 rotate-90' 
+                                                    : 'text-slate-300 group-hover:text-slate-400 group-hover:translate-x-0.5'
+                                            }` 
+                                        })}
                                     </button>
                                 );
                             })}
@@ -188,12 +211,12 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
                     </div>
 
                     {/* Sidebar Footer */}
-                    <div className="p-4 border-t border-gray-200">
+                    <div className="p-6 border-t border-slate-200 bg-white">
                         <button
                             onClick={handleLogout}
-                            className="flex w-full items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors duration-200"
+                            className="flex w-full items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-all duration-200 border border-slate-300/50"
                         >
-                            {React.createElement(FaSignOutAlt as React.ComponentType<any>, { className: 'mr-2' })}
+                            {React.createElement(FaSignOutAlt as React.ComponentType<any>, { className: 'mr-3 text-slate-500' })}
                             Logout
                         </button>
                     </div>
@@ -203,14 +226,14 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
             {/* Main Content */}
             <div className="flex flex-1 flex-col overflow-hidden">
                 {/* Top Navigation */}
-                <header className="bg-white shadow-sm border-b border-gray-200">
-                    <div className="flex items-center justify-between px-4 py-3 lg:px-6">
+                <header className="bg-white shadow-sm border-b border-slate-200">
+                    <div className="flex items-center justify-between px-6 py-4">
                         {/* Left Section - Menu & Title */}
                         <div className="flex items-center flex-1 min-w-0">
                             {/* Mobile Menu Button */}
                             <button
                                 onClick={toggleSidebar}
-                                className="lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 mr-3"
+                                className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 mr-3"
                                 aria-label="Toggle menu"
                             >
                                 {React.createElement(CiMenuFries as React.ComponentType<any>, { className: 'h-6 w-6' })}
@@ -219,33 +242,37 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
                             {/* Desktop Menu Button */}
                             <button
                                 onClick={toggleSidebar}
-                                className="hidden lg:block p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 mr-4"
+                                className="hidden lg:block p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 mr-4"
                                 aria-label="Toggle menu"
                             >
                                 {React.createElement(CiMenuFries as React.ComponentType<any>, { className: 'h-5 w-5' })}
                             </button>
 
-                            {/* Title */}
-                            <div className="flex items-center min-w-0">
-                                <h1 className="text-lg font-semibold text-gray-900 truncate">
-                                    Admin Dashboard
-                                </h1>
+                            {/* Breadcrumb */}
+                            <div className="flex items-center space-x-2 text-sm">
+                                <span className="font-medium text-slate-600">Admin</span>
+                                <span className="text-slate-400">/</span>
+                                <span className="text-slate-900 font-semibold">
+                                    {adminMenuItems.find(item => item.route === pathname)?.text || 'Dashboard'}
+                                </span>
                             </div>
                         </div>
 
                         {/* Right Section - Search & Icons */}
-                        <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
-                            {/* Search Bar - Hidden on mobile, visible on tablet and up */}
+                        <div className="flex items-center space-x-3">
+                            {/* Search Bar */}
                             <div className="hidden sm:block relative">
                                 <form onSubmit={handleSearch} className="flex items-center">
                                     <div className="relative">
-                                        {React.createElement(CiSearch as React.ComponentType<any>, { className: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' })}
+                                        {React.createElement(CiSearch as React.ComponentType<any>, { 
+                                            className: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4' 
+                                        })}
                                         <input
                                             type="text"
                                             placeholder="Search..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="pl-10 pr-4 py-2 w-48 lg:w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                            className="pl-10 pr-4 py-2.5 w-64 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                                         />
                                     </div>
                                 </form>
@@ -254,51 +281,67 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
                             {/* Mobile Search Button */}
                             <button
                                 onClick={() => setShowMobileSearch(!showMobileSearch)}
-                                className="sm:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+                                className="sm:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                                 aria-label="Search"
                             >
                                 {React.createElement(CiSearch as React.ComponentType<any>, { className: 'h-5 w-5' })}
                             </button>
 
-                            {/* Notification Bell */}
-                            <button
-                                className="relative p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 group"
-                                aria-label="Notifications"
-                            >
-                                {React.createElement(FaBell as React.ComponentType<any>, { className: 'h-5 w-5' })}
-                                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-                                <span className="sr-only">View notifications</span>
-                            </button>
+                            {/* Action Buttons */}
+                            <div className="flex items-center space-x-1">
+                                {/* Notification Bell */}
+                                <button
+                                    className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                                    aria-label="Notifications"
+                                >
+                                    {React.createElement(FaBell as React.ComponentType<any>, { className: 'h-5 w-5' })}
+                                    <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                                </button>
 
-                            {/* Settings Gear */}
-                            <button
-                                className="p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 group"
-                                aria-label="Settings"
-                            >
-                                {React.createElement(FaCog as React.ComponentType<any>, { className: 'h-5 w-5' })}
-                                <span className="sr-only">Settings</span>
-                            </button>
+                                {/* Settings Gear */}
+                                <button
+                                    className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                                    aria-label="Settings"
+                                >
+                                    {React.createElement(FaCog as React.ComponentType<any>, { className: 'h-5 w-5' })}
+                                </button>
+
+                                {/* User Avatar */}
+                                <div className="flex items-center space-x-3 ml-2 pl-3 border-l border-slate-300">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="bg-gradient-to-br from-slate-600 to-slate-700 rounded-lg w-8 h-8 flex items-center justify-center shadow-sm">
+                                            <span className="text-white font-semibold text-sm">A</span>
+                                        </div>
+                                        <div className="hidden md:block text-right">
+                                            <p className="text-sm font-medium text-slate-900">Admin User</p>
+                                            <p className="text-xs text-slate-500">Online</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     {/* Mobile Search Bar */}
                     {showMobileSearch && (
-                        <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 sm:hidden">
+                        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 sm:hidden">
                             <form onSubmit={handleSearch} className="flex items-center">
                                 <div className="relative flex-1">
-                                    {React.createElement(CiSearch as React.ComponentType<any>, { className: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' })}
+                                    {React.createElement(CiSearch as React.ComponentType<any>, { 
+                                        className: 'absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4' 
+                                    })}
                                     <input
                                         type="text"
                                         placeholder="Search..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full pl-10 pr-12 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
                                         autoFocus
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowMobileSearch(false)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                                     >
                                         ✕
                                     </button>
@@ -309,9 +352,30 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
                 </header>
 
                 {/* Content Area */}
-                <main className="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-6">
+                <main className="flex-1 overflow-y-auto bg-slate-50 p-6">
                     <div className="mx-auto max-w-7xl">
-                        {children}
+                        {/* Welcome Card */}
+                        <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-6 mb-6 text-white shadow-md">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h1 className="text-xl font-bold mb-2">Welcome back, Admin!</h1>
+                                    <p className="text-slate-200 text-sm">
+                                        Here's what's happening with Magnoliya Grand today.
+                                    </p>
+                                </div>
+                                <div className="hidden md:block">
+                                    <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
+                                        <p className="text-sm font-semibold">Today's Summary</p>
+                                        <p className="text-xs text-slate-300">Last updated just now</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Page Content */}
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                            {children}
+                        </div>
                     </div>
                 </main>
             </div>
