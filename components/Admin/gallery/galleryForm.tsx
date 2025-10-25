@@ -1,54 +1,48 @@
 "use client";
 import { useState, useEffect } from 'react';
-import type { GalleryImage } from '@/types';
+import type { GalleryImage } from '@/apirequests/gallery';
 
 interface GalleryFormProps {
   onSubmit: (data: FormData) => Promise<void>;
-  editingImage?: GalleryImage | null;
-  onCancel?: () => void;
+  galleryImage?: GalleryImage | null;
   isLoading?: boolean;
+  onCancel?: () => void;
 }
+
+const categories = ["Weddings", "Rooms", "Events", "Dining", "Venues"] as const;
 
 const GalleryForm: React.FC<GalleryFormProps> = ({
   onSubmit,
-  editingImage,
-  onCancel,
-  isLoading = false
+  galleryImage,
+  isLoading = false,
+  onCancel
 }) => {
   const [formData, setFormData] = useState({
-    category: '',
-    caption: '',
-    image: null as File | null
+    category: '' as GalleryImage['category'],
+    caption: ''
   });
-  const [previewUrl, setPreviewUrl] = useState<string>('');
+  
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const categories = [
-    { value: 'Weddings', label: 'Weddings' },
-    { value: 'Rooms', label: 'Rooms' },
-    { value: 'Events', label: 'Events' },
-    { value: 'Dining', label: 'Dining' },
-    { value: 'Venues', label: 'Venues' }
-  ];
-
   useEffect(() => {
-    if (editingImage) {
+    if (galleryImage) {
       setFormData({
-        category: editingImage.category,
-        caption: editingImage.caption || '',
-        image: null
+        category: galleryImage.category,
+        caption: galleryImage.caption || ''
       });
-      setPreviewUrl(editingImage.image);
+      setImagePreview(galleryImage.image);
     } else {
       setFormData({
-        category: '',
-        caption: '',
-        image: null
+        category: 'Weddings',
+        caption: ''
       });
-      setPreviewUrl('');
+      setImagePreview('');
+      setImageFile(null);
     }
     setErrors({});
-  }, [editingImage]);
+  }, [galleryImage]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -57,7 +51,6 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
       [name]: value
     }));
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -69,35 +62,12 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-      if (!allowedTypes.includes(file.type)) {
-        setErrors(prev => ({
-          ...prev,
-          image: 'Please select a valid image file (JPEG, PNG, GIF, WebP)'
-        }));
-        return;
-      }
-
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        setErrors(prev => ({
-          ...prev,
-          image: 'Image size must be less than 5MB'
-        }));
-        return;
-      }
-
-      setFormData(prev => ({
-        ...prev,
-        image: file
-      }));
-
-      // Create preview URL
+      setImageFile(file);
+      
+      // Create preview
       const objectUrl = URL.createObjectURL(file);
-      setPreviewUrl(objectUrl);
-
-      // Clear error
+      setImagePreview(objectUrl);
+      
       if (errors.image) {
         setErrors(prev => ({
           ...prev,
@@ -110,17 +80,8 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
-    if (!formData.category) {
-      newErrors.category = 'Category is required';
-    }
-
-    if (!editingImage && !formData.image) {
-      newErrors.image = 'Image is required';
-    }
-
-    if (formData.caption && formData.caption.length > 500) {
-      newErrors.caption = 'Caption must be less than 500 characters';
-    }
+    if (!formData.category) newErrors.category = 'Category is required';
+    if (!galleryImage && !imageFile) newErrors.image = 'Image is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -134,48 +95,37 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
     }
 
     const submitData = new FormData();
+    
+    // Append text fields
     submitData.append('category', formData.category);
     submitData.append('caption', formData.caption);
-    if (formData.image) {
-      submitData.append('image', formData.image);
+
+    // Append image if it's a new file
+    if (imageFile) {
+      submitData.append('image', imageFile);
     }
 
     try {
       await onSubmit(submitData);
-      
-      // Reset form after successful submission if not editing
-      if (!editingImage) {
-        setFormData({
-          category: '',
-          caption: '',
-          image: null
-        });
-        setPreviewUrl('');
+      // Reset form after successful submission if it's a create operation
+      if (!galleryImage) {
+        setFormData({ category: 'Weddings', caption: '' });
+        setImageFile(null);
+        setImagePreview('');
       }
     } catch (error) {
       console.error('Form submission error:', error);
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      category: '',
-      caption: '',
-      image: null
-    });
-    setPreviewUrl('');
-    setErrors({});
-    onCancel?.();
-  };
-
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        {editingImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}
+        {galleryImage ? 'Edit Gallery Image' : 'Add New Gallery Image'}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Category Field */}
+        {/* Category Selection */}
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
             Category *
@@ -185,63 +135,48 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
             name="category"
             value={formData.category}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               errors.category ? 'border-red-500' : 'border-gray-300'
             }`}
           >
             <option value="">Select a category</option>
             {categories.map(cat => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
-              </option>
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
-          {errors.category && (
-            <p className="mt-1 text-sm text-red-600">{errors.category}</p>
-          )}
+          {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category}</p>}
         </div>
 
-        {/* Image Upload Field */}
+        {/* Image Upload */}
         <div>
           <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-            {editingImage ? 'Replace Image' : 'Upload Image *'}
+            Image {!galleryImage && '*'}
           </label>
-          
-          {/* Image Preview */}
-          {(previewUrl || editingImage?.image) && (
-            <div className="mb-4">
-              <img
-                src={previewUrl || editingImage?.image}
-                alt="Preview"
-                className="max-w-full h-48 object-cover rounded-lg border border-gray-300"
-              />
-              {editingImage?.image && !previewUrl && (
-                <p className="text-sm text-gray-500 mt-2">
-                  Current image: {editingImage.image.split('/').pop()}
-                </p>
-              )}
-            </div>
-          )}
-
           <input
             type="file"
             id="image"
-            name="image"
             accept="image/*"
             onChange={handleImageChange}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              errors.image ? 'border-red-500' : 'border-gray-300'
+            className={`w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 ${
+              errors.image ? 'border-red-500' : ''
             }`}
           />
-          <p className="mt-1 text-sm text-gray-500">
-            Supported formats: JPEG, PNG, GIF, WebP (Max: 5MB)
-          </p>
-          {errors.image && (
-            <p className="mt-1 text-sm text-red-600">{errors.image}</p>
+          {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image}</p>}
+          
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="mt-4">
+              <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+              <img 
+                src={imagePreview} 
+                alt="Preview" 
+                className="h-48 w-full object-cover rounded-md border"
+              />
+            </div>
           )}
         </div>
 
-        {/* Caption Field */}
+        {/* Caption */}
         <div>
           <label htmlFor="caption" className="block text-sm font-medium text-gray-700 mb-2">
             Caption
@@ -252,29 +187,19 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
             value={formData.caption}
             onChange={handleInputChange}
             rows={3}
-            placeholder="Enter a caption for the image (optional)"
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              errors.caption ? 'border-red-500' : 'border-gray-300'
-            }`}
+            placeholder="Enter image caption (optional)"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <div className="flex justify-between mt-1">
-            {errors.caption && (
-              <p className="text-sm text-red-600">{errors.caption}</p>
-            )}
-            <p className="text-sm text-gray-500 ml-auto">
-              {formData.caption.length}/500
-            </p>
-          </div>
         </div>
 
-        {/* Form Actions */}
-        <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
-          {editingImage && (
+        {/* Action Buttons */}
+        <div className="flex justify-end space-x-4 pt-6">
+          {onCancel && (
             <button
               type="button"
-              onClick={handleCancel}
+              onClick={onCancel}
               disabled={isLoading}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
             >
               Cancel
             </button>
@@ -282,7 +207,7 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
             {isLoading ? (
               <>
@@ -290,10 +215,10 @@ const GalleryForm: React.FC<GalleryFormProps> = ({
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {editingImage ? 'Updating...' : 'Uploading...'}
+                {galleryImage ? 'Updating...' : 'Creating...'}
               </>
             ) : (
-              editingImage ? 'Update Image' : 'Upload Image'
+              galleryImage ? 'Update Image' : 'Add Image'
             )}
           </button>
         </div>
