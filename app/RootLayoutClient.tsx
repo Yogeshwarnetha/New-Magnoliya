@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import ReturnToTop from '@/components/ReturnToTop';
 import { AuthProvider } from "@/contexts/AuthContext";
 // import Navbar from "@/components/Navbar";
 // import Footer from "@/components/Footer";
@@ -40,6 +41,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
       <AuthProvider>
         {children}
       </AuthProvider>
+      {!shouldHideNavbarFooter && <ReturnToTop />}
       {!shouldHideNavbarFooter && <Footer />}
     </>
   );

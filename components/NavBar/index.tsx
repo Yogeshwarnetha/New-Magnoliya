@@ -61,49 +61,108 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [showNav, setShowNav] = useState(true);
+  const lastScrollY = React.useRef(0);
 
   useEffect(() => {
+    // Use rAF + threshold to avoid rapid toggling when near the top (prevents flicker)
+    let rafId: number | null = null;
+
+    const threshold = 15; // px — small hysteresis to prevent jitter around 0
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (rafId) return; // already queued
+      rafId = requestAnimationFrame(() => {
+        const shouldBeScrolled = window.scrollY > threshold;
+        setScrolled(prev => (prev === shouldBeScrolled ? prev : shouldBeScrolled));
+        rafId = null;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Initialize based on current position
+    setScrolled(window.scrollY > threshold);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  // Hide navbar on scroll down, show on scroll up
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const current = window.scrollY;
+        const delta = current - lastScrollY.current;
+
+        // Ignore tiny movements
+        if (Math.abs(delta) < 5) {
+          rafId = null;
+          return;
+        }
+
+        if (current <= 50) {
+          // always show near top
+          setShowNav(true);
+        } else if (delta > 0) {
+          // scrolling down
+          setShowNav(false);
+        } else {
+          // scrolling up
+          setShowNav(true);
+        }
+
+        lastScrollY.current = current;
+        rafId = null;
+      });
+    };
+
+    // initialize
+    lastScrollY.current = typeof window !== 'undefined' ? window.scrollY : 0;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
     <>
-      {/* Topbar (desktop only) */}
-      {!scrolled && (
-        <div className="hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-around z-40">
-          <div className="flex items-center space-x-6 text-sm">
-            <span className="flex items-center gap-2">
-              <FaPhoneIcon className="text-amber-400" size={12} />
-              {CONTACT_INFO.phone1} | {CONTACT_INFO.phone2}
-            </span>
-            <span className="flex items-center gap-2">
-              <FaEnvelopeIcon className="text-amber-400" size={12} />
-              {CONTACT_INFO.email}
-            </span>
-          </div>
-          <div className="flex items-center space-x-4">
-            {SOCIAL_LINKS.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="hover:bg-white/10 transition-colors duration-300 p-1.5 rounded-full"
-                aria-label={item.name}
-              >
-                <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
-              </a>
-            ))}
-          </div>
+      {/* Topbar (desktop only) - always in DOM to avoid layout shift; visually hidden when scrolled */}
+      <div className={`hidden md:flex w-full bg-white text-gray-900 py-3 px-6 items-center justify-around z-40 transition-opacity duration-300 ${scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <div className="flex items-center space-x-6 text-sm">
+          <span className="flex items-center gap-2">
+            <FaPhoneIcon className="text-amber-400" size={12} />
+            {CONTACT_INFO.phone1} | {CONTACT_INFO.phone2}
+          </span>
+          <span className="flex items-center gap-2">
+            <FaEnvelopeIcon className="text-amber-400" size={12} />
+            {CONTACT_INFO.email}
+          </span>
         </div>
-      )}
+        <div className="flex items-center space-x-4">
+          {SOCIAL_LINKS.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="hover:bg-white/10 transition-colors duration-300 p-1.5 rounded-full"
+              aria-label={item.name}
+            >
+              <img src={item.img} alt={item.name + " icon"} style={{ width: 20, height: 20 }} />
+            </a>
+          ))}
+        </div>
+      </div>
 
-      <nav
-        className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-white py-2 shadow-lg" : "bg-transparent py-5"}`}
-      >
-        <div className="container mx-auto flex items-center justify-between min-h-[72px] px-4">
+      <nav className={`${isHome ? 'fixed top-0 left-0' : 'sticky top-0'} w-full z-50 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}> 
+        {/* Background layer toggles visual background/shadow without affecting layout */}
+        <div className={`absolute inset-0 pointer-events-none transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`} />
+  <div className={`container mx-auto flex items-center justify-between py-5 min-h-[72px] px-4 relative ${isHome ? 'pt-10 md:pt-16' : ''}`}>
           {/* Logo - Left side */}
           <Link
             href="/"
@@ -126,7 +185,10 @@ const Navbar = () => {
               <div className="flex flex-wrap items-center justify-center space-x-3">
                 {menuItems.slice(0, 5).map((item: MenuItem, index: number) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
-                  const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
+                  // On homepage we use white on transparent background; on other pages make desktop menu items black by default
+                  const linkColorClass = isActive
+                    ? 'text-amber-400'
+                    : (!isHome ? 'text-gray-900' : (scrolled ? 'text-gray-900' : 'text-white'));
                   
                   if (item.label === "Events" && item.dropdown) {
                     return (
@@ -195,7 +257,9 @@ const Navbar = () => {
                 <div className="flex flex-wrap items-center justify-center space-x-3">
                   {menuItems.slice(5).map((item, idx) => {
                     const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
-                    const linkColorClass = isActive ? 'text-amber-400' : (scrolled ? 'text-gray-900' : 'text-white');
+                    const linkColorClass = isActive
+                      ? 'text-amber-400'
+                      : (!isHome ? 'text-gray-900' : (scrolled ? 'text-gray-900' : 'text-white'));
 
                     if (item.label === "Events" && item.dropdown) {
                       return (

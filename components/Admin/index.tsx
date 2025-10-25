@@ -47,18 +47,18 @@ const adminMenuItems: AdminMenuItem[] = [
         route: "/admin/about",
         icon: FaUsers
     },
-    {
-        id: 4,
-        text: "Contact Form Data",
-        route: "/admin/contact-form-data",
-        icon: FaEnvelope
-    },
-    {
-        id: 5,
-        text: "Testimonials",
-        route: "/admin/testimonials",
-        icon: FaStar
-    },
+    // {
+    //     id: 4,
+    //     text: "Contact Form Data",
+    //     route: "/admin/contact-form-data",
+    //     icon: FaEnvelope
+    // },
+    // {
+    //     id: 5,
+    //     text: "Testimonials",
+    //     route: "/admin/testimonials",
+    //     icon: FaStar
+    // },
     {
         id: 6,
         text: "Weddings",
@@ -89,12 +89,12 @@ const adminMenuItems: AdminMenuItem[] = [
         route: "/admin/dining",
         icon: FaUtensils
     },
-    {
-        id: 11,
-        text: "Book Your Visit Data",
-        route: "/admin/book-visit-data",
-        icon: FaCalendarCheck
-    },
+    // {
+    //     id: 11,
+    //     text: "Book Your Visit Data",
+    //     route: "/admin/book-visit-data",
+    //     icon: FaCalendarCheck
+    // },
 ];
 
 interface AdminDashboardProps {
