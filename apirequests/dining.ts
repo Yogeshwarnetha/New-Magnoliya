@@ -1,37 +1,42 @@
 import axios from "axios";
 import { origin } from "./config";
 
-interface CarouselSlide {
+export interface CarouselSlide {
     id: number;
     image: string;
     title: string;
     description: string;
 }
 
-interface CulinaryStoryCarouselItem {
+export interface CulinaryStoryCarouselItem {
     image: string;
     title: string;
     description: string;
 }
 
-interface CulinaryStoryFeature {
+export interface CulinaryStoryFeature {
     icon: string;
     title: string;
     description: string;
 }
 
-interface CateringOption {
+export interface CateringOption {
     title: string;
     image: string;
 }
 
-interface FlavorfulVoyageCard {
+export interface FlavorfulVoyageCard {
     image: string;
     heading: string;
     description: string;
 }
 
-interface RestaurantCard {
+export interface FlavorfulVoyageSecondCard {
+    title: string;
+    description: string;
+}
+
+export interface RestaurantCard {
     image: string;
     heading: string;
     tagline: string;
@@ -39,7 +44,7 @@ interface RestaurantCard {
     keypoints: string[];
 }
 
-interface CulinaryExcellenceItem {
+export interface CulinaryExcellenceItem {
     title: string;
     subtitle: string;
     description: string;
@@ -47,7 +52,7 @@ interface CulinaryExcellenceItem {
     keypoints: string[];
 }
 
-interface DiningData {
+export interface DiningData {
     id?: number;
     hero_title: string;
     hero_subtitle: string;
@@ -59,8 +64,7 @@ interface DiningData {
     catering_options: CateringOption[];
     flavorful_voyage_title: string;
     flavorful_voyage_cards: FlavorfulVoyageCard[];
-    flavorful_voyage_second_title: string;
-    flavorful_voyage_second_description: string;
+    flavorful_voyage_second_cards: FlavorfulVoyageSecondCard[];
     restaurants_title: string;
     restaurants_subtitle: string;
     restaurants_cards: RestaurantCard[];

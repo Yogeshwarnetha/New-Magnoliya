@@ -16,7 +16,7 @@ const DiningAdminPanel = () => {
             console.debug('[DiningAdmin] getDining response:', response);
 
             if (response.ok && response.data) {
-                setDiningData(response.data);
+                setDiningData(response.data as DiningData);
             } else {
                 console.error('Failed to fetch Dining content:', response.error);
                 alert(response.error || 'Failed to fetch Dining content');
@@ -38,7 +38,7 @@ const DiningAdminPanel = () => {
             const response = await updateDining(formData);
 
             if (response.ok && response.data) {
-                setDiningData(response.data);
+                setDiningData(response.data as DiningData);
                 setIsEditing(false);
                 alert('Dining content updated successfully!');
             } else {
@@ -124,7 +124,12 @@ const DiningAdminPanel = () => {
                                 <h3 className="text-lg font-medium text-gray-900 mb-2">Flavorful Voyage</h3>
                                 <p><strong>Title:</strong> {diningData.flavorful_voyage_title}</p>
                                 <p><strong>Cards:</strong> {diningData.flavorful_voyage_cards?.length || 0}</p>
-                                <p><strong>Second Title:</strong> {diningData.flavorful_voyage_second_title}</p>
+                                <p><strong>Second Section Cards:</strong> {diningData.flavorful_voyage_second_cards?.length || 0}</p>
+                                {diningData.flavorful_voyage_second_cards?.map((card, index) => (
+                                    <div key={index} className="ml-4 mt-2">
+                                        <p><strong>Card {index + 1}:</strong> {card.title}</p>
+                                    </div>
+                                ))}
                             </div>
 
                             {/* Restaurants Section Preview */}

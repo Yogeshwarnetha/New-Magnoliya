@@ -78,6 +78,11 @@ export interface FlavorfulVoyageCard {
     description: string;
 }
 
+export interface FlavorfulVoyageSecondCard {
+    title: string;
+    description: string;
+}
+
 export interface RestaurantCard {
     image: string;
     heading: string;
@@ -106,8 +111,7 @@ export interface DiningData {
     catering_options: CateringOption[];
     flavorful_voyage_title: string;
     flavorful_voyage_cards: FlavorfulVoyageCard[];
-    flavorful_voyage_second_title: string;
-    flavorful_voyage_second_description: string;
+    flavorful_voyage_second_cards: FlavorfulVoyageSecondCard[];
     restaurants_title: string;
     restaurants_subtitle: string;
     restaurants_cards: RestaurantCard[];

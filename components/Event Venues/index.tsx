@@ -1,23 +1,18 @@
 "use client";
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { getEventVenues, EventVenueData } from '@/apirequests/eventVenue';
 
-// Venue type with flexible index signature to allow dynamic capacity access
-type Venue = {
+// Venue type based on your API
+// Override the `id` coming from EventVenueData (likely a number) with a string id
+type Venue = Omit<EventVenueData, 'id'> & {
     id: string;
     name: string;
-    description: string;
-    image: string;
-    squareFeet: string;
-    theater?: string | number;
-    banquet?: string | number;
-    tourUrl?: string;
-    iframeSrc?: string;
     [key: string]: any;
 };
 
 const EventVenue = () => {
-    const [activeVenue, setActiveVenue] = useState('grand-ballroom');
+    const [activeVenue, setActiveVenue] = useState<string>('');
     const [activeCapacity, setActiveCapacity] = useState('theater');
     const [showBookingForm, setShowBookingForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -25,7 +20,7 @@ const EventVenue = () => {
         email: '',
         phone: '',
         eventType: '',
-        preferredVenue: 'grand-ballroom',
+        preferredVenue: '',
         eventDate: '',
         guestCount: '',
         message: ''
@@ -38,9 +33,64 @@ const EventVenue = () => {
     const [embedErrors, setEmbedErrors] = useState<Record<string, boolean>>({});
     const [isIframeLoaded, setIsIframeLoaded] = useState<Record<string, boolean>>({});
     const iframeRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
+    
+    // State for dynamic data
+    const [venues, setVenues] = useState<Venue[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     // Decorative background image used on the Homepage
     const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
+
+    // Fetch venues data
+    useEffect(() => {
+        const fetchVenues = async () => {
+            try {
+                setLoading(true);
+                const response = await getEventVenues();
+                
+                if (response.ok && response.data) {
+                    // Transform API data to match component expectations
+                    const transformedVenues: Venue[] = response.data.map(venue => ({
+                        ...venue,
+                        id: venue.id?.toString() || '',
+                        name: venue.venue_name,
+                        // Map the fields to match your existing structure
+                        description: venue.description,
+                        image: venue.image,
+                        squareFeet: venue.squareFeet,
+                        theater: venue.theater,
+                        banquet: venue.banquet,
+                        tourUrl: venue.tourUrl,
+                        iframeSrc: venue.iframeSrc,
+                        features: venue.features || [],
+                        gallery_images: venue.gallery_images || [],
+                        planning_guidance: venue.planning_guidance || []
+                    }));
+                    
+                    setVenues(transformedVenues);
+                    
+                    // Set first venue as active
+                    if (transformedVenues.length > 0) {
+                        setActiveVenue(transformedVenues[0].id);
+                        setFormData(prev => ({
+                            ...prev,
+                            preferredVenue: transformedVenues[0].id
+                        }));
+                    }
+                } else {
+                    setError(response.error || 'Failed to load venues');
+                }
+            } catch (err) {
+                setError('An unexpected error occurred');
+                console.error('Error fetching venues:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVenues();
+    }, []);
 
     useEffect(() => {
         const compute = () => {
@@ -56,87 +106,6 @@ const EventVenue = () => {
         window.addEventListener('resize', compute);
         return () => window.removeEventListener('resize', compute);
     }, []);
-
-    const venues: Venue[] = [
-        {
-            id: 'grand-ballroom',
-            name: 'Grand Ballroom',
-            description: 'The Grand Ballroom offers a breathtaking setting for life\'s most important celebrations. With its soaring ceilings, expansive layout, and elegant design, this space is ideal for hosting weddings, galas, fundraisers, and large-scale gatherings. Flooded with natural light by day and glowing with sophistication by night, the ballroom provides a dramatic yet adaptable backdrop that allows every event to feel truly extraordinary. Whether your vision is classic, modern, or completely unique, the Grand Ballroom has the scale and presence to bring it to life.',
-            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/BallRoom.jpeg',
-            squareFeet: '14,500',
-            theater: '1,800',
-            banquet: '1,200',
-            tourUrl: 'https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1',
-            // Direct iframe source to embed without using a toUrl helper
-            iframeSrc: 'https://kuula.co/share/collection/7J4Ft?logo=0&info=0&fs=1&vr=0&thumbs=1'
-        },
-        {
-            id: 'front-pre-function',
-            name: 'Front Pre Function Area',
-            description: 'The Front Pre-Function Area is a dynamic space that can be easily transformed to match the spirit of your event. Serving as the perfect welcome point, it can be styled for elegant cocktail receptions, interactive guest experiences, or simply as a lively gathering spot before the main celebration begins. With its open layout and adaptable design, this area becomes whatever you need it to be—an inviting introduction, a social hub, or a seamless extension of your event\'s theme.',
-            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg',
-            squareFeet: '4,000',
-            theater: '1,500',
-            banquet: '1,200',
-            tourUrl: 'https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1',
-            // Direct iframe source for embedding
-            iframeSrc: 'https://kuula.co/share/collection/7J4X8?logo=0&info=1&fs=1&vr=1&sd=1&thumbs=1'
-        },
-        {
-            id: 'side-pre-function',
-            name: 'Side Pre-Function Area',
-            description: 'The Side Pre-Function Area offers a striking first impression, anchored by a sweeping grand staircase that adds a sense of drama and elegance to any event. Perfect for pre-reception mingling, cocktail hours, or photo opportunities, this versatile space blends functionality with style. Whether used as a welcoming lounge, a graceful transition into the ballroom, or a backdrop for memorable entrances, the Side Pre-Function Area elevates every moment with its timeless charm.',
-            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Left.jpg',
-            squareFeet: '2,500',
-            theater: '1,500',
-            banquet: '1,200',
-        },
-        {
-            id: 'back-pre-function',
-            name: 'Back Pre Function Area',
-            description: 'The Back Pre-Function Area is a versatile extension of your event, perfectly suited for buffets, live dining stations, and relaxed lounge seating. Its open design encourages guests to mingle and explore, creating a natural flow of energy throughout the space. With seamless access to the Lakeview Terrace, it effortlessly transitions from indoor comforts to outdoor charm, offering the best of both worlds for dining, socializing, and celebrating.',
-            image: 'https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Back.jpg',
-            squareFeet: '2,000',
-            theater: '1,500',
-            banquet: '1,200',
-        },
-        {
-            id: 'lakeview-terrace',
-            name: 'Lakeview Terrace',
-            description: 'Our Lakeview Terrace is the perfect setting for mingling with friends, hosting an elegant cocktail hour, or celebrating with a lively cocktail party. Overlooking the serene lake, this open-air space combines breathtaking views with a relaxed, sophisticated atmosphere. Guests can sip, socialize, and enjoy the fresh air while creating unforgettable memories. Whether you\'re planning an intimate gathering or a pre-reception cocktail hour, the Lakeview Terrace offers the ideal blend of charm, style, and versatility.',
-            image: 'https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/A6389B85-6522-4139-B3F2-2FB33EFEF90D.jpg',
-            squareFeet: '1,800',
-            theater: '200',
-            banquet: '150',
-        },
-        {
-            id: 'kwanzan-hall',
-            name: 'Kwanzan Hall',
-            description: 'Kwanzan Hall offers a polished and private atmosphere, making it an excellent choice for business meetings, board discussions, or intimate gatherings. Featuring advanced audiovisual capabilities, including a crisp projector display and dynamic sound system, the space is designed to keep every presentation engaging and impactful. Its focused setting creates the perfect environment for productive conversations, meaningful connections, and memorable events.',
-            image: 'https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/MeetingRoomSetup_pic_2.jpg',
-            squareFeet: '2,000',
-            theater: '260',
-            banquet: '180',
-        },
-        {
-            id: 'liberty-hall',
-            name: 'Liberty Hall',
-            description: 'The Liberty Ballroom is a bright and customizable space that sets the stage for celebrations of every kind. Flooded with natural light from its sweeping windows, the room creates an inviting and uplifting atmosphere that\'s perfect for baby showers, graduation parties, or even weddings. Its generous layout offers plenty of room for dining, dancing, and décor, giving you the freedom to bring your vision to life. Whatever the occasion, the Liberty Ballroom provides an elegant backdrop where unforgettable moments unfold.',
-            image: 'https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/LibertyBallroom_Picture.jpg',
-            squareFeet: '1,800',
-            theater: '220',
-            banquet: '170',
-        },
-        {
-            id: 'lakeview-garden',
-            name: 'Lakeview Garden',
-            description: 'Soon to be unveiled, our Lakeview Garden will offer a breathtaking outdoor setting designed with weddings and special celebrations in mind. Surrounded by natural beauty and framed by views of the water, this enchanting garden creates a storybook atmosphere for ceremonies, receptions, and open-air gatherings. With endless possibilities for décor and a serene backdrop that shifts beautifully from day to night, the Lakeview Garden will be the perfect place to say "I do" or host any unforgettable outdoor event.',
-            image: 'https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/IMG_1120.jpg',
-            squareFeet: '5,500',
-            theater: '650',
-            banquet: '500',
-        }
-    ];
 
     const capacityTypes = [
         { id: 'theater', name: 'Theater Style' },
@@ -180,7 +149,7 @@ const EventVenue = () => {
                 email: '',
                 phone: '',
                 eventType: '',
-                preferredVenue: 'grand-ballroom',
+                preferredVenue: venues[0]?.id || '',
                 eventDate: '',
                 guestCount: '',
                 message: ''
@@ -205,6 +174,58 @@ const EventVenue = () => {
     };
 
     const selectedVenue = venues.find(venue => venue.id === activeVenue) || venues[0];
+
+    // Loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-lg">Loading venues...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Failed to load venues</h3>
+                    <p className="text-gray-600 mb-4">{error}</p>
+                    <button 
+                        onClick={() => window.location.reload()}
+                        className="bg-gold text-white font-semibold py-2 px-6 rounded-lg hover:bg-gold-dark transition-colors"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // No venues state
+    if (venues.length === 0) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">No venues available</h3>
+                    <p className="text-gray-600">Please check back later for available venues.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative min-h-screen bg-white">
@@ -425,7 +446,7 @@ const EventVenue = () => {
                 <section ref={heroRef} className="relative h-[85vh] min-h-[600px] overflow-hidden">
                     <div className="absolute inset-0">
                         <img
-                            src="https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg"
+                            src={venues[0]?.image || "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FrontPre.jpg"}
                             alt="Event Venue"
                             className="w-full h-full object-cover"
                         />
@@ -439,10 +460,10 @@ const EventVenue = () => {
                                 <div className="mb-8">
                                     <div className="w-24 h-1 bg-gold mb-6"></div>
                                     <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light text-white mb-6 leading-tight">
-                                        Social Venues
+                                        {venues[0]?.venue_title || "Social Venues"}
                                     </h1>
                                     <p className="text-xl md:text-2xl text-gold font-light mb-8 max-w-xl">
-                                        Exceptional spaces for unforgettable events and celebrations
+                                        {venues[0]?.venue_title_description || "Exceptional spaces for unforgettable events and celebrations"}
                                     </p>
                                 </div>
                                 
@@ -589,10 +610,10 @@ const EventVenue = () => {
 
                                     {/* Content Section */}
                                     <div className={`${idx % 2 === 1 ? 'lg:pr-12' : 'lg:pl-12'}`}>
-                                        <div className="flex items-center mb-4">
+                                        {/* <div className="flex items-center mb-4">
                                             <div className="w-12 h-px bg-gold mr-4"></div>
                                             <span className="text-gold font-semibold tracking-widest text-sm uppercase">{venue.id.split('-').join(' ').toUpperCase()}</span>
-                                        </div>
+                                        </div> */}
                                         <h3 className="text-4xl font-serif font-light text-gray-900 mb-6 leading-tight">
                                             {venue.name}
                                         </h3>

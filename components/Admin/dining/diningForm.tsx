@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import type { DiningData } from '@/types';
 
 interface CarouselSlide {
     id: number;
@@ -31,6 +32,11 @@ interface FlavorfulVoyageCard {
     description: string;
 }
 
+interface FlavorfulVoyageSecondCard {
+    title: string;
+    description: string;
+}
+
 interface RestaurantCard {
     image: string;
     heading: string;
@@ -47,27 +53,7 @@ interface CulinaryExcellenceItem {
     keypoints: string[];
 }
 
-interface DiningData {
-    id?: number;
-    hero_title: string;
-    hero_subtitle: string;
-    carousel_slides: CarouselSlide[];
-    culinary_story_title: string;
-    culinary_story_description: string;
-    culinary_story_carousel: CulinaryStoryCarouselItem[];
-    culinary_story_features: CulinaryStoryFeature[];
-    catering_options: CateringOption[];
-    flavorful_voyage_title: string;
-    flavorful_voyage_cards: FlavorfulVoyageCard[];
-    flavorful_voyage_second_title: string;
-    flavorful_voyage_second_description: string;
-    restaurants_title: string;
-    restaurants_subtitle: string;
-    restaurants_cards: RestaurantCard[];
-    culinary_excellence: CulinaryExcellenceItem[];
-    culinary_excellence_second_title: string;
-    culinary_excellence_keypoints: string[];
-}
+
 
 interface DiningFormProps {
     onSubmit: (data: FormData) => Promise<void>;
@@ -88,14 +74,13 @@ const DiningForm: React.FC<DiningFormProps> = ({
         restaurants_title: '',
         restaurants_subtitle: '',
         flavorful_voyage_title: '',
-        flavorful_voyage_second_title: '',
-        flavorful_voyage_second_description: '',
         culinary_excellence_second_title: '',
         carousel_slides: [] as CarouselSlide[],
         culinary_story_carousel: [] as CulinaryStoryCarouselItem[],
         culinary_story_features: [] as CulinaryStoryFeature[],
         catering_options: [] as CateringOption[],
         flavorful_voyage_cards: [] as FlavorfulVoyageCard[],
+        flavorful_voyage_second_cards: [] as FlavorfulVoyageSecondCard[],
         restaurants_cards: [] as RestaurantCard[],
         culinary_excellence: [] as CulinaryExcellenceItem[],
         culinary_excellence_keypoints: [] as string[]
@@ -111,6 +96,18 @@ const DiningForm: React.FC<DiningFormProps> = ({
 
     useEffect(() => {
         if (diningData) {
+            // Support both shapes coming from different backends: either
+            // `flavorful_voyage_second_cards` (array of objects) or
+            // `flavorful_voyage_second_title` & `flavorful_voyage_second_description` (parallel arrays).
+            const fvSecondCards = (diningData as any).flavorful_voyage_second_cards ?? (
+                Array.isArray((diningData as any).flavorful_voyage_second_title)
+                    ? ((diningData as any).flavorful_voyage_second_title as string[]).map((t: string, i: number) => ({
+                          title: t,
+                          description: ((diningData as any).flavorful_voyage_second_description?.[i]) || '',
+                      }))
+                    : []
+            );
+
             setFormData({
                 hero_title: diningData.hero_title || '',
                 hero_subtitle: diningData.hero_subtitle || '',
@@ -119,14 +116,13 @@ const DiningForm: React.FC<DiningFormProps> = ({
                 restaurants_title: diningData.restaurants_title || '',
                 restaurants_subtitle: diningData.restaurants_subtitle || '',
                 flavorful_voyage_title: diningData.flavorful_voyage_title || '',
-                flavorful_voyage_second_title: diningData.flavorful_voyage_second_title || '',
-                flavorful_voyage_second_description: diningData.flavorful_voyage_second_description || '',
                 culinary_excellence_second_title: diningData.culinary_excellence_second_title || '',
                 carousel_slides: diningData.carousel_slides || [],
                 culinary_story_carousel: diningData.culinary_story_carousel || [],
                 culinary_story_features: diningData.culinary_story_features || [],
                 catering_options: diningData.catering_options || [],
                 flavorful_voyage_cards: diningData.flavorful_voyage_cards || [],
+                flavorful_voyage_second_cards: fvSecondCards,
                 restaurants_cards: diningData.restaurants_cards || [],
                 culinary_excellence: diningData.culinary_excellence || [],
                 culinary_excellence_keypoints: diningData.culinary_excellence_keypoints || []
@@ -374,6 +370,34 @@ const DiningForm: React.FC<DiningFormProps> = ({
         setFlavorfulVoyageImages(updatedFiles);
     };
 
+    // Flavorful Voyage Second Cards Management
+    const handleFlavorfulVoyageSecondCardChange = (index: number, field: keyof FlavorfulVoyageSecondCard, value: string) => {
+        const updatedCards = [...formData.flavorful_voyage_second_cards];
+        if (!updatedCards[index]) {
+            updatedCards[index] = { title: '', description: '' };
+        }
+        updatedCards[index] = { ...updatedCards[index], [field]: value };
+        setFormData(prev => ({
+            ...prev,
+            flavorful_voyage_second_cards: updatedCards
+        }));
+    };
+
+    const addFlavorfulVoyageSecondCard = () => {
+        setFormData(prev => ({
+            ...prev,
+            flavorful_voyage_second_cards: [...prev.flavorful_voyage_second_cards, { title: '', description: '' }]
+        }));
+    };
+
+    const removeFlavorfulVoyageSecondCard = (index: number) => {
+        const updatedCards = formData.flavorful_voyage_second_cards.filter((_, i) => i !== index);
+        setFormData(prev => ({
+            ...prev,
+            flavorful_voyage_second_cards: updatedCards
+        }));
+    };
+
     // Restaurants Cards Management
     const handleRestaurantCardChange = (index: number, field: keyof RestaurantCard, value: string | string[]) => {
         const updatedCards = [...formData.restaurants_cards];
@@ -507,9 +531,21 @@ const DiningForm: React.FC<DiningFormProps> = ({
         if (!formData.restaurants_title) newErrors.restaurants_title = 'Restaurants title is required';
         if (!formData.restaurants_subtitle) newErrors.restaurants_subtitle = 'Restaurants subtitle is required';
         if (!formData.flavorful_voyage_title) newErrors.flavorful_voyage_title = 'Flavorful voyage title is required';
-        if (!formData.flavorful_voyage_second_title) newErrors.flavorful_voyage_second_title = 'Flavorful voyage second title is required';
-        if (!formData.flavorful_voyage_second_description) newErrors.flavorful_voyage_second_description = 'Flavorful voyage second description is required';
         if (!formData.culinary_excellence_second_title) newErrors.culinary_excellence_second_title = 'Culinary excellence second title is required';
+
+        // Validate flavorful voyage second cards
+        if (!formData.flavorful_voyage_second_cards || formData.flavorful_voyage_second_cards.length === 0) {
+            newErrors.flavorful_voyage_second_cards = 'At least one Flavorful Voyage second card is required';
+        } else {
+            formData.flavorful_voyage_second_cards.forEach((card, index) => {
+                if (!card.title?.trim()) {
+                    newErrors[`flavorful_voyage_second_card_${index}_title`] = `Card ${index + 1} title is required`;
+                }
+                if (!card.description?.trim()) {
+                    newErrors[`flavorful_voyage_second_card_${index}_description`] = `Card ${index + 1} description is required`;
+                }
+            });
+        }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -532,8 +568,6 @@ const DiningForm: React.FC<DiningFormProps> = ({
         submitData.append('restaurants_title', formData.restaurants_title);
         submitData.append('restaurants_subtitle', formData.restaurants_subtitle);
         submitData.append('flavorful_voyage_title', formData.flavorful_voyage_title);
-        submitData.append('flavorful_voyage_second_title', formData.flavorful_voyage_second_title);
-        submitData.append('flavorful_voyage_second_description', formData.flavorful_voyage_second_description);
         submitData.append('culinary_excellence_second_title', formData.culinary_excellence_second_title);
         
         // Append JSON data
@@ -542,6 +576,7 @@ const DiningForm: React.FC<DiningFormProps> = ({
         submitData.append('culinary_story_features', JSON.stringify(formData.culinary_story_features));
         submitData.append('catering_options', JSON.stringify(formData.catering_options));
         submitData.append('flavorful_voyage_cards', JSON.stringify(formData.flavorful_voyage_cards));
+        submitData.append('flavorful_voyage_second_cards', JSON.stringify(formData.flavorful_voyage_second_cards));
         submitData.append('restaurants_cards', JSON.stringify(formData.restaurants_cards));
         submitData.append('culinary_excellence', JSON.stringify(formData.culinary_excellence));
         submitData.append('culinary_excellence_keypoints', JSON.stringify(formData.culinary_excellence_keypoints));
@@ -899,38 +934,6 @@ const DiningForm: React.FC<DiningFormProps> = ({
                             />
                             {errors.flavorful_voyage_title && <p className="mt-1 text-sm text-red-600">{errors.flavorful_voyage_title}</p>}
                         </div>
-                        <div>
-                            <label htmlFor="flavorful_voyage_second_title" className="block text-sm font-medium text-gray-700 mb-2">
-                                Flavorful Voyage Second Title *
-                            </label>
-                            <input
-                                type="text"
-                                id="flavorful_voyage_second_title"
-                                name="flavorful_voyage_second_title"
-                                value={formData.flavorful_voyage_second_title}
-                                onChange={handleInputChange}
-                                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    errors.flavorful_voyage_second_title ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.flavorful_voyage_second_title && <p className="mt-1 text-sm text-red-600">{errors.flavorful_voyage_second_title}</p>}
-                        </div>
-                        <div>
-                            <label htmlFor="flavorful_voyage_second_description" className="block text-sm font-medium text-gray-700 mb-2">
-                                Flavorful Voyage Second Description *
-                            </label>
-                            <textarea
-                                id="flavorful_voyage_second_description"
-                                name="flavorful_voyage_second_description"
-                                value={formData.flavorful_voyage_second_description}
-                                onChange={handleInputChange}
-                                rows={3}
-                                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    errors.flavorful_voyage_second_description ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.flavorful_voyage_second_description && <p className="mt-1 text-sm text-red-600">{errors.flavorful_voyage_second_description}</p>}
-                        </div>
                     </div>
 
                     {/* Flavorful Voyage Cards */}
@@ -985,6 +988,71 @@ const DiningForm: React.FC<DiningFormProps> = ({
                                             rows={2}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
                                         />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Flavorful Voyage Second Cards */}
+                    <div className="mt-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <h4 className="text-md font-semibold text-gray-900">Flavorful Voyage Second Section Cards *</h4>
+                            <button
+                                type="button"
+                                onClick={addFlavorfulVoyageSecondCard}
+                                className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                            >
+                                Add Card
+                            </button>
+                        </div>
+                        {errors.flavorful_voyage_second_cards && (
+                            <p className="text-red-600 text-sm mb-4">{errors.flavorful_voyage_second_cards}</p>
+                        )}
+                        <div className="space-y-4">
+                            {formData.flavorful_voyage_second_cards.map((card, index) => (
+                                <div key={index} className="border border-gray-200 rounded-lg p-4">
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h5 className="font-medium text-gray-900">Second Section Card {index + 1}</h5>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeFlavorfulVoyageSecondCard(index)}
+                                            className="text-red-600 hover:text-red-800 text-sm"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                    <div className="grid grid-cols-1 gap-3">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Card Title"
+                                                value={card.title}
+                                                onChange={(e) => handleFlavorfulVoyageSecondCardChange(index, 'title', e.target.value)}
+                                                className={`w-full px-3 py-2 border rounded-md ${
+                                                    errors[`flavorful_voyage_second_card_${index}_title`] ? 'border-red-500' : 'border-gray-300'
+                                                }`}
+                                            />
+                                            {errors[`flavorful_voyage_second_card_${index}_title`] && (
+                                                <p className="mt-1 text-sm text-red-600">{errors[`flavorful_voyage_second_card_${index}_title`]}</p>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                                            <textarea
+                                                placeholder="Card Description"
+                                                value={card.description}
+                                                onChange={(e) => handleFlavorfulVoyageSecondCardChange(index, 'description', e.target.value)}
+                                                rows={3}
+                                                className={`w-full px-3 py-2 border rounded-md ${
+                                                    errors[`flavorful_voyage_second_card_${index}_description`] ? 'border-red-500' : 'border-gray-300'
+                                                }`}
+                                            />
+                                            {errors[`flavorful_voyage_second_card_${index}_description`] && (
+                                                <p className="mt-1 text-sm text-red-600">{errors[`flavorful_voyage_second_card_${index}_description`]}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

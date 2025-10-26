@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useState, useEffect, useRef } from "react";
+import { getDining, DiningData } from '@/apirequests/dining';
 
 // Add this type definition at the top
 type MenuPopup = {
@@ -67,6 +68,15 @@ function MenuPopupModal({ isOpen, onClose, menuData }: { isOpen: boolean; onClos
 function SingleItemCarousel({ images }: { images: CateringOption[] }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(true);
+
+    // Defensive: if there are no images, render a small placeholder and avoid accessing images[0]
+    if (!images || images.length === 0) {
+        return (
+            <div className="w-full flex items-center justify-center p-8">
+                <div className="text-gray-500">No images available</div>
+            </div>
+        );
+    }
 
     const extendedImages = [...images, images[0]];
 
@@ -312,31 +322,37 @@ const Dining = () => {
     const heroRef = useRef<HTMLElement | null>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    
+    // State for dynamic data
+    const [data, setData] = useState<DiningData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     // Decorative background image used on the Homepage
     const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
 
-    // Enhanced Carousel slides for hero section
-    const carouselSlides = [
-        {
-            id: 1,
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/FoodBeveragesHeroBanner.jpg",
-            title: "Food & Beverages",
-            description: "Exceptional culinary experiences crafted by our award-winning chefs"
-        },
-        {
-            id: 2,
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg",
-            title: "Multi-Cuisine Excellence",
-            description: "A journey through global flavors and culinary artistry"
-        },
-        {
-            id: 3,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004474.jpg",
-            title: "Fine Dining Experience",
-            description: "Elegant settings for unforgettable dining moments"
-        }
-    ];
+    // Fetch data from API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await getDining();
+                
+                if (response.ok && response.data) {
+                    setData(response.data);
+                } else {
+                    throw new Error(response.error || 'Failed to load data');
+                }
+            } catch (err) {
+                console.error('Error fetching dining data:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const compute = () => {
@@ -355,14 +371,14 @@ const Dining = () => {
 
     // Carousel auto-play effect
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!isAutoPlaying || !data?.carousel_slides?.length) return;
 
         const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % carouselSlides.length);
+            setCurrentSlide((prev) => (prev + 1) % data.carousel_slides.length);
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [isAutoPlaying, carouselSlides.length]);
+    }, [isAutoPlaying, data?.carousel_slides?.length]);
 
     const goToSlide = (index: number) => {
         setCurrentSlide(index);
@@ -371,11 +387,13 @@ const Dining = () => {
     };
 
     const nextSlide = () => {
-        goToSlide((currentSlide + 1) % carouselSlides.length);
+        if (!data?.carousel_slides?.length) return;
+        goToSlide((currentSlide + 1) % data.carousel_slides.length);
     };
 
     const prevSlide = () => {
-        goToSlide((currentSlide - 1 + carouselSlides.length) % carouselSlides.length);
+        if (!data?.carousel_slides?.length) return;
+        goToSlide((currentSlide - 1 + data.carousel_slides.length) % data.carousel_slides.length);
     };
 
     const menuData = {
@@ -474,122 +492,83 @@ const Dining = () => {
         setCurrentMenu(null);
     };
 
-    const restaurants = [
-        {
-            name: "Magnoliya Multi Cuisine Restaurant",
-            cuisine: "Fine Dining from Around the World",
-            description: "Magnoliya Grand Multi Cuisine Restaurant offers fine dining from around the world in an elegant setting, making it a premier destination for beautiful events. Known for its diverse international menu including American, Mexican, Italian, Indian, and Middle Eastern food.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Food.jpg",
-            features: ["International Menu", "Elegant Setting", "Event Hosting"]
-        },
-        {
-            name: "Garden and Grille Restaurant and Bar",
-            cuisine: "Relaxed Yet Refined Dining",
-            description: "Located within the Hilton Garden Inn, just steps away from our main venue, the Garden and Grille Restaurant and Bar has been serving hotel guests and local diners since its opening in 2020. Known for its relaxed yet refined atmosphere.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/hilton-live-miami0j5a0151.avif",
-            features: ["Freshly Prepared Dishes", "Handcrafted Cocktails", "Casual Atmosphere"]
-        }
-    ];
+    // Transform API data for components
+    const cateringOptions = data?.catering_options?.map(option => ({
+        title: option.title,
+        image: option.image
+    })) || [];
 
-    const cateringOptions = [
-        {
-            title: "Indoor Catering",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004474.jpg"
-        },
-        {
-            title: "Outdoor Catering",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000004481.jpg"
-        },
-        {
-            title: "Garden Catering (Coming Soon)",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000007750.jpg"
-        },
-        {
-            title: "Corporate Events",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000006379.jpg"
-        },
-        {
-            title: "Wedding Receptions",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000006571.jpg"
-        },
-        {
-            title: "Private Parties",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000007748.jpg"
-        },
-        {
-            title: "Birthday Celebrations",
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/1000005033.jpg"
-        },
-    ];
+    const restaurants = data?.restaurants_cards?.map(card => ({
+        name: card.heading,
+        cuisine: card.tagline,
+        description: card.description,
+        image: card.image,
+        features: card.keypoints
+    })) || [];
 
-    const culinaryTeam = [
-        {
-            title: "Skilled Experts",
-            description: "Our culinary team is led by a high quality chef whose expertise extends far beyond regional specialties. With a mastery of Italian, Mexican, Middle Eastern, and a wide variety of global cuisines.",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/image%20(1).png"
-        },
-        {
-            title: "Sustainability",
-            description: "Our food and beverage team is central to our commitment to sustainability. In our on-site kitchens, all food scraps are composted, and we work closely with community partners.",
-            image: "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-        },
-        {
-            title: "Health & Safety",
-            description: "Comprehensive health and safety training programs for all team members. Enhanced protective measures, including additional PPE and an extended glove policy. Rigorous kitchen sanitation protocols with scheduled cleaning and disinfection. Menus thoughtfully designed with modern hygiene and safety standards in mind.",
-            image: "https://images.unsplash.com/photo-1585513360126-ec5c22663f6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-        }
-    ];
+    const culinaryTeam = data?.culinary_excellence?.map(item => ({
+        title: item.title,
+        description: item.description,
+        image: item.image
+    })) || [];
 
-    // Multi-cuisine categories data for the redesigned layout
-    const cuisineCategories = [
-        {
-            title: "Multi-Cuisine",
-            description: "Embark on a global journey where the world's finest cuisines unite under one roof. From Asian stir- fries to Mediterranean mezze and continental grills, each dish is crafted with artistry, authenticity, and flair.",
-            images: [
-                "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-            ]
-        },
-        {
-            title: "Italian",
-            description: "Experience the romance of Italy through velvety pastas, wood-fired pizzas, and classic tiramisu. Paired with fine wines and warm hospitality, every bite captures the essence of la dolce vita.",
-            images: [
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%201.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Italian%202.png"
-            ]
-        },
-        {
-            title: "American",
-            description: "Celebrate the bold spirit of American cuisine with smoky barbecues, gourmet burgers, and comforting classics. Each dish honors tradition while delivering modern flavor and generous warmth.",
-            images: [
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%201.jpg",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/American%202.jpg"
-            ]
-        },
-        {
-            title: "Indian",
-            description: "Immerse yourself in the vibrant spices and soulful traditions of India. From tandoori kebabs to fragrant biryanis and rich curries, every plate tells a story of heritage, color, and passion.",
-            images: [
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Indian%201.png"
-            ]
-        },
-        {
-            title: "Mexican",
-            description: "Savor the spirited flavors of Mexico with hand-pressed tortillas, smoky moles, and fresh salsas. Every dish bursts with color, zest, and the joyful essence of fiesta dining.",
-            images: [
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%201.png",
-                "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/Mexican%202.png"
-            ]
-        },
-        {
-            title: "Desserts",
-            description: "End your journey on a sweet note with confections that enchant the senses. From molten chocolate cakes to French macarons and classic tiramisu, every dessert is a celebration of indulgence.",
-            images: [
-                "https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-            ]
-        }
-    ];
+    const cuisineCategories = data?.flavorful_voyage_cards?.map(card => ({
+        title: card.heading,
+        description: card.description,
+        images: [card.image]
+    })) || [];
+
+    // Loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-lg">Loading dining content...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Failed to load content</h3>
+                    <p className="text-gray-600 mb-4">{error}</p>
+                    <button 
+                        onClick={() => window.location.reload()}
+                        className="bg-gold text-white font-semibold py-2 px-6 rounded-lg hover:bg-gold-dark transition-colors"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // No data state
+    if (!data) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">No content available</h3>
+                    <p className="text-gray-600">Please check back later for available content.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative min-h-screen bg-white">
@@ -621,7 +600,7 @@ const Dining = () => {
                     <div className="absolute inset-0">
                         {/* Carousel Container */}
                         <div className="relative w-full h-full">
-                            {carouselSlides.map((slide, index) => (
+                            {data.carousel_slides.map((slide, index) => (
                                 <div
                                     key={slide.id}
                                     className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
@@ -646,9 +625,6 @@ const Dining = () => {
                                             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 leading-tight text-white">
                                                 {slide.title}
                                             </h1>
-                                            {/* <p className="text-xl md:text-2xl text-gold font-light mb-8 max-w-2xl mx-auto">
-                                                {slide.description}
-                                            </p> */}
                                         </div>
                                     </div>
                                 </div>
@@ -679,7 +655,7 @@ const Dining = () => {
 
                     {/* Enhanced Carousel Indicators */}
                     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-                        {carouselSlides.map((_, index) => (
+                        {data.carousel_slides.map((_, index) => (
                             <button
                                 key={index}
                                 onClick={() => goToSlide(index)}
@@ -717,12 +693,10 @@ const Dining = () => {
                                 <div className="w-20 h-px bg-gold ml-4"></div>
                             </div>
                             <h2 className="text-5xl md:text-6xl font-serif font-light text-gray-900 mb-6">
-                                Our Culinary Story
+                                {data.culinary_story_title}
                             </h2>
                             <p className="text-xl text-gray-700 max-w-4xl mx-auto font-light leading-relaxed">
-                                At Magnoliya Grand, dining becomes an art form where global flavors meet refined
-                                craftsmanship. Every dish tells a story of passion, culture, and creativity—transforming
-                                each meal into an unforgettable sensory journey.
+                                {data.culinary_story_description}
                             </p>
                         </div>
 
@@ -733,41 +707,13 @@ const Dining = () => {
 
                         {/* Enhanced Feature Cards */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
-                            {[
-                                {
-                                    icon: (
-                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                    ),
-                                    title: "Meet Our Culinary Maestros",
-                                    description: "Led by our esteemed Maestros, our international chefs redefine culinary excellence. Their artistry blends technique and imagination, creating menus that inspire and delight with every bite."
-                                },
-                                {
-                                    icon: (
-                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                        </svg>
-                                    ),
-                                    title: "Our Core Values",
-                                    description: "At Magnoliya Grand, our cuisine begins with integrity—fresh, authentic, and sustainably sourced ingredients. With inclusive menus for every palate, we serve hospitality that is as thoughtful as it is extraordinary."
-                                },
-                                {
-                                    icon: (
-                                        <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                        </svg>
-                                    ),
-                                    title: "The Guest Experience",
-                                    description: "Dining at Magnoliya Grand is an experience of comfort, luxury, and connection. Whether an intimate dinner or a grand celebration, every moment is designed to delight and inspire."
-                                }
-                            ].map((feature, index) => (
+                            {data.culinary_story_features.map((feature, index) => (
                                 <div
                                     key={index}
                                     className="group bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:-translate-y-2"
                                 >
                                     <div className="w-16 h-16 bg-gold/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors duration-300">
-                                        {feature.icon}
+                                        <div dangerouslySetInnerHTML={{ __html: feature.icon }} />
                                     </div>
                                     <h3 className="text-2xl font-serif font-light text-gray-800 mb-4">{feature.title}</h3>
                                     <p className="text-gray-600 leading-relaxed font-light">{feature.description}</p>
@@ -784,7 +730,7 @@ const Dining = () => {
                                     <div className="w-20 h-px bg-gold ml-4"></div>
                                 </div>
                                 <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
-                                    Our Flavorful Voyage
+                                    {data.flavorful_voyage_title}
                                 </h2>
                             </div>
 
@@ -817,23 +763,14 @@ const Dining = () => {
                             </div>
                         </div>
 
-                        {/* Enhanced Additional Highlights */}
+                        {/* Enhanced Additional Highlights - Now using the two-card structure */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border border-gray-100">
-                                <h4 className="text-xl font-serif font-light text-gray-800 mb-4">Catering & Celebrations</h4>
-                                <p className="text-gray-600 font-light">
-                                    Through CGA Catering New York, we bring world-class cuisine to events of every scale.
-                                    From elegant weddings to corporate galas, our bespoke menus elevate every occasion
-                                    with flawless execution.
-                                </p>
-                            </div>
-                            <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border border-gray-100">
-                                <h4 className="text-xl font-serif font-light text-gray-800 mb-4">Beyond the Plate</h4>
-                                <p className="text-gray-600 font-light">
-                                    At Magnoliya Grand, food becomes storytelling, artistry, and emotion. Every dish, every
-                                    flavor, and every detail is crafted to create lasting memories beyond the table.
-                                </p>
-                            </div>
+                            {data.flavorful_voyage_second_cards.map((card, index) => (
+                                <div key={index} className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border border-gray-100 hover:-translate-y-2 transition-all duration-500">
+                                    <h4 className="text-xl font-serif font-light text-gray-800 mb-4">{card.title}</h4>
+                                    <p className="text-gray-600 font-light">{card.description}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -855,10 +792,10 @@ const Dining = () => {
                                 <div className="w-20 h-px bg-gold ml-4"></div>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
-                                Our Restaurants
+                                {data.restaurants_title}
                             </h2>
                             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-                                Discover our diverse culinary venues, each offering a unique atmosphere and exquisite flavors
+                                {data.restaurants_subtitle}
                             </p>
                         </div>
 
@@ -912,43 +849,33 @@ const Dining = () => {
                         
                         <div className="space-y-16">
                             {/* Skilled Experts */}
-                            <div className="group flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
-                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
-                                    <img
-                                        src={culinaryTeam[0].image}
-                                        alt={culinaryTeam[0].title}
-                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    />
+                            {culinaryTeam.map((team, index) => (
+                                <div 
+                                    key={index}
+                                    className={`group flex flex-col lg:flex-row items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-2 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+                                >
+                                    <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
+                                        <img
+                                            src={team.image}
+                                            alt={team.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="lg:w-1/2 w-full p-8 lg:p-12">
+                                        <h3 className="text-3xl font-serif font-light text-gray-800 mb-6">{team.title}</h3>
+                                        <p className="text-gray-600 text-lg leading-relaxed font-light">{team.description}</p>
+                                    </div>
                                 </div>
-                                <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                    <h3 className="text-3xl font-serif font-light text-gray-800 mb-6">{culinaryTeam[0].title}</h3>
-                                    <p className="text-gray-600 text-lg leading-relaxed font-light">{culinaryTeam[0].description}</p>
-                                </div>
-                            </div>
-                            
-                            {/* Sustainability */}
-                            <div className="group flex flex-col lg:flex-row-reverse items-center bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
-                                <div className="lg:w-1/2 w-full h-80 lg:h-96 flex-shrink-0 overflow-hidden">
-                                    <img
-                                        src={culinaryTeam[1].image}
-                                        alt={culinaryTeam[1].title}
-                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    />
-                                </div>
-                                <div className="lg:w-1/2 w-full p-8 lg:p-12">
-                                    <h3 className="text-3xl font-serif font-light text-gray-800 mb-6">{culinaryTeam[1].title}</h3>
-                                    <p className="text-gray-600 text-lg leading-relaxed font-light">{culinaryTeam[1].description}</p>
-                                </div>
-                            </div>
+                            ))}
                             
                             {/* Health & Safety */}
                             <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
-                                <h3 className="text-3xl font-serif font-light text-gray-800 mb-8">{culinaryTeam[2].title}</h3>
+                                <h3 className="text-3xl font-serif font-light text-gray-800 mb-8">{data.culinary_excellence_second_title}</h3>
                                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {culinaryTeam[2].description.split('.').filter((point: string) => Boolean(point.trim())).map((point: string, idx: number) => (
+                                    {data.culinary_excellence_keypoints.map((point, idx) => (
                                         <li key={idx} className="flex items-start space-x-4 p-4 hover:bg-gold/5 rounded-2xl transition-colors duration-300">
                                             <div className="w-3 h-3 bg-gold rounded-full mt-2 flex-shrink-0"></div>
-                                            <span className="text-gray-600 text-lg font-light">{point.trim()}{point.trim().endsWith('.') ? '' : '.'}</span>
+                                            <span className="text-gray-600 text-lg font-light">{point}</span>
                                         </li>
                                     ))}
                                 </ul>

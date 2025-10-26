@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
+import { getRoomsSuites, RoomsSuitesData } from '@/apirequests/rooms-suites';
 
 const RoomsAndSuites = () => {
     const [viewportHeight, setViewportHeight] = useState<number | null>(null);
@@ -9,38 +10,37 @@ const RoomsAndSuites = () => {
     const [lightboxIndex, setLightboxIndex] = useState<number>(0);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    
+    // State for dynamic data
+    const [data, setData] = useState<RoomsSuitesData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     // Decorative background image used on the Homepage
     const backgroundImage = "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/center-bg.png";
 
-    // Enhanced Carousel slides for hero section
-    const carouselSlides = [
-        {
-            id: 1,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_0080-Edit.jpg",
-            title: "Rooms & Suites",
-        },
-        {
-            id: 2,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_0088.jpg",
-            title: "Rooms & Suites",
-        },
-        {
-            id: 3,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_0094.jpg",
-            title: "Rooms & Suites",
-        },
-        {
-            id: 4,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/DJI_MagHotel_Front.jpg",
-            title: "Rooms & Suites",
-        },
-        {
-            id: 5,
-            image: "https://pub-5508d64e14364eca9f48ef0efa18bda5.r2.dev/banner-5.jpg",
-            title: "Rooms & Suites",
-        }
-    ];
+    // Fetch data from API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const response = await getRoomsSuites();
+                
+                if (response.ok && response.data) {
+                    setData(response.data);
+                } else {
+                    throw new Error(response.error || 'Failed to load data');
+                }
+            } catch (err) {
+                console.error('Error fetching rooms and suites data:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const compute = () => {
@@ -59,14 +59,14 @@ const RoomsAndSuites = () => {
 
     // Carousel auto-play effect
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!isAutoPlaying || !data?.carousel_slides?.length) return;
 
         const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % carouselSlides.length);
+            setCurrentSlide((prev) => (prev + 1) % data.carousel_slides.length);
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [isAutoPlaying, carouselSlides.length]);
+    }, [isAutoPlaying, data?.carousel_slides?.length]);
 
     const goToSlide = (index: number) => {
         setCurrentSlide(index);
@@ -75,103 +75,84 @@ const RoomsAndSuites = () => {
     };
 
     const nextSlide = () => {
-        goToSlide((currentSlide + 1) % carouselSlides.length);
+        if (!data?.carousel_slides?.length) return;
+        goToSlide((currentSlide + 1) % data.carousel_slides.length);
     };
 
     const prevSlide = () => {
-        goToSlide((currentSlide - 1 + carouselSlides.length) % carouselSlides.length);
+        if (!data?.carousel_slides?.length) return;
+        goToSlide((currentSlide - 1 + data.carousel_slides.length) % data.carousel_slides.length);
     };
 
     // Add keyboard navigation for lightbox
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (!lightboxOpen) return;
+            if (!lightboxOpen || !data?.gallery_images?.length) return;
             
             if (e.key === 'Escape') {
                 setLightboxOpen(false);
             } else if (e.key === 'ArrowLeft') {
-                setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+                setLightboxIndex((prev) => (prev - 1 + data.gallery_images.length) % data.gallery_images.length);
             } else if (e.key === 'ArrowRight') {
-                setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
+                setLightboxIndex((prev) => (prev + 1) % data.gallery_images.length);
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [lightboxOpen]);
+    }, [lightboxOpen, data?.gallery_images?.length]);
 
-    const roomTypes = [
-        {
-            name: "King Room",
-            description: "Spacious room with one king bed, perfect for solo travelers or couples",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-king-688be9.avif",
-            features: ["One King Bed", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"]
-        },
-        {
-            name: "Double Queen Room",
-            description: "Comfortable room with two queen beds, ideal for families or groups",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/standard-double-queen-e39b41.jpg",
-            features: ["Two Queen Beds", "Free WiFi", "Flat-screen TV", "Work Desk", "Coffee Maker", "Mini Refrigerator"]
-        },
-        {
-            name: "King Suite",
-            description: "Luxurious suite with separate living area and premium amenities",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/king-one-bedroom-suite-3.avif",
-            features: ["Separate Living Area", "One King Bed", "Microwave", "Mini Refrigerator", "Premium Bath Amenities"]
-        },
-        {
-            name: "Accessible Room",
-            description: "Fully accessible room designed for guests with mobility needs",
-            image: "https://pub-56ba1c6c262346a6bcbe2ce75c0c40c5.r2.dev/hearing-accessbiel-king.jpg",
-            features: ["ADA Compliant", "Roll-in Shower", "Lowered Features", "Accessible Routes", "All Standard Amenities"]
-        }
-    ];
+    // Loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-lg">Loading rooms and suites...</p>
+                </div>
+            </div>
+        );
+    }
 
-    const hotelFeatures = [
-        {
-            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            title: "Lobby",
-            description: "Elegant and welcoming entrance area"
-        },
-        {
-            image: "https://images.unsplash.com-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            title: "Pool",
-            description: "Indoor pool for relaxation and exercise"
-        },
-        {
-            image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-            title: "Guest Rooms",
-            description: "Comfortable and well-appointed accommodations"
-        }
-    ];
+    // Error state
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Failed to load content</h3>
+                    <p className="text-gray-600 mb-4">{error}</p>
+                    <button 
+                        onClick={() => window.location.reload()}
+                        className="bg-gold text-white font-semibold py-2 px-6 rounded-lg hover:bg-gold-dark transition-colors"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
-    // Gallery images with captions
-    const galleryImages = [
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/045-AAM_0171_HotelFront_2.jpg',
-            caption: 'Hotel Front Entrance'
-        },
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/066-AAM_LobbyRestaurant.jpg',
-            caption: 'Lobby Restaurant'
-        },
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0144_BackPatio.jpg',
-            caption: 'Back Patio Area'
-        },
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0228_Lobby.jpg',
-            caption: 'Main Lobby'
-        },
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0339_SwimmingPool.jpg',
-            caption: 'Swimming Pool'
-        },
-        {
-            src: 'https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0360_Restaurant.jpg',
-            caption: 'Restaurant Dining Area'
-        }
-    ];
+    // No data state
+    if (!data) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="text-center">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">No content available</h3>
+                    <p className="text-gray-600">Please check back later for available content.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative min-h-screen bg-white">
@@ -196,7 +177,7 @@ const RoomsAndSuites = () => {
                     <div className="absolute inset-0">
                         {/* Carousel Container */}
                         <div className="relative w-full h-full">
-                            {carouselSlides.map((slide, index) => (
+                            {data.carousel_slides.map((slide, index) => (
                                 <div
                                     key={slide.id}
                                     className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
@@ -221,7 +202,6 @@ const RoomsAndSuites = () => {
                                             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light mb-6 leading-tight text-white">
                                                 {slide.title}
                                             </h1>
-                                           
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +232,7 @@ const RoomsAndSuites = () => {
 
                     {/* Enhanced Carousel Indicators */}
                     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-                        {carouselSlides.map((_, index) => (
+                        {data.carousel_slides.map((_, index) => (
                             <button
                                 key={index}
                                 onClick={() => goToSlide(index)}
@@ -287,7 +267,7 @@ const RoomsAndSuites = () => {
                             <div className="w-full lg:w-1/2">
                                 <div className="relative group">
                                     <img
-                                        src="https://pub-09e68f73e2ed4b6a8a274dda30d89155.r2.dev/AAM_0198_HotelFront_1.jpg"
+                                        src={data.connected_hotel_image}
                                         alt="Hilton Garden Inn"
                                         className="rounded-3xl shadow-2xl w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
                                     />
@@ -301,15 +281,14 @@ const RoomsAndSuites = () => {
                                         <span className="text-gold font-semibold tracking-widest text-sm uppercase">CONNECTED HOTEL</span>
                                     </div>
                                     <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6 leading-tight">
-                                        Connected to Hilton Garden Inn
+                                        {data.connected_hotel_title}
                                     </h2>
                                     <div className="space-y-4 mb-8">
-                                        <p className="text-lg text-gray-700 leading-relaxed font-light">
-                                            Hilton Garden Inn Manassas is a modern, full-service hotel conveniently located just off I-66, minutes from Manassas National Battlefield Park.
-                                        </p>
-                                        <p className="text-lg text-gray-700 leading-relaxed font-light">
-                                            Guests can enjoy free Wi-Fi, an on-site restaurant and bar, indoor pool, fitness center, business services, EV charging, and pet-friendly accommodations—all backed by consistently friendly service and a clean, inviting ambiance.
-                                        </p>
+                                        {data.connected_hotel_description.map((paragraph, index) => (
+                                            <p key={index} className="text-lg text-gray-700 leading-relaxed font-light">
+                                                {paragraph}
+                                            </p>
+                                        ))}
                                     </div>
                                     <div className="flex gap-4">
                                         <a
@@ -354,15 +333,15 @@ const RoomsAndSuites = () => {
                                 <div className="w-20 h-px bg-gold ml-4"></div>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
-                                Accommodation Options
+                                {data.accommodations_title}
                             </h2>
                             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-                                Choose from our variety of room types to find the perfect fit for your stay
+                                {data.accommodations_description}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {roomTypes.map((room, index) => (
+                            {data.room_types.map((room, index) => (
                                 <div 
                                     key={index} 
                                     className="group bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-gray-100"
@@ -413,16 +392,16 @@ const RoomsAndSuites = () => {
                                 <div className="w-20 h-px bg-gold ml-4"></div>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 mb-6">
-                                Hotel Gallery
+                                {data.gallery_title}
                             </h2>
                             <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light">
-                                Explore our beautiful property through these stunning photos showcasing our amenities and accommodations.
+                                {data.gallery_description}
                             </p>
                         </div>
 
                         {/* Enhanced Masonry-style grid */}
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-                            {galleryImages.map((image, index) => (
+                            {data.gallery_images.map((image, index) => (
                                 <div
                                     key={index}
                                     className="break-inside-avoid group cursor-pointer transform transition-all duration-500 hover:scale-[1.02]"
@@ -472,7 +451,7 @@ const RoomsAndSuites = () => {
                             {/* Header with counter and close button */}
                             <div className="flex justify-between items-center text-white mb-6">
                                 <div className="text-lg font-light opacity-80">
-                                    {lightboxIndex + 1} of {galleryImages.length}
+                                    {lightboxIndex + 1} of {data.gallery_images.length}
                                 </div>
                                 <button
                                     onClick={() => setLightboxOpen(false)}
@@ -488,7 +467,7 @@ const RoomsAndSuites = () => {
                             {/* Main image container */}
                             <div className="relative flex-1 flex items-center justify-center">
                                 <button
-                                    onClick={() => setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+                                    onClick={() => setLightboxIndex((prev) => (prev - 1 + data.gallery_images.length) % data.gallery_images.length)}
                                     className="absolute left-6 z-10 p-4 text-white hover:bg-white/10 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white hover:scale-110"
                                     aria-label="Previous image"
                                 >
@@ -499,14 +478,14 @@ const RoomsAndSuites = () => {
 
                                 <div className="w-full h-full flex items-center justify-center">
                                     <img 
-                                        src={galleryImages[lightboxIndex].src}
-                                        alt={galleryImages[lightboxIndex].caption}
+                                        src={data.gallery_images[lightboxIndex].src}
+                                        alt={data.gallery_images[lightboxIndex].caption}
                                         className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
                                     />
                                 </div>
 
                                 <button
-                                    onClick={() => setLightboxIndex((prev) => (prev + 1) % galleryImages.length)}
+                                    onClick={() => setLightboxIndex((prev) => (prev + 1) % data.gallery_images.length)}
                                     className="absolute right-6 z-10 p-4 text-white hover:bg-white/10 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white hover:scale-110"
                                     aria-label="Next image"
                                 >
@@ -518,12 +497,12 @@ const RoomsAndSuites = () => {
 
                             {/* Image caption */}
                             <div className="text-center text-white mt-6">
-                                <p className="text-xl font-serif font-light">{galleryImages[lightboxIndex].caption}</p>
+                                <p className="text-xl font-serif font-light">{data.gallery_images[lightboxIndex].caption}</p>
                             </div>
 
                             {/* Thumbnail navigation */}
                             <div className="flex justify-center mt-8 space-x-3">
-                                {galleryImages.map((_, index) => (
+                                {data.gallery_images.map((_, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setLightboxIndex(index)}
@@ -555,10 +534,10 @@ const RoomsAndSuites = () => {
                                 <div className="w-20 h-px bg-black ml-4"></div>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light text-black mb-6">
-                                Ready to Book Your Stay?
+                                {data.cta_title}
                             </h2>
                             <p className="text-xl text-black/80 mb-10 max-w-2xl mx-auto font-light">
-                                Experience the comfort and convenience of our accommodations connected to Hilton Garden Inn
+                                {data.cta_description}
                             </p>
                             <a
                                 href="https://www.guestreservations.com/hilton-garden-inn-manassas/booking?msclkid=3ab69d372b361ee38a45f5806dfd8973&ctTriggered=true"
