@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { loginAdmin } from "@/apirequests/adminAuth";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AdminLogin: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -10,6 +11,14 @@ const AdminLogin: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const router = useRouter();
+    const { login, isAuthenticated, loading: authLoading } = useAuth();
+
+    // Redirect if already authenticated
+    useEffect(() => {
+        if (!authLoading && isAuthenticated) {
+            router.push("/admin/dashboard");
+        }
+    }, [isAuthenticated, authLoading, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,11 +29,11 @@ const AdminLogin: React.FC = () => {
             const result = await loginAdmin({ email, password });
             
             if (result.success) {
-                // Store token in localStorage for client-side access
-                localStorage.setItem('adminToken', result.token);
-                localStorage.setItem('adminUser', JSON.stringify(result.admin));
+                // Use the auth context login method
+                login(result.admin, result.token);
                 
-                router.push("/admin");
+                // Redirect to admin dashboard
+                router.push("/admin/dashboard");
             }
         } catch (err: any) {
             setError(err.response?.data?.message || "Login failed. Please try again.");
@@ -32,6 +41,15 @@ const AdminLogin: React.FC = () => {
             setLoading(false);
         }
     };
+
+    // Show loading while checking authentication
+    if (authLoading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">

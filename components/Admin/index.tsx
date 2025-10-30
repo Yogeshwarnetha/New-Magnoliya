@@ -32,7 +32,7 @@ const adminMenuItems: AdminMenuItem[] = [
     {
         id: 1,
         text: "Dashboard",
-        route: "/admin",
+        route: "/admin/dashboard",
         icon: FaHome
     },
     {
@@ -103,7 +103,7 @@ interface AdminDashboardProps {
 
 const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
     const router = useRouter();
-    const { admin, logout } = useAuth();
+    const { admin, logout, isAuthenticated, loading } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const pathname = usePathname();
@@ -116,6 +116,13 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
     ]);
 
     const unreadNotifications = notifications.filter(n => !n.read).length;
+
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!loading && !isAuthenticated) {
+            router.push('/admin-login');
+        }
+    }, [isAuthenticated, loading, router]);
 
     // Check if mobile device
     useEffect(() => {
@@ -133,6 +140,38 @@ const AdminDashboardLayout: React.FC<AdminDashboardProps> = ({ children }) => {
         
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 1024);
+            if (window.innerWidth < 1024) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Show loading while checking authentication
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-slate-600">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Don't render anything if not authenticated (will redirect)
+    if (!isAuthenticated) {
+        return null;
+    }
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);

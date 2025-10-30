@@ -45,22 +45,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const checkAuth = async () => {
         try {
+            setLoading(true);
             const token = localStorage.getItem('adminToken');
             if (!token) {
                 setLoading(false);
                 return;
             }
 
+            // Verify the token with the server
             const result = await verifyAdminToken();
-            if (result.success) {
+            if (result.success && result.admin) {
                 setAdmin(result.admin);
+                // Update localStorage with fresh admin data
+                localStorage.setItem('adminUser', JSON.stringify(result.admin));
             } else {
+                // Token is invalid, clear everything
                 localStorage.removeItem('adminToken');
                 localStorage.removeItem('adminUser');
+                setAdmin(null);
             }
         } catch (error) {
+            console.error('Auth verification failed:', error);
+            // Clear invalid tokens
             localStorage.removeItem('adminToken');
             localStorage.removeItem('adminUser');
+            setAdmin(null);
         } finally {
             setLoading(false);
         }
