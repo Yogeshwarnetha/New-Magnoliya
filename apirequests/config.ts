@@ -1,4 +1,4 @@
-const env: any = "dev"; // Change to "dev" for development environment
+const env: any = "Production"; // Change to "dev" for development environment
 
 export const origin = env == "dev" ? "http://localhost:4002" : "https://api.1728hosting.cloud"
 
