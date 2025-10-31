@@ -697,12 +697,15 @@ const Homepage = () => {
                                         <iframe
                                             title={tour.title}
                                             src={tour.embed_url}
+                                           
+
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
-                                            referrerPolicy="no-referrer-when-downgrade"
-                                            loading="lazy"
-                                            className="w-full h-full border-0"
-                                            onLoad={() => {}}
-                                            onError={() => {}}
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    loading="lazy"
+                                    className="w-full h-full border-0"
+                                    onLoad={() => {}}
+                                    onError={() => {}}
+
                                         />
                                     </div>
                                 </div>
