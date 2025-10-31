@@ -344,7 +344,8 @@ const RoomsAndSuites = () => {
                             {data.room_types.map((room, index) => (
                                 <div 
                                     key={index} 
-                                    className="group bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-gray-100"
+                                    className="group bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-gray-100 cursor-pointer relative"
+                                    onClick={() => window.open("https://www.guestreservations.com/hilton-garden-inn-manassas/booking?msclkid=3ab69d372b361ee38a45f5806dfd8973&ctTriggered=true", "_blank", "noopener,noreferrer")}
                                 >
                                     <div className="relative h-64 overflow-hidden">
                                         <img
@@ -365,17 +366,14 @@ const RoomsAndSuites = () => {
                                                 </li>
                                             ))}
                                         </ul>
-                                        <a
-                                            href="https://www.guestreservations.com/hilton-garden-inn-manassas/booking?msclkid=3ab69d372b361ee38a45f5806dfd8973&ctTriggered=true"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center text-gold font-medium hover:text-gold-dark transition-all duration-300 group"
+                                        <div
+                                            className="inline-flex items-center text-gold font-medium hover:text-gold-dark transition-all duration-300 group pointer-events-none"
                                         >
                                             Book Now
                                             <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                                        </a>
+                                        </div>
                                     </div>
-                                    <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-gold/20 transition-all duration-300"></div>
+                                    <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-gold/20 transition-all duration-300 pointer-events-none"></div>
                                 </div>
                             ))}
                         </div>
