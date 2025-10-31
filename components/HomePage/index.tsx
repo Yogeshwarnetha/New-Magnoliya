@@ -609,7 +609,7 @@ const Homepage = () => {
             )}
 
             {/* Dining Experience */}
-            {data.dining_image && (
+            {/* {data.dining_image && (
                 <section className="py-16 relative z-10">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -644,7 +644,7 @@ const Homepage = () => {
                         </div>
                     </div>
                 </section>
-            )}
+            )} */}
 
             {/* Testimonials */}
             {data.testimonials.length > 0 && (
