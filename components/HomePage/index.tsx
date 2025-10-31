@@ -416,6 +416,7 @@ const Homepage = () => {
                             href={data.experience_button_link}
                             className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gold-light to-gold text-gray-900 font-semibold rounded-full transition-all duration-300 hover:shadow-2xl hover:from-gold hover:to-gold-dark hover:-translate-y-1 text-lg"
                         >
+                            Discover All Experiences
                             <span className="mr-3">{data.experience_button_text}</span>
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -456,6 +457,7 @@ const Homepage = () => {
                                         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-300 z-10"
                                         aria-label="Previous image"
                                     >
+                                      
                                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                         </svg>
@@ -496,10 +498,10 @@ const Homepage = () => {
                                         </p>
                                     ))}
                                     <Link
-                                        href={data.about_button_link}
+                                        href="/about"
                                         className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                                     >
-                                        {data.about_button_text}
+                                          Learn More About Us
                                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
@@ -544,8 +546,8 @@ const Homepage = () => {
                             <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="blank" className="btn-primary">
                                 Booking Request
                             </a>
-                            <Link href={data.venues_button_link} className="btn-primary">
-                                {data.venues_button_text}
+                            <Link href="/venues" className="btn-primary">
+                                Explore All Venues
                             </Link>
                         </div>
                     </div>
@@ -598,8 +600,8 @@ const Homepage = () => {
                             ))}
                         </div>
                         <div className="text-center mt-12">
-                            <Link href={data.rooms_button_link} className="btn-primary">
-                                {data.rooms_button_text}
+                            <Link href="/rooms-suites" className="btn-primary">
+                                View All Rooms
                             </Link>
                         </div>
                     </div>
@@ -629,10 +631,10 @@ const Homepage = () => {
                                         </p>
                                     ))}
                                     <Link
-                                        href={data.dining_button_link}
+                                        href="/dining"
                                         className="inline-flex items-center bg-gold hover:bg-gold-dark text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                                     >
-                                        {data.dining_button_text}
+                                        Explore Dining
                                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
@@ -736,8 +738,8 @@ const Homepage = () => {
                             ))}
                         </div>
                         <div className="text-center mt-12">
-                            <Link href={data.gallery_button_link} className="btn-primary">
-                                {data.gallery_button_text}
+                            <Link href="/gallery" className="btn-primary">
+                                View Full Gallery
                             </Link>
                         </div>
                     </div>
@@ -754,11 +756,11 @@ const Homepage = () => {
                         {data.cta_description}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href={data.cta_primary_button_link} target="_blank" rel="noopener noreferrer" className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            {data.cta_primary_button_text}
+                        <a href="https://magnoliyagrandmanorconferenceandeventcenter.tripleseat.com/booking_request/35062" target="_blank" rel="noopener noreferrer" className="bg-amber-400 hover:bg-amber-500 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                           Book Now
                         </a>
                         <a href={data.cta_secondary_button_link} className="border border-black text-black font-semibold py-3 px-8 rounded-lg transition-all duration-300 hover:bg-black hover:text-white">
-                            {data.cta_secondary_button_text}
+                            Contact Us
                         </a>
                     </div>
                 </div>
