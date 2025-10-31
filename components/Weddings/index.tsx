@@ -364,7 +364,7 @@ const Weddings = () => {
                 </section>
 
                 {/* Enhanced 360° Tours Section */}
-                <section className="py-24 relative overflow-hidden">
+                {/* <section className="py-24 relative overflow-hidden">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-16">
                             <div className="inline-flex items-center justify-center mb-6">
@@ -407,7 +407,7 @@ const Weddings = () => {
                             ))}
                         </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/* Enhanced Gallery Section */}
                 <section className="py-24">
@@ -461,7 +461,7 @@ const Weddings = () => {
                 </section>
 
                 {/* Enhanced Testimonials Section */}
-                <section className="py-24 bg-white relative overflow-hidden">
+                <section className="py-24 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 to-transparent"></div>
                     
                     <div className="container mx-auto px-6">
