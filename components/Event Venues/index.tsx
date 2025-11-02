@@ -162,6 +162,25 @@ const EventVenue = () => {
     const handleIframeLoad = (venueId: string) => {
         setIsIframeLoaded(prev => ({ ...prev, [venueId]: true }));
         setEmbedErrors(prev => ({ ...prev, [venueId]: false }));
+        
+        // Post-load optimization for Kuula iframes
+        const iframe = iframeRefs.current[venueId];
+        if (iframe) {
+            // Ensure proper focus and interaction capabilities
+            iframe.style.pointerEvents = 'auto';
+            iframe.style.touchAction = 'manipulation';
+            
+            // Try to send a message to the iframe to enable interactions
+            try {
+                setTimeout(() => {
+                    if (iframe.contentWindow) {
+                        iframe.contentWindow.postMessage({ action: 'enableInteraction' }, '*');
+                    }
+                }, 1000);
+            } catch (e) {
+                console.log('Cross-origin communication not available, which is normal for security reasons');
+            }
+        }
     };
 
     const handleIframeError = (venueId: string) => {
@@ -171,6 +190,41 @@ const EventVenue = () => {
 
     const openTourInNewTab = (tourUrl: string) => {
         window.open(tourUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    // Optimize Kuula URLs for better iframe integration
+    const optimizeKuulaUrl = (url: string): string => {
+        if (!url) return url;
+        
+        // Check if it's a Kuula URL
+        if (url.includes('kuula.co')) {
+            // Ensure proper iframe parameters for Kuula
+            const urlObj = new URL(url);
+            
+            // Add parameters for better iframe integration
+            if (!urlObj.searchParams.has('fs')) {
+                urlObj.searchParams.set('fs', '1'); // Enable fullscreen
+            }
+            if (!urlObj.searchParams.has('vr')) {
+                urlObj.searchParams.set('vr', '1'); // Enable VR mode
+            }
+            if (!urlObj.searchParams.has('sd')) {
+                urlObj.searchParams.set('sd', '1'); // Enable stereo mode
+            }
+            if (!urlObj.searchParams.has('thumbs')) {
+                urlObj.searchParams.set('thumbs', '1'); // Enable thumbnails
+            }
+            if (!urlObj.searchParams.has('info')) {
+                urlObj.searchParams.set('info', '0'); // Hide info by default
+            }
+            if (!urlObj.searchParams.has('logo')) {
+                urlObj.searchParams.set('logo', '0'); // Hide logo for cleaner experience
+            }
+            
+            return urlObj.toString();
+        }
+        
+        return url;
     };
 
     const selectedVenue = venues.find(venue => venue.id === activeVenue) || venues[0];
@@ -526,10 +580,10 @@ const EventVenue = () => {
                                     <div className={`relative ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
                                         <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-700 h-[500px]">
                                             {venue.tourUrl ? (
-                                                <div className="w-full h-full bg-black relative">
+                                                <div className="w-full h-full bg-black relative tour-iframe-container iframe-wrapper">
                                                     {/* Loading State */}
                                                     {!isIframeLoaded[venue.id] && !embedErrors[venue.id] && (
-                                                        <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+                                                        <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
                                                             <div className="text-center text-white">
                                                                 <div className="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                                                                 <p className="text-lg">Loading 360° Tour...</p>
@@ -541,23 +595,33 @@ const EventVenue = () => {
                                                     <iframe
                                                         ref={el => iframeRefs.current[venue.id] = el}
                                                         title={`360 Tour ${venue.name}`}
-                                                        src={venue.iframeSrc ?? venue.tourUrl}
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking"
+                                                        src={optimizeKuulaUrl(venue.iframeSrc ?? venue.tourUrl)}
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; vr; xr-spatial-tracking; camera; microphone"
                                                         allowFullScreen
                                                         referrerPolicy="no-referrer-when-downgrade"
                                                         loading="lazy"
-                                                        className={`w-full h-full border-0 ${isIframeLoaded[venue.id] ? 'opacity-100' : 'opacity-0'}`}
+                                                        className={`tour-iframe ${isIframeLoaded[venue.id] ? 'opacity-100' : 'opacity-0'}`}
                                                         onLoad={() => handleIframeLoad(venue.id)}
                                                         onError={() => handleIframeError(venue.id)}
-                                                        style={{ 
-                                                            pointerEvents: 'auto',
-                                                            cursor: 'grab'
+                                                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock allow-orientation-lock allow-modals allow-presentation"
+                                                    />
+
+                                                    {/* Mobile Interaction Helper */}
+                                                    <div 
+                                                        className="absolute inset-0 bg-transparent pointer-events-none md:hidden"
+                                                        onTouchStart={(e) => {
+                                                            // Enable pointer events on touch to help with mobile interaction
+                                                            const iframe = iframeRefs.current[venue.id];
+                                                            if (iframe) {
+                                                                iframe.style.pointerEvents = 'auto';
+                                                                iframe.style.touchAction = 'manipulation';
+                                                            }
                                                         }}
                                                     />
 
                                                     {/* Error State */}
                                                     {embedErrors[venue.id] && (
-                                                        <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-6">
+                                                        <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-6 z-20">
                                                             <div className="text-white text-lg mb-4">
                                                                 <svg className="w-16 h-16 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -576,14 +640,22 @@ const EventVenue = () => {
                                                         </div>
                                                     )}
 
-                                                    {/* Instructions Overlay */}
+                                                    {/* Enhanced Instructions Overlay */}
                                                     {isIframeLoaded[venue.id] && (
-                                                        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm">
-                                                            <div className="flex items-center space-x-2">
-                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                                                                </svg>
-                                                                <span>Click and drag to explore</span>
+                                                        <div className="absolute bottom-4 left-4 right-4 bg-black/80 text-white px-4 py-3 rounded-lg text-sm backdrop-blur-sm z-10">
+                                                            <div className="flex flex-col space-y-2">
+                                                                <div className="flex items-center space-x-2">
+                                                                    <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                                                                    </svg>
+                                                                    <span className="font-semibold">360° Interactive Tour</span>
+                                                                </div>
+                                                                <div className="text-xs opacity-90">
+                                                                    • Click and drag to look around
+                                                                    • Use mouse wheel to zoom in/out
+                                                                    • Double-click to enter fullscreen
+                                                                    • On mobile: Touch and drag to explore
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )}
@@ -599,6 +671,22 @@ const EventVenue = () => {
                                             <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2">
                                                 <span className="text-gold font-semibold">{venue.squareFeet} sq ft</span>
                                             </div>
+                                            
+                                            {/* Fullscreen Tour Button for 360 tours */}
+                                            {venue.tourUrl && (
+                                                <button
+                                                    onClick={() => openTourInNewTab(venue.tourUrl!)}
+                                                    className="absolute top-6 left-6 bg-gold/90 hover:bg-gold text-white backdrop-blur-sm rounded-full p-3 transition-all duration-300 transform hover:scale-105 group"
+                                                    title="Open 360° tour in fullscreen"
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                                    </svg>
+                                                    <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                                        Open Fullscreen
+                                                    </span>
+                                                </button>
+                                            )}
                                             {venue.tourUrl && (
                                                 <div className="absolute top-6 left-6 bg-black/80 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm">
                                                     360° Interactive Tour
