@@ -563,7 +563,7 @@ const Homepage = () => {
                                 <div key={index} className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
                                     <div className="h-56 overflow-hidden">
                                         <img
-                                            src={room.image}
+                                            src={room?.image}
                                             alt={room.name}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
