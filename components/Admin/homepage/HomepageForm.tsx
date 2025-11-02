@@ -73,6 +73,15 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
   const [diningImage, setDiningImage] = useState<File | null>(null);
   const [galleryImagesFiles, setGalleryImagesFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  
+  // Preview states for displaying selected images without affecting form data
+  const [navigationTilePreviews, setNavigationTilePreviews] = useState<string[]>([]);
+  const [highlightPreviews, setHighlightPreviews] = useState<string[]>([]);
+  const [aboutCarouselPreviews, setAboutCarouselPreviews] = useState<string[]>([]);
+  const [venuePreviews, setVenuePreviews] = useState<string[]>([]);
+  const [roomPreviews, setRoomPreviews] = useState<string[]>([]);
+  const [diningImagePreview, setDiningImagePreview] = useState<string>('');
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
 
   useEffect(() => {
     if (homepageData) {
@@ -173,12 +182,17 @@ const handleNavigationTileImageChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setNavigationTileImages(updatedFiles);
   
-  // Remove the blob URL creation - just store the file
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...navigationTilePreviews];
+  updatedPreviews[index] = previewUrl;
+  setNavigationTilePreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
   const updatedTiles = [...formData.navigation_tiles];
   if (!updatedTiles[index]) {
     updatedTiles[index] = { title: '', image: '', alt: '', link: '', description: '' };
   }
-  // Keep the existing image URL if any, don't overwrite with blob
   setFormData(prev => ({
     ...prev,
     navigation_tiles: updatedTiles
@@ -219,7 +233,13 @@ const handleHighlightImageChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setHighlightImages(updatedFiles);
   
-  // Remove blob URL creation
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...highlightPreviews];
+  updatedPreviews[index] = previewUrl;
+  setHighlightPreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
   const updatedHighlights = [...formData.highlights];
   if (!updatedHighlights[index]) {
     updatedHighlights[index] = { title: '', description: '', image: '' };
@@ -293,7 +313,13 @@ const handleVenueImageChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setVenueImages(updatedFiles);
   
-  // Remove blob URL creation
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...venuePreviews];
+  updatedPreviews[index] = previewUrl;
+  setVenuePreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
   const updatedVenues = [...formData.event_venues];
   if (!updatedVenues[index]) {
     updatedVenues[index] = { name: '', capacity: '', image: '', description: '', link: '' };
@@ -340,7 +366,13 @@ const handleVenueImageChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setRoomImages(updatedFiles);
   
-  // Remove blob URL creation
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...roomPreviews];
+  updatedPreviews[index] = previewUrl;
+  setRoomPreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
   const updatedRooms = [...formData.featured_rooms];
   if (!updatedRooms[index]) {
     updatedRooms[index] = { name: '', price: '', image: '', description: '', features: [], link: '' };
@@ -465,9 +497,14 @@ const handleAboutCarouselImageChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setAboutCarouselImages(updatedFiles);
   
-  // Remove blob URL creation
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...aboutCarouselPreviews];
+  updatedPreviews[index] = previewUrl;
+  setAboutCarouselPreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
   const updatedImages = [...formData.about_carousel_images];
-  // Keep existing URL, don't overwrite with blob
   setFormData(prev => ({
     ...prev,
     about_carousel_images: updatedImages
@@ -497,13 +534,13 @@ const handleGalleryFileChange = (index: number, file: File) => {
   updatedFiles[index] = file;
   setGalleryImagesFiles(updatedFiles);
   
-  // Remove blob URL creation
-  const updatedImages = [...formData.gallery_images];
-  // Keep existing URL, don't overwrite with blob
-  setFormData(prev => ({
-    ...prev,
-    gallery_images: updatedImages
-  }));
+  // Create preview URL for display only
+  const previewUrl = URL.createObjectURL(file);
+  const updatedPreviews = [...galleryPreviews];
+  updatedPreviews[index] = previewUrl;
+  setGalleryPreviews(updatedPreviews);
+  
+  // Don't modify form data with blob URL
 };
 
   const addGalleryImage = () => {
@@ -526,20 +563,17 @@ const handleGalleryFileChange = (index: number, file: File) => {
   // File Handlers
   const handleHeroVideoChange = (file: File) => {
     setHeroVideo(file);
-    const objectUrl = URL.createObjectURL(file);
-    setFormData(prev => ({
-      ...prev,
-      hero_video_url: objectUrl
-    }));
+    // Don't create blob URL - keep existing URL if any
+    // The actual upload and URL update will happen on form submission
   };
 
   const handleDiningImageChange = (file: File) => {
     setDiningImage(file);
-    const objectUrl = URL.createObjectURL(file);
-    setFormData(prev => ({
-      ...prev,
-      dining_image: objectUrl
-    }));
+    // Create preview URL for display only
+    const previewUrl = URL.createObjectURL(file);
+    setDiningImagePreview(previewUrl);
+    // Don't create blob URL in form data - keep existing URL if any
+    // The actual upload and URL update will happen on form submission
   };
 
   const validateForm = (): boolean => {
@@ -601,26 +635,34 @@ const handleGalleryFileChange = (index: number, file: File) => {
   submitData.append('cta_secondary_button_text', formData.cta_secondary_button_text);
   submitData.append('cta_secondary_button_link', formData.cta_secondary_button_link);
 
+  // Clean hero video URL if it's a blob URL
+  const cleanHeroVideoUrl = formData.hero_video_url && formData.hero_video_url.startsWith('blob:') ? '' : formData.hero_video_url;
+  submitData.append('hero_video_url', cleanHeroVideoUrl || '');
+
+  // Clean dining image URL if it's a blob URL  
+  const cleanDiningImage = formData.dining_image && formData.dining_image.startsWith('blob:') ? '' : formData.dining_image;
+  submitData.append('dining_image_url', cleanDiningImage || '');
+
   // Append JSON arrays - these contain existing permanent URLs from the database
   // Filter out any blob URLs before sending to backend
   const cleanNavigationTiles = formData.navigation_tiles.map(tile => ({
     ...tile,
-    image: tile.image.startsWith('blob:') ? '' : tile.image
+    image: tile.image && tile.image.startsWith('blob:') ? '' : tile.image
   }));
   const cleanHighlights = formData.highlights.map(highlight => ({
     ...highlight,
-    image: highlight.image.startsWith('blob:') ? '' : highlight.image
+    image: highlight.image && highlight.image.startsWith('blob:') ? '' : highlight.image
   }));
   const cleanEventVenues = formData.event_venues.map(venue => ({
     ...venue,
-    image: venue.image.startsWith('blob:') ? '' : venue.image
+    image: venue.image && venue.image.startsWith('blob:') ? '' : venue.image
   }));
   const cleanFeaturedRooms = formData.featured_rooms.map(room => ({
     ...room,
-    image: room.image.startsWith('blob:') ? '' : room.image
+    image: room.image && room.image.startsWith('blob:') ? '' : room.image
   }));
-  const cleanAboutCarouselImages = formData.about_carousel_images.filter(img => !img.startsWith('blob:'));
-  const cleanGalleryImages = formData.gallery_images.filter(img => !img.startsWith('blob:'));
+  const cleanAboutCarouselImages = formData.about_carousel_images.filter(img => img && !img.startsWith('blob:'));
+  const cleanGalleryImages = formData.gallery_images.filter(img => img && !img.startsWith('blob:'));
 
   submitData.append('navigation_tiles', JSON.stringify(cleanNavigationTiles));
   submitData.append('highlights', JSON.stringify(cleanHighlights));
