@@ -168,24 +168,22 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
     }));
   };
 
-  const handleNavigationTileImageChange = (index: number, file: File) => {
-    const updatedFiles = [...navigationTileImages];
-    updatedFiles[index] = file;
-    setNavigationTileImages(updatedFiles);
-
-    const objectUrl = URL.createObjectURL(file);
-    const updatedTiles = [...formData.navigation_tiles];
-    if (!updatedTiles[index]) {
-      updatedTiles[index] = { title: '', image: objectUrl, alt: '', link: '', description: '' };
-    } else {
-      updatedTiles[index] = { ...updatedTiles[index], image: objectUrl };
-    }
-    setFormData(prev => ({
-      ...prev,
-      navigation_tiles: updatedTiles
-    }));
-  };
-
+const handleNavigationTileImageChange = (index: number, file: File) => {
+  const updatedFiles = [...navigationTileImages];
+  updatedFiles[index] = file;
+  setNavigationTileImages(updatedFiles);
+  
+  // Remove the blob URL creation - just store the file
+  const updatedTiles = [...formData.navigation_tiles];
+  if (!updatedTiles[index]) {
+    updatedTiles[index] = { title: '', image: '', alt: '', link: '', description: '' };
+  }
+  // Keep the existing image URL if any, don't overwrite with blob
+  setFormData(prev => ({
+    ...prev,
+    navigation_tiles: updatedTiles
+  }));
+};
   const addNavigationTile = () => {
     setFormData(prev => ({
       ...prev,
@@ -216,23 +214,21 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
     }));
   };
 
-  const handleHighlightImageChange = (index: number, file: File) => {
-    const updatedFiles = [...highlightImages];
-    updatedFiles[index] = file;
-    setHighlightImages(updatedFiles);
-
-    const objectUrl = URL.createObjectURL(file);
-    const updatedHighlights = [...formData.highlights];
-    if (!updatedHighlights[index]) {
-      updatedHighlights[index] = { title: '', description: '', image: objectUrl };
-    } else {
-      updatedHighlights[index] = { ...updatedHighlights[index], image: objectUrl };
-    }
-    setFormData(prev => ({
-      ...prev,
-      highlights: updatedHighlights
-    }));
-  };
+const handleHighlightImageChange = (index: number, file: File) => {
+  const updatedFiles = [...highlightImages];
+  updatedFiles[index] = file;
+  setHighlightImages(updatedFiles);
+  
+  // Remove blob URL creation
+  const updatedHighlights = [...formData.highlights];
+  if (!updatedHighlights[index]) {
+    updatedHighlights[index] = { title: '', description: '', image: '' };
+  }
+  setFormData(prev => ({
+    ...prev,
+    highlights: updatedHighlights
+  }));
+};
 
   const addHighlight = () => {
     setFormData(prev => ({
@@ -292,23 +288,22 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
     }));
   };
 
-  const handleVenueImageChange = (index: number, file: File) => {
-    const updatedFiles = [...venueImages];
-    updatedFiles[index] = file;
-    setVenueImages(updatedFiles);
+const handleVenueImageChange = (index: number, file: File) => {
+  const updatedFiles = [...venueImages];
+  updatedFiles[index] = file;
+  setVenueImages(updatedFiles);
+  
+  // Remove blob URL creation
+  const updatedVenues = [...formData.event_venues];
+  if (!updatedVenues[index]) {
+    updatedVenues[index] = { name: '', capacity: '', image: '', description: '', link: '' };
+  }
+  setFormData(prev => ({
+    ...prev,
+    event_venues: updatedVenues
+  }));
+};
 
-    const objectUrl = URL.createObjectURL(file);
-    const updatedVenues = [...formData.event_venues];
-    if (!updatedVenues[index]) {
-      updatedVenues[index] = { name: '', capacity: '', image: objectUrl, description: '', link: '' };
-    } else {
-      updatedVenues[index] = { ...updatedVenues[index], image: objectUrl };
-    }
-    setFormData(prev => ({
-      ...prev,
-      event_venues: updatedVenues
-    }));
-  };
 
   const addEventVenue = () => {
     setFormData(prev => ({
@@ -340,23 +335,21 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
     }));
   };
 
-  const handleRoomImageChange = (index: number, file: File) => {
-    const updatedFiles = [...roomImages];
-    updatedFiles[index] = file;
-    setRoomImages(updatedFiles);
-
-    const objectUrl = URL.createObjectURL(file);
-    const updatedRooms = [...formData.featured_rooms];
-    if (!updatedRooms[index]) {
-      updatedRooms[index] = { name: '', price: '', image: objectUrl, description: '', features: [], link: '' };
-    } else {
-      updatedRooms[index] = { ...updatedRooms[index], image: objectUrl };
-    }
-    setFormData(prev => ({
-      ...prev,
-      featured_rooms: updatedRooms
-    }));
-  };
+ const handleRoomImageChange = (index: number, file: File) => {
+  const updatedFiles = [...roomImages];
+  updatedFiles[index] = file;
+  setRoomImages(updatedFiles);
+  
+  // Remove blob URL creation
+  const updatedRooms = [...formData.featured_rooms];
+  if (!updatedRooms[index]) {
+    updatedRooms[index] = { name: '', price: '', image: '', description: '', features: [], link: '' };
+  }
+  setFormData(prev => ({
+    ...prev,
+    featured_rooms: updatedRooms
+  }));
+};
 
   const handleRoomFeatureChange = (roomIndex: number, featureIndex: number, value: string) => {
     const updatedRooms = [...formData.featured_rooms];
@@ -467,19 +460,19 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
   };
 
   // About Carousel Images Handlers
-  const handleAboutCarouselImageChange = (index: number, file: File) => {
-    const updatedFiles = [...aboutCarouselImages];
-    updatedFiles[index] = file;
-    setAboutCarouselImages(updatedFiles);
-
-    const objectUrl = URL.createObjectURL(file);
-    const updatedImages = [...formData.about_carousel_images];
-    updatedImages[index] = objectUrl;
-    setFormData(prev => ({
-      ...prev,
-      about_carousel_images: updatedImages
-    }));
-  };
+const handleAboutCarouselImageChange = (index: number, file: File) => {
+  const updatedFiles = [...aboutCarouselImages];
+  updatedFiles[index] = file;
+  setAboutCarouselImages(updatedFiles);
+  
+  // Remove blob URL creation
+  const updatedImages = [...formData.about_carousel_images];
+  // Keep existing URL, don't overwrite with blob
+  setFormData(prev => ({
+    ...prev,
+    about_carousel_images: updatedImages
+  }));
+};
 
   const addAboutCarouselImage = () => {
     setFormData(prev => ({
@@ -499,19 +492,19 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
   };
 
   // Gallery Images Handlers
-  const handleGalleryFileChange = (index: number, file: File) => {
-    const updatedFiles = [...galleryImagesFiles];
-    updatedFiles[index] = file;
-    setGalleryImagesFiles(updatedFiles);
-
-    const objectUrl = URL.createObjectURL(file);
-    const updatedImages = [...formData.gallery_images];
-    updatedImages[index] = objectUrl;
-    setFormData(prev => ({
-      ...prev,
-      gallery_images: updatedImages
-    }));
-  };
+const handleGalleryFileChange = (index: number, file: File) => {
+  const updatedFiles = [...galleryImagesFiles];
+  updatedFiles[index] = file;
+  setGalleryImagesFiles(updatedFiles);
+  
+  // Remove blob URL creation
+  const updatedImages = [...formData.gallery_images];
+  // Keep existing URL, don't overwrite with blob
+  setFormData(prev => ({
+    ...prev,
+    gallery_images: updatedImages
+  }));
+};
 
   const addGalleryImage = () => {
     setFormData(prev => ({
@@ -561,82 +554,131 @@ const HomepageForm: React.FC<HomepageFormProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    return;
+  }
 
-    const submitData = new FormData();
-    
-    // Append text fields
-    submitData.append('hero_title', formData.hero_title);
-    submitData.append('hero_subtitle', formData.hero_subtitle);
-    submitData.append('hero_button_text', formData.hero_button_text);
-    submitData.append('hero_button_link', formData.hero_button_link);
-    submitData.append('navigation_section_title', formData.navigation_section_title);
-    submitData.append('navigation_section_subtitle', formData.navigation_section_subtitle);
-    submitData.append('experience_section_title', formData.experience_section_title);
-    submitData.append('experience_section_subtitle', formData.experience_section_subtitle);
-    submitData.append('experience_button_text', formData.experience_button_text);
-    submitData.append('experience_button_link', formData.experience_button_link);
-    submitData.append('about_section_title', formData.about_section_title);
-    submitData.append('about_description', JSON.stringify(formData.about_description));
-    submitData.append('about_button_text', formData.about_button_text);
-    submitData.append('about_button_link', formData.about_button_link);
-    submitData.append('venues_section_title', formData.venues_section_title);
-    submitData.append('venues_button_text', formData.venues_button_text);
-    submitData.append('venues_button_link', formData.venues_button_link);
-    submitData.append('rooms_section_title', formData.rooms_section_title);
-    submitData.append('rooms_button_text', formData.rooms_button_text);
-    submitData.append('rooms_button_link', formData.rooms_button_link);
-    submitData.append('dining_section_title', formData.dining_section_title);
-    submitData.append('dining_description', JSON.stringify(formData.dining_description));
-    submitData.append('dining_button_text', formData.dining_button_text);
-    submitData.append('dining_button_link', formData.dining_button_link);
-    submitData.append('testimonials_section_title', formData.testimonials_section_title);
-    submitData.append('tours_section_title', formData.tours_section_title);
-    submitData.append('tours_description', formData.tours_description);
-    submitData.append('gallery_section_title', formData.gallery_section_title);
-    submitData.append('gallery_button_text', formData.gallery_button_text);
-    submitData.append('gallery_button_link', formData.gallery_button_link);
-    submitData.append('cta_title', formData.cta_title);
-    submitData.append('cta_description', formData.cta_description);
-    submitData.append('cta_primary_button_text', formData.cta_primary_button_text);
-    submitData.append('cta_primary_button_link', formData.cta_primary_button_link);
-    submitData.append('cta_secondary_button_text', formData.cta_secondary_button_text);
-    submitData.append('cta_secondary_button_link', formData.cta_secondary_button_link);
+  const submitData = new FormData();
+  
+  // Append text fields
+  submitData.append('hero_title', formData.hero_title);
+  submitData.append('hero_subtitle', formData.hero_subtitle);
+  submitData.append('hero_button_text', formData.hero_button_text);
+  submitData.append('hero_button_link', formData.hero_button_link);
+  submitData.append('navigation_section_title', formData.navigation_section_title);
+  submitData.append('navigation_section_subtitle', formData.navigation_section_subtitle);
+  submitData.append('experience_section_title', formData.experience_section_title);
+  submitData.append('experience_section_subtitle', formData.experience_section_subtitle);
+  submitData.append('experience_button_text', formData.experience_button_text);
+  submitData.append('experience_button_link', formData.experience_button_link);
+  submitData.append('about_section_title', formData.about_section_title);
+  submitData.append('about_description', JSON.stringify(formData.about_description));
+  submitData.append('about_button_text', formData.about_button_text);
+  submitData.append('about_button_link', formData.about_button_link);
+  submitData.append('venues_section_title', formData.venues_section_title);
+  submitData.append('venues_button_text', formData.venues_button_text);
+  submitData.append('venues_button_link', formData.venues_button_link);
+  submitData.append('rooms_section_title', formData.rooms_section_title);
+  submitData.append('rooms_button_text', formData.rooms_button_text);
+  submitData.append('rooms_button_link', formData.rooms_button_link);
+  submitData.append('dining_section_title', formData.dining_section_title);
+  submitData.append('dining_description', JSON.stringify(formData.dining_description));
+  submitData.append('dining_button_text', formData.dining_button_text);
+  submitData.append('dining_button_link', formData.dining_button_link);
+  submitData.append('testimonials_section_title', formData.testimonials_section_title);
+  submitData.append('tours_section_title', formData.tours_section_title);
+  submitData.append('tours_description', formData.tours_description);
+  submitData.append('gallery_section_title', formData.gallery_section_title);
+  submitData.append('gallery_button_text', formData.gallery_button_text);
+  submitData.append('gallery_button_link', formData.gallery_button_link);
+  submitData.append('cta_title', formData.cta_title);
+  submitData.append('cta_description', formData.cta_description);
+  submitData.append('cta_primary_button_text', formData.cta_primary_button_text);
+  submitData.append('cta_primary_button_link', formData.cta_primary_button_link);
+  submitData.append('cta_secondary_button_text', formData.cta_secondary_button_text);
+  submitData.append('cta_secondary_button_link', formData.cta_secondary_button_link);
 
-    // Append JSON arrays
-    submitData.append('navigation_tiles', JSON.stringify(formData.navigation_tiles));
-    submitData.append('highlights', JSON.stringify(formData.highlights));
-    submitData.append('stats', JSON.stringify(formData.stats));
-    submitData.append('event_venues', JSON.stringify(formData.event_venues));
-    submitData.append('featured_rooms', JSON.stringify(formData.featured_rooms));
-    submitData.append('testimonials', JSON.stringify(formData.testimonials));
-    submitData.append('tour_embeds', JSON.stringify(formData.tour_embeds));
-    submitData.append('gallery_images', JSON.stringify(formData.gallery_images));
-    submitData.append('about_carousel_images', JSON.stringify(formData.about_carousel_images));
+  // Append JSON arrays - these contain existing permanent URLs from the database
+  // Filter out any blob URLs before sending to backend
+  const cleanNavigationTiles = formData.navigation_tiles.map(tile => ({
+    ...tile,
+    image: tile.image.startsWith('blob:') ? '' : tile.image
+  }));
+  const cleanHighlights = formData.highlights.map(highlight => ({
+    ...highlight,
+    image: highlight.image.startsWith('blob:') ? '' : highlight.image
+  }));
+  const cleanEventVenues = formData.event_venues.map(venue => ({
+    ...venue,
+    image: venue.image.startsWith('blob:') ? '' : venue.image
+  }));
+  const cleanFeaturedRooms = formData.featured_rooms.map(room => ({
+    ...room,
+    image: room.image.startsWith('blob:') ? '' : room.image
+  }));
+  const cleanAboutCarouselImages = formData.about_carousel_images.filter(img => !img.startsWith('blob:'));
+  const cleanGalleryImages = formData.gallery_images.filter(img => !img.startsWith('blob:'));
 
-  // Append files
+  submitData.append('navigation_tiles', JSON.stringify(cleanNavigationTiles));
+  submitData.append('highlights', JSON.stringify(cleanHighlights));
+  submitData.append('stats', JSON.stringify(formData.stats));
+  submitData.append('event_venues', JSON.stringify(cleanEventVenues));
+  submitData.append('featured_rooms', JSON.stringify(cleanFeaturedRooms));
+  submitData.append('testimonials', JSON.stringify(formData.testimonials));
+  submitData.append('tour_embeds', JSON.stringify(formData.tour_embeds));
+  submitData.append('gallery_images', JSON.stringify(cleanGalleryImages));
+  submitData.append('about_carousel_images', JSON.stringify(cleanAboutCarouselImages));
+
+  // Append files - these will be uploaded and get permanent URLs
   if (heroVideo) submitData.append('hero_video', heroVideo);
   if (diningImage) submitData.append('dining_image', diningImage);
-    
-    navigationTileImages.forEach(file => submitData.append('navigation_tile_images', file));
-    highlightImages.forEach(file => submitData.append('highlight_images', file));
-    aboutCarouselImages.forEach(file => submitData.append('about_carousel_images_files', file));
-    venueImages.forEach(file => submitData.append('venue_images', file));
-    roomImages.forEach(file => submitData.append('room_images', file));
-    galleryImagesFiles.forEach(file => submitData.append('gallery_images_files', file));
+  
+  // Append all image arrays
+  navigationTileImages.forEach(file => {
+    if (file) submitData.append('navigation_tile_images', file);
+  });
+  
+  highlightImages.forEach(file => {
+    if (file) submitData.append('highlight_images', file);
+  });
+  
+  aboutCarouselImages.forEach(file => {
+    if (file) submitData.append('about_carousel_images', file);
+  });
+  
+  venueImages.forEach(file => {
+    if (file) submitData.append('venue_images', file);
+  });
+  
+  roomImages.forEach(file => {
+    if (file) submitData.append('room_images', file);
+  });
+  
+  galleryImagesFiles.forEach(file => {
+    if (file) submitData.append('gallery_images_files', file);
+  });
 
-    try {
-      await onSubmit(submitData);
-    } catch (error) {
-      console.error('Form submission error:', error);
-      alert('Error updating Homepage content. Please try again.');
-    }
-  };
+  try {
+    await onSubmit(submitData);
+    
+    // Clear file states after successful submission
+    setHeroVideo(null);
+    setDiningImage(null);
+    setNavigationTileImages([]);
+    setHighlightImages([]);
+    setAboutCarouselImages([]);
+    setVenueImages([]);
+    setRoomImages([]);
+    setGalleryImagesFiles([]);
+    
+  } catch (error) {
+    console.error('Form submission error:', error);
+    alert('Error updating Homepage content. Please try again.');
+  }
+};
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-h-screen overflow-y-auto">
