@@ -307,10 +307,9 @@ const Homepage = () => {
                             >
                                 {/* Image Container */}
                                 <div className="relative h-48 overflow-hidden">
-                                    <Image
+                                    <img
                                         src={tile.image}
                                         alt={tile.alt}
-                                        fill
                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     />
