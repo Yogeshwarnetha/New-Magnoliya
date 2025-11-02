@@ -27,8 +27,10 @@ module.exports = {
         }
       },
       fontFamily: {
-        'cormorant': ['Cormorant Garamond', 'serif'],
-        'montserrat': ['Montserrat', 'sans-serif'],
+        'cormorant': ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
+        'montserrat': ['var(--font-montserrat)', 'Montserrat', 'sans-serif'],
+        'sans': ['var(--font-montserrat)', 'Montserrat', 'system-ui', 'sans-serif'],
+        'serif': ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
       }
     },
   },
