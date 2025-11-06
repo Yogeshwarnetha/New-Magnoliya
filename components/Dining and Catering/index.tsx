@@ -498,6 +498,12 @@ const Dining = () => {
         image: option.image
     })) || [];
 
+    const culinaryStoryCarousel = data?.culinary_story_carousel?.map(item => ({
+        title: item.title,
+        description: item.description,
+        image: item.image
+    })) || [];
+
     const restaurants = data?.restaurants_cards?.map(card => ({
         name: card.heading,
         cuisine: card.tagline,
@@ -700,9 +706,9 @@ const Dining = () => {
                             </p>
                         </div>
 
-                        {/* Enhanced Catering Carousel */}
+                        {/* Enhanced Culinary Story Carousel */}
                         <div className="mb-20">
-                            <GalleryCarousel images={cateringOptions} itemsPerView={1} />
+                            <GalleryCarousel images={culinaryStoryCarousel} itemsPerView={1} />
                         </div>
 
                         {/* Enhanced Feature Cards */}
