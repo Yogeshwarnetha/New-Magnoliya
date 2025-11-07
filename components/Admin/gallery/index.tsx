@@ -4,7 +4,7 @@ import GalleryForm from './galleryForm';
 import type { GalleryImage } from '@/apirequests/gallery';
 import { getGalleryImages, createGalleryImage, updateGalleryImage, deleteGalleryImage } from '@/apirequests/gallery';
 
-const categories = ["Weddings", "Rooms", "Events", "Dining", "Venues"] as const;
+const categories = ["Weddings", "Events", "Dining", "Venues"] as const;
 
 const GalleryAdminPanel = () => {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);

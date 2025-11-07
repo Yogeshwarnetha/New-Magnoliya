@@ -9,7 +9,7 @@ interface GalleryFormProps {
   onCancel?: () => void;
 }
 
-const categories = ["Weddings", "Rooms", "Events", "Dining", "Venues"] as const;
+const categories = ["Weddings", "Events", "Dining", "Venues"] as const;
 
 const GalleryForm: React.FC<GalleryFormProps> = ({
   onSubmit,
