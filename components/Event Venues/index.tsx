@@ -771,7 +771,7 @@ const EventVenue = () => {
                         </div>
 
                         <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 mb-12 shadow-2xl border border-gold/10">
-                            <h3 className="text-2xl font-serif font-light text-gray-800 mb-8 text-center">Layout Options & Capacities</h3>
+                            <h3 className="text-2xl font-serif font-light text-gray-800 mb-8 text-center">Capacity - Theater Style, Banquet Style</h3>
 
                             <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-200">
                                 <table className="w-full border-collapse">

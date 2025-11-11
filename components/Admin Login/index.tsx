@@ -120,14 +120,6 @@ const AdminLogin: React.FC = () => {
                         </button>
                     </form>
 
-                    {/* Demo Credentials */}
-                    <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                        <h3 className="text-sm font-semibold text-slate-900 mb-2">Demo Credentials:</h3>
-                        <div className="text-xs text-slate-600 space-y-1">
-                            <p><strong>Email:</strong> gadde.yogeshwar@gmail.com</p>
-                            <p><strong>Password:</strong> password</p>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Footer */}

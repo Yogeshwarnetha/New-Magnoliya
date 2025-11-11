@@ -33,7 +33,7 @@ const SOCIAL_LINKS = [
   { name: "Instagram", href: "https://www.instagram.com/magnoliyagrand/", img: "/instagram.png" },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/magnoliya-grand-7727b92ab", img: "/Likedin.png" },
   { name: "Twitter", href: "https://x.com/MagnoliyaGrand", img: "/twitter-bird.png" },
-  { name: "YouTube", href: "https://www.youtube.com/channel/UCNG6YVfx2i9b5O98vgE7rFw", img: "/youtube.png" },
+  { name: "YouTube", href: "https://www.youtube.com/channel/UCNG6YVfx2i9b5O98vgE7rFw", img: "/Youtube.png" },
   { name: "Tiktok", href: "https://www.tiktok.com/@magnoliyagrand?_t=ZT-8tbtueOhSP5&_r=1", img: "/tiktok.png" },
 ];
 
